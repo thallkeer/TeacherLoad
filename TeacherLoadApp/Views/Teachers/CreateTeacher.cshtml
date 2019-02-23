@@ -1,18 +1,17 @@
 ﻿@model TeacherLoad.Core.Models.Teacher
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 <h4>Teacher</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="CreateTeacher">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TeacherID" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -30,16 +29,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentID" class="control-label"></label>
-                <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select>
-                <span asp-validation-for="DepartmentID" class="text-danger"></span>
+                <select asp-for="DepartmentID" class ="form-control" asp-items="ViewBag.DepartmentID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="PositionID" class="control-label"></label>
-                <select asp-for="PositionID" class="form-control" asp-items="ViewBag.PositionID"></select>
-                <span asp-validation-for="PositionID" class="text-danger"></span>
+                <select asp-for="PositionID" class ="form-control" asp-items="ViewBag.PositionID"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
     </div>

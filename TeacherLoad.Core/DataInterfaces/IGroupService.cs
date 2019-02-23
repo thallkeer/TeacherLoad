@@ -7,5 +7,6 @@ namespace TeacherLoad.Core.DataInterfaces
 {
     public interface IGroupService : IService<Group>
     {
+        Group GetById(string id);
     }
 }

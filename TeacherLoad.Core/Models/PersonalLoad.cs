@@ -10,10 +10,13 @@ namespace TeacherLoad.Core.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         [Required]
+        [Display(Name = "Число студентов")]
         public int StudentsCount { get; set; }
         [Required]
+        [Display(Name = "Преподаватель")]
         public int TeacherID { get; set; }
         [Required]
+        [Display(Name = "Вид занятия")]
         public int IndividualClassTypeID { get; set; }
 
         public virtual Teacher Teacher { get; set; }

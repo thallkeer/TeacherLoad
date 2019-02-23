@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
@@ -14,6 +15,5 @@ namespace TeacherLoad.Core.DataInterfaces
         void Update(T entity);
         void Delete(int id);
         void Delete(T entity);
-        void Save();
     }
 }

@@ -40,3 +40,15 @@ insert into StudyGroup values (1,'Осенний',6)
 insert into StudyGroup values (1,'Осенний',7)
 insert into StudyGroup values (1,'Осенний',8)
 insert into StudyGroup values (1,'Осенний',9)
+
+insert into GroupLoads values (32,12,1,'6404 Б408',1)
+insert into GroupLoads values (16,12,1,'6404 Б408',3)
+
+insert into GroupLoads values (32,12,1,'6403',1)
+insert into GroupLoads values (16,12,1,'6403',3)
+
+insert into GroupLoads values (32,12,1,'6402',1)
+insert into GroupLoads values (16,12,1,'6402',3)
+
+insert into GroupLoads values (32,12,1,'6401',1)
+insert into GroupLoads values (16,12,1,'6401',3)

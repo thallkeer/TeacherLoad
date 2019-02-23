@@ -10,7 +10,15 @@ namespace TeacherLoad.Core.Models
         [ScaffoldColumn(false)]
         public int PositionID { get; set; }
         [Required]
+        [Display(Name ="Должность")]        
         public string PositionName { get; set; }
+
+        public List<Teacher> Teachers { get; set; }
+
+        public Position()
+        {
+            Teachers = new List<Teacher>();
+        }
 
         public override string ToString()
         {

@@ -14,20 +14,21 @@ using TeacherLoadApp.Models;
 
 namespace TeacherLoadApp.Controllers
 {
-    public class HomeController : Controller
+    public class TeachersController : Controller
     {
         private UnitOfWork unitOfWork;
-        public HomeController(TeacherLoadContext context)
+        public TeachersController(TeacherLoadContext context)
         {
             unitOfWork = new UnitOfWork(context);
         }
+
         public IActionResult Index()
         {
-            var teachers = unitOfWork.TeacherService.GetAll().OrderBy(t => t.LastName);
+            var teachers = unitOfWork.Teachers.GetAll().OrderBy(t => t.LastName);            
             return View(teachers);
         }
 
-        public IActionResult Create()
+        public IActionResult CreateTeacher()
         {
             PopulateDropDownLists();
             return View();
@@ -35,7 +36,7 @@ namespace TeacherLoadApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(
+        public ActionResult CreateTeacher(
           /*[Bind(Include = "CourseID,Title,Credits,DepartmentID")]*/
          Teacher teacher)
         {
@@ -43,8 +44,8 @@ namespace TeacherLoadApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.TeacherService.Add(teacher);
-                    unitOfWork.TeacherService.Save();
+                    unitOfWork.Teachers.Add(teacher);
+                    unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -57,24 +58,24 @@ namespace TeacherLoadApp.Controllers
             return View(teacher);
         }
 
-        public IActionResult Edit(int id)
+        public IActionResult EditTeacher(int id)
         {
-            Teacher teacher = unitOfWork.TeacherService.GetById(id);
+            Teacher teacher = unitOfWork.Teachers.GetById(id);
             PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
             return View(teacher);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(/*[Bind(Include = "CourseID,Title,Credits,DepartmentID")]*/
+        public IActionResult EditTeacher(/*[Bind(Include = "CourseID,Title,Credits,DepartmentID")]*/
          Teacher teacher)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.TeacherService.Update(teacher);
-                    unitOfWork.TeacherService.Save();
+                    unitOfWork.Teachers.Update(teacher);
+                    unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
             }
@@ -86,14 +87,14 @@ namespace TeacherLoadApp.Controllers
             return View(teacher);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult TeacherDetails(int id)
         {
-            return View(unitOfWork.TeacherService.GetById(id));
+            return View(unitOfWork.Teachers.GetById(id));
         }
 
-        public IActionResult Delete(int id)
+        public IActionResult DeleteTeacher(int id)
         {
-            Teacher teacher = unitOfWork.TeacherService.GetById(id);
+            Teacher teacher = unitOfWork.Teachers.GetById(id);
             return View(teacher);
         }
 
@@ -101,17 +102,17 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Teacher teacher = unitOfWork.TeacherService.GetById(id);
-            unitOfWork.TeacherService.Delete(id);
-            unitOfWork.TeacherService.Save();
+            Teacher teacher = unitOfWork.Teachers.GetById(id);
+            unitOfWork.Teachers.Delete(id);
+            unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
         private void PopulateDropDownLists(object selectedDepartment = null,object selectedPosition = null)
         {
-            var departmentsQuery = unitOfWork.DepartmentsService.Get().OrderBy(d => d.DepartmentName);
+            var departmentsQuery = unitOfWork.Departments.Get().OrderBy(d => d.DepartmentName);
             ViewBag.DepartmentID = new SelectList(departmentsQuery, "DepartmentID", "DepartmentName", selectedDepartment);
-            var positionsQuery = unitOfWork.PositionsService.Get().OrderBy(p => p.PositionName);
+            var positionsQuery = unitOfWork.Positions.Get().OrderBy(p => p.PositionName);
             ViewBag.PositionID = new SelectList(positionsQuery, "PositionID", "PositionName", selectedPosition);
         }
 

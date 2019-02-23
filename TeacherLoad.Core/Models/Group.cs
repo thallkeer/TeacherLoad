@@ -10,15 +10,18 @@ namespace TeacherLoad.Core.Models
     public class Group
     {
         [Key]
+        [Display(Name = "Номер группы")]
         public string GroupNumber { get; set; }
-
+        [Display(Name = "Дневное обучение")]
         public bool FullTime { get; set; }
         [Required]
         [StringLength(30)]
+        [Display(Name = "Семестр")]
         public string Semester { get; set; }
         [Required]
-        public int SpecialityCode { get; set; }
-
+        [Display(Name = "Специальность")]
+        public string SpecialityCode { get; set; }
+        [Display(Name = "Специальность")]
         public virtual Speciality Speciality { get; set; }
     }
 }

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TeacherLoad.Core.Models.GroupLoad>
+
+@{
+    ViewData["Title"] = "Групповая нагрузка";
+}
+
+<h2>Групповая нагрузка преподавателей</h2>
+
+<p>
+    <a asp-action="Create">Добавить нагрузку</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Group)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discipline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupStudiesID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolumeHours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Group.GroupNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discipline.DisciplineName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupStudies.ClassType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolumeHours)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

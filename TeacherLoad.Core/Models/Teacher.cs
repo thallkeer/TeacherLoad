@@ -28,16 +28,17 @@ namespace TeacherLoad.Core.Models
         public virtual Department Department { get; set; }
         [Display(Name = "Должность")]
         public virtual Position Position { get; set; }
+       
         public List<GroupLoad> GroupLoads { get; set; }
 
-        public string GetFullName()
+        public string FullName
         {
-            return $"{FirstName}  {LastName}  {Patronym}";
+            get { return $"{LastName}  {FirstName}  {Patronym}"; }
         }
 
         public override string ToString()
         {
-            return GetFullName();
+            return FullName;
         }
 
         public Teacher()

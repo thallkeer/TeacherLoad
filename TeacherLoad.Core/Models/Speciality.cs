@@ -8,8 +8,22 @@ namespace TeacherLoad.Core.Models
     public class Speciality
     {
         [Key]
-        public int Code { get; set; }
+        [Display(Name = "Код специальности")]
+        public string Code { get; set; }
         [Required]
+        [Display(Name = "Название специальности")]
         public string SpecialityName { get; set; }
+
+        public List<Group> Groups { get; set; }
+
+        public Speciality()
+        {
+            Groups = new List<Group>();
+        }
+
+        public override string ToString()
+        {
+            return SpecialityName;
+        }
     }
 }

@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TeacherLoadApp</title>
+    <title>@ViewData["Title"]</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -25,14 +26,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">TeacherLoadApp</a>
+                </button>                
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                <ul class="nav navbar-nav" role="menu">
+                    @*<li><a asp-area="" asp-controller="Home" asp-action="StartPage">Домой</a></li>*@
+                    <li class="nav-item dropdown">
+                        <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Справочники<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Должности", "Index", "Positions")</li>
+                            <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
+                            <li>@Html.ActionLink("Специальности", "Index", "Specialities")</li>
+                            <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
+                            <li>@Html.ActionLink("Дисциплины", "Index", "Disciplines")</li>
+                            <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
+                        </ul>
+                    </li>                    
                 </ul>
             </div>
         </div>

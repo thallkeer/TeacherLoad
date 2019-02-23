@@ -7,13 +7,15 @@ namespace TeacherLoad.Core.DataInterfaces
 {
     public interface IUnitOfWork
     {
-        ITeacherService TeacherService { get; }
-        IGroupService GroupService { get; }
-        IGroupLoadService GroupLoadService { get; }
-        IPersonalLoadService PersonalLoadService { get; }
-        IGenericCatalogService<Position> PositionsService { get; }
-        IGenericCatalogService<Department> DepartmentsService { get; }
-        IGenericCatalogService<Speciality> SpecialitiesService { get; }
-        IGenericCatalogService<Discipline> DisciplinesService { get; }
+        ITeacherService Teachers { get; }
+        IGroupService Groups { get; }
+        IGroupLoadService GroupLoads { get; }
+        IPersonalLoadService PersonalLoads { get; }
+        IGenericCatalogService<Position> Positions { get; }
+        IGenericCatalogService<Department> Departments { get; }
+        IGenericCatalogService<Speciality> Specialities { get; }
+        IGenericCatalogService<Discipline> Disciplines { get; }
+        IGenericCatalogService<GroupStudies> GroupStudies { get; }
+        IGenericCatalogService<IndividualStudies> IndividualStudies { get; }
     }
 }

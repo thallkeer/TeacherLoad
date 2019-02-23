@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TeacherLoad.Core.Models
 {
-    public class TeacherLoadContext : DbContext
+    public class TeacherLoadContext : IdentityDbContext<User>
     {
         public TeacherLoadContext(DbContextOptions<TeacherLoadContext> options) : base(options)
         {
@@ -22,6 +23,22 @@ namespace TeacherLoad.Core.Models
         public DbSet<Position> Positions { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Position>()
+                .HasIndex(p => new { p.PositionID, p.PositionName }).IsUnique();
+            modelBuilder.Entity<Teacher>()
+                 .HasIndex(t => new { t.FirstName, t.LastName, t.Patronym }).IsUnique();
+            modelBuilder.Entity<Discipline>()
+                  .HasAlternateKey(d => new { d.DisciplineName });
+            modelBuilder.Entity<GroupStudies>()
+                 .HasAlternateKey(gs => new { gs.ClassType });
+            modelBuilder.Entity<IndividualStudies>()
+                 .HasAlternateKey(ind => new { ind.IndividualClassType });
+            modelBuilder.Entity<User>().ToTable("IdentityUser");
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 
@@ -16,11 +17,6 @@ namespace TeacherLoad.Data.Service
         {
             this.context = context;
             teachers = context.Teachers;
-        }
-
-        public TeacherLoadContext GetContext()
-        {
-            return context;
         }
 
         public void Add(Teacher teacher)
@@ -52,7 +48,7 @@ namespace TeacherLoad.Data.Service
             Teacher teacher = teachers.Where(t => t.TeacherID == id)
                 .Include(t => t.Department)
                 .Include(t => t.Position).FirstOrDefault();
-            
+
             return teacher;
         }
 
@@ -60,18 +56,6 @@ namespace TeacherLoad.Data.Service
         {
             teachers.Attach(teacher);
             context.Entry(teacher).State = EntityState.Modified;
-        }
-
-        public void Save()
-        {
-            try
-            {
-                context.SaveChanges();
-            }
-            catch (Exception)
-            {
-
-            }
         }
     }
 }

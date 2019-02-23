@@ -10,8 +10,10 @@ namespace TeacherLoad.Core.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         [Required]
+        [Display(Name ="Вид занятия")]
         public string IndividualClassType { get; set; }
         [Required]
-        public int VolumeByPerson { get; set; }
+        [Display(Name = "Нагрузка на одного человека")]
+        public int VolumeByPerson { get; set; }        
     }
 }

@@ -10,6 +10,7 @@ namespace TeacherLoad.Core.Models
         [ScaffoldColumn(false)]
         public int DisciplineID { get; set; }
         [Required]
+        [Display(Name = "Дисциплина")]
         public string DisciplineName { get; set; }
 
         public List<GroupLoad> GroupLoads { get; set; }
