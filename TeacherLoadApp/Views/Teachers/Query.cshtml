@@ -1,17 +1,11 @@
 ﻿@model IEnumerable<TeacherLoad.Core.Models.Teacher>
 
 @{
-    ViewData["Title"] = "Сотрудники кафедры";
+    ViewData["Title"] = "Query";
 }
 
-<h2>Сотрудники кафедры</h2>
+<h2>Преподаватели, в учебный план которых включено дипломное проектирование</h2>
 
-<p>
-    <a asp-action="CreateTeacher">Добавить нового преподавателя</a>
-</p>
-<p>
-    <a asp-action="Query">Показать преподавателей дипломников</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -51,12 +45,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Position.PositionName)
             </td>
-            <td>
-                <a asp-action="EditTeacher" asp-route-id="@item.TeacherID">Редактировать</a> |
-                <a asp-action="TeacherDetails" asp-route-id="@item.TeacherID">Информация о сотруднике</a> |
-                <a asp-action="DeleteTeacher" asp-route-id="@item.TeacherID">Удалить</a>
-            </td>
+            
         </tr>
 }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

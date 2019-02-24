@@ -108,6 +108,16 @@ namespace TeacherLoadApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Query()
+        {           
+            var teachers = from teacher in unitOfWork.Teachers.GetAll()
+                           join pl in unitOfWork.PersonalLoads.GetAll()
+                           on teacher.TeacherID equals pl.TeacherID
+                           where pl.IndividualClassID == 2
+                           select teacher;
+            return View(teachers);
+        }
+
         private void PopulateDropDownLists(object selectedDepartment = null,object selectedPosition = null)
         {
             var departmentsQuery = unitOfWork.Departments.Get().OrderBy(d => d.DepartmentName);

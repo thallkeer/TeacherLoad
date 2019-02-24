@@ -13,13 +13,17 @@ namespace TeacherLoad.Core.Models
         [Display(Name = "Число студентов")]
         public int StudentsCount { get; set; }
         [Required]
+        [Display(Name = "Нагрузка на одного человека")]
+        public int VolumeByPerson { get; set; }
+        [Required]
         [Display(Name = "Преподаватель")]
         public int TeacherID { get; set; }
         [Required]
         [Display(Name = "Вид занятия")]
-        public int IndividualClassTypeID { get; set; }
-
+        public int IndividualClassID { get; set; }
+        [Display(Name = "Преподаватель")]
         public virtual Teacher Teacher { get; set; }
+        [Display(Name = "Вид занятия")]
         public virtual IndividualStudies IndividualStudies { get; set; }
     }
 }

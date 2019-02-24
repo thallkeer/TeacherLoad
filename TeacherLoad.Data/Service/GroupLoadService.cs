@@ -59,7 +59,7 @@ namespace TeacherLoad.Data.Service
 
         public List<GroupLoad> GetDisciplinesByGroup(string groupNumber)
         {            
-            return dbSet.Where(x => x.GroupNumber == groupNumber).Where(x => x.GroupStudies.ClassType == "Лекция")
+            return dbSet.Where(x => x.GroupNumber == groupNumber).Where(x => x.GroupStudies.GroupClassName == "Лекция")
                  .Include(x => x.Teacher).ToList();
         }
     }

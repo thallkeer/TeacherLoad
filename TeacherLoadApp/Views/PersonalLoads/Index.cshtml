@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TeacherLoad.Core.Models.PersonalLoad>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Добавить индивидуальную нагрузку</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IndividualClassID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolumeByPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentsCount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IndividualStudies.IndividualClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolumeByPerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentsCount)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Подробнее</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

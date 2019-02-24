@@ -212,34 +212,32 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("TeacherLoad.Core.Models.GroupStudies", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("GroupClassID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClassType")
+                    b.Property<string>("GroupClassName")
                         .IsRequired();
 
-                    b.HasKey("ID");
+                    b.HasKey("GroupClassID");
 
-                    b.HasAlternateKey("ClassType");
+                    b.HasAlternateKey("GroupClassName");
 
                     b.ToTable("GroupStudies");
                 });
 
             modelBuilder.Entity("TeacherLoad.Core.Models.IndividualStudies", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("IndividualClassID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("IndividualClassType")
+                    b.Property<string>("IndividualClassName")
                         .IsRequired();
 
-                    b.Property<int>("VolumeByPerson");
+                    b.HasKey("IndividualClassID");
 
-                    b.HasKey("ID");
-
-                    b.HasAlternateKey("IndividualClassType");
+                    b.HasAlternateKey("IndividualClassName");
 
                     b.ToTable("PersonalStudies");
                 });
@@ -250,17 +248,17 @@ namespace TeacherLoad.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IndividualClassTypeID");
-
-                    b.Property<int?>("IndividualStudiesID");
+                    b.Property<int>("IndividualClassID");
 
                     b.Property<int>("StudentsCount");
 
                     b.Property<int>("TeacherID");
 
+                    b.Property<int>("VolumeByPerson");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("IndividualStudiesID");
+                    b.HasIndex("IndividualClassID");
 
                     b.HasIndex("TeacherID");
 
@@ -459,10 +457,11 @@ namespace TeacherLoad.Core.Migrations
                 {
                     b.HasOne("TeacherLoad.Core.Models.IndividualStudies", "IndividualStudies")
                         .WithMany()
-                        .HasForeignKey("IndividualStudiesID");
+                        .HasForeignKey("IndividualClassID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TeacherLoad.Core.Models.Teacher", "Teacher")
-                        .WithMany()
+                        .WithMany("PersonalLoads")
                         .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

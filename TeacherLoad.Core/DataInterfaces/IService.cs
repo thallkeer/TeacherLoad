@@ -8,7 +8,8 @@ using TeacherLoad.Core.Models;
 namespace TeacherLoad.Core.DataInterfaces
 {
     public interface IService<T>
-    {        
+    {
+        List<T> Get();
         List<T> GetAll();
         T GetById(int id);
         void Add(T entity);

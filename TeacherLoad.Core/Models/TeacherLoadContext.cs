@@ -35,9 +35,9 @@ namespace TeacherLoad.Core.Models
             modelBuilder.Entity<Discipline>()
                   .HasAlternateKey(d => new { d.DisciplineName });
             modelBuilder.Entity<GroupStudies>()
-                 .HasAlternateKey(gs => new { gs.ClassType });
+                 .HasAlternateKey(gs => new { gs.GroupClassName });
             modelBuilder.Entity<IndividualStudies>()
-                 .HasAlternateKey(ind => new { ind.IndividualClassType });
+                 .HasAlternateKey(ind => new { ind.IndividualClassName });
             modelBuilder.Entity<User>().ToTable("IdentityUser");
         }
     }

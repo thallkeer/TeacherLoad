@@ -30,6 +30,7 @@ namespace TeacherLoad.Core.Models
         public virtual Position Position { get; set; }
        
         public List<GroupLoad> GroupLoads { get; set; }
+        public List<PersonalLoad> PersonalLoads { get; set; }
 
         public string FullName
         {
@@ -44,6 +45,7 @@ namespace TeacherLoad.Core.Models
         public Teacher()
         {
             GroupLoads = new List<GroupLoad>();
+            PersonalLoads = new List<PersonalLoad>();
         }
     }
 }

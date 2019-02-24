@@ -7,10 +7,10 @@ namespace TeacherLoad.Core.Models
 {
     public class GroupStudies
     {
-        [ScaffoldColumn(false)]
-        public int ID { get; set; }
+        [Key]
+        public int GroupClassID { get; set; }
         [Required]
         [Display(Name = "Вид занятия")]
-        public string ClassType { get; set; }
+        public string GroupClassName { get; set; }
     }
 }

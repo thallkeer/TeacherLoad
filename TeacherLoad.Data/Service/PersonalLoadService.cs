@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
@@ -17,44 +18,39 @@ namespace TeacherLoad.Data.Service
             dbSet = context.PersonalLoads;
         }
 
-        public void Add(IPersonalLoadService entity)
+        public void Add(PersonalLoad personalLoad)
         {
-            throw new NotImplementedException();
+            dbSet.Add(personalLoad);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Delete(dbSet.Find(id));
         }
 
-        public void Delete(IPersonalLoadService entity)
+        public void Delete(PersonalLoad personalLoad)
         {
-            throw new NotImplementedException();
+            if (context.Entry(personalLoad).State == EntityState.Detached)
+            {
+                dbSet.Attach(personalLoad);
+            }
+            dbSet.Remove(personalLoad);
         }
 
-        public List<IPersonalLoadService> GetAll()
+        public List<PersonalLoad> GetAll()
         {
-            throw new NotImplementedException();
+            return dbSet.Include(pl => pl.Teacher).Include(pl => pl.IndividualStudies).ToList();
         }
 
-        public IPersonalLoadService GetById(int id)
+        public PersonalLoad GetById(int id)
         {
-            throw new NotImplementedException();
+            return dbSet.Find(id);
         }
 
-        public TeacherLoadContext GetContext()
+        public void Update(PersonalLoad personalLoad)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(IPersonalLoadService entity)
-        {
-            throw new NotImplementedException();
+            dbSet.Attach(personalLoad);
+            context.Entry(personalLoad).State = EntityState.Modified;
         }
     }
 }
