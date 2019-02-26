@@ -52,3 +52,4 @@ insert into GroupLoads values (16,12,1,'6402',3)
 
 insert into GroupLoads values (32,12,1,'6401',1)
 insert into GroupLoads values (16,12,1,'6401',3)
+insert into GroupLoads values (16,12,1,'6401',3)

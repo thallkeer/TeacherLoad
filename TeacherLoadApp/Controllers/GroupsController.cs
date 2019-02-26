@@ -21,7 +21,7 @@ namespace TeacherLoadApp.Controllers
         // GET: Groups
         public IActionResult Index()
         {
-            var groups = unitOfWork.Groups.GetAll();            
+            var groups = unitOfWork.Groups.Get(includeProperties: "Speciality");            
             return View(groups);
         }
 
@@ -33,7 +33,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
 
-            var @group = unitOfWork.Groups.GetById(id);
+            var @group = unitOfWork.Groups.GetByID(id);
             if (@group == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace TeacherLoadApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Groups.Add(@group);
+                unitOfWork.Groups.Insert(@group);
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -74,7 +74,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
 
-            var @group = unitOfWork.Groups.GetById(id);
+            var @group = unitOfWork.Groups.GetByID(id);
             if (@group == null)
             {
                 return NotFound();
@@ -127,7 +127,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
 
-            var @group = unitOfWork.Groups.GetById(id);
+            var @group = unitOfWork.Groups.GetByID(id);
             if (@group == null)
             {
                 return NotFound();
@@ -141,7 +141,7 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(string id)
         {
-            var @group = unitOfWork.Groups.GetById(id);
+            var @group = unitOfWork.Groups.GetByID(id);
             unitOfWork.Groups.Delete(@group);
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
@@ -149,7 +149,7 @@ namespace TeacherLoadApp.Controllers
 
         private bool GroupExists(string id)
         {
-            return unitOfWork.Groups.GetById(id) != null;
+            return unitOfWork.Groups.GetByID(id) != null;
         }
     }
 }

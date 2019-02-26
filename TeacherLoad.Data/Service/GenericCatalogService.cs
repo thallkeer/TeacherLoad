@@ -20,6 +20,11 @@ namespace TeacherLoad.Data.Service
             this.dbSet = context.Set<TEntity>();
         }
 
+        public virtual IEnumerable<TEntity> GetAll()
+        {
+            return Get();
+        }
+
         public virtual IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

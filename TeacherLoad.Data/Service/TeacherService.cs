@@ -9,53 +9,15 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Data.Service
 {
-    public class TeacherService : ITeacherService
+    public class TeacherService : GenericCatalogService<Teacher>,ITeacherService
     {
-        DbSet<Teacher> teachers;
-        TeacherLoadContext context;
-        public TeacherService(TeacherLoadContext context)
-        {
-            this.context = context;
-            teachers = context.Teachers;
-        }
+        public TeacherService(TeacherLoadContext context) : base(context)
+        {}
 
-        public void Add(Teacher teacher)
-        {
-            teachers.Add(teacher);
-        }
 
-        public void Delete(int id)
+        public override IEnumerable<Teacher> GetAll()
         {
-            Delete(teachers.Find(id));
-        }
-
-        public void Delete(Teacher teacher)
-        {
-            if (context.Entry(teacher).State == EntityState.Detached)
-            {
-                teachers.Attach(teacher);
-            }
-            teachers.Remove(teacher);
-        }
-
-        public List<Teacher> GetAll()
-        {
-            return teachers.Include(t => t.Department).Include(t => t.Position).ToList();
-        }
-
-        public Teacher GetById(int id)
-        {
-            Teacher teacher = teachers.Where(t => t.TeacherID == id)
-                .Include(t => t.Department)
-                .Include(t => t.Position).FirstOrDefault();
-
-            return teacher;
-        }
-
-        public void Update(Teacher teacher)
-        {
-            teachers.Attach(teacher);
-            context.Entry(teacher).State = EntityState.Modified;
+            return Get(includeProperties: "Department,Position");
         }
     }
 }

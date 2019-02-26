@@ -5,7 +5,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface ITeacherService : IService<Teacher>
+    public interface ITeacherService : IGenericCatalogService<Teacher>
     {
         
     }

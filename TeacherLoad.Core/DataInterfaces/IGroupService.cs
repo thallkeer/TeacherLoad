@@ -5,8 +5,8 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface IGroupService : IService<Group>
+    public interface IGroupService : IGenericCatalogService<Group>
     {
-        Group GetById(string id);
+        
     }
 }

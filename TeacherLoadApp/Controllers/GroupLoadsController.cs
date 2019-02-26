@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 
@@ -34,7 +36,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Create()
         {
             ViewData["Teachers"] = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName");
-            ViewData["Groups"] = new SelectList(unitOfWork.Groups.GetAll(), "GroupNumber", "GroupNumber");
+            ViewData["Groups"] = new SelectList(unitOfWork.Groups.Get(includeProperties: "Speciality"), "GroupNumber", "GroupNumber");
             ViewData["Disciplines"] = new SelectList(unitOfWork.Disciplines.Get(), "DisciplineID", "DisciplineName");
             ViewData["GroupStudies"] = new SelectList(unitOfWork.GroupStudies.Get(), "ID", "ClassType");
             return View();
@@ -60,24 +62,43 @@ namespace TeacherLoadApp.Controllers
         // GET: GroupLoads/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var load = unitOfWork.GroupLoads.GetByID(id);
+            if (load == null)
+            {
+                return NotFound();
+            }
+            ViewData["TeacherID"] = new SelectList(unitOfWork.Teachers.Get(), "TeacherID", "FullName", load.TeacherID);
+            ViewData["GroupStudiesID"] = new SelectList(unitOfWork.GroupStudies.Get(), "GroupClassID", "GroupClassName", load.GroupStudiesID);
+            ViewData["GroupNumber"] = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", load.GroupNumber);
+            ViewData["DisciplineID"] = new SelectList(unitOfWork.Disciplines.Get(), "DisciplineID", "DisciplineName", load.DisciplineID);
+            return View(load);
         }
 
         // POST: GroupLoads/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(GroupLoad load)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    unitOfWork.GroupLoads.Update(load);
+                    unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (DataException /* dex */)
             {
-                return View();
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+            return View(load);
         }
 
         // GET: GroupLoads/Delete/5

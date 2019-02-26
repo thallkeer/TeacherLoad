@@ -37,14 +37,14 @@ namespace TeacherLoadApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateTeacher(
-          /*[Bind(Include = "CourseID,Title,Credits,DepartmentID")]*/
+          [Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
          Teacher teacher)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.Teachers.Add(teacher);
+                    unitOfWork.Teachers.Insert(teacher);
                     unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
@@ -60,14 +60,14 @@ namespace TeacherLoadApp.Controllers
 
         public IActionResult EditTeacher(int id)
         {
-            Teacher teacher = unitOfWork.Teachers.GetById(id);
+            Teacher teacher = unitOfWork.Teachers.GetByID(id);
             PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
             return View(teacher);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditTeacher(/*[Bind(Include = "CourseID,Title,Credits,DepartmentID")]*/
+        public IActionResult EditTeacher([Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
          Teacher teacher)
         {
             try
@@ -89,12 +89,12 @@ namespace TeacherLoadApp.Controllers
 
         public IActionResult TeacherDetails(int id)
         {
-            return View(unitOfWork.Teachers.GetById(id));
+            return View(unitOfWork.Teachers.GetByID(id));
         }
 
         public IActionResult DeleteTeacher(int id)
         {
-            Teacher teacher = unitOfWork.Teachers.GetById(id);
+            Teacher teacher = unitOfWork.Teachers.GetByID(id);
             return View(teacher);
         }
 
@@ -102,7 +102,7 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Teacher teacher = unitOfWork.Teachers.GetById(id);
+            Teacher teacher = unitOfWork.Teachers.GetByID(id);
             unitOfWork.Teachers.Delete(id);
             unitOfWork.Save();
             return RedirectToAction("Index");
@@ -115,6 +115,7 @@ namespace TeacherLoadApp.Controllers
                            on teacher.TeacherID equals pl.TeacherID
                            where pl.IndividualClassID == 2
                            select teacher;
+            
             return View(teachers);
         }
 
@@ -122,7 +123,7 @@ namespace TeacherLoadApp.Controllers
         {
             var departmentsQuery = unitOfWork.Departments.Get().OrderBy(d => d.DepartmentName);
             ViewBag.DepartmentID = new SelectList(departmentsQuery, "DepartmentID", "DepartmentName", selectedDepartment);
-            var positionsQuery = unitOfWork.Positions.Get().OrderBy(p => p.PositionName);
+            var positionsQuery = unitOfWork.Positions.Get(orderBy: q => q.OrderBy(p => p.PositionName));
             ViewBag.PositionID = new SelectList(positionsQuery, "PositionID", "PositionName", selectedPosition);
         }
 

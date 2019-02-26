@@ -5,8 +5,8 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface IGroupLoadService : IService<GroupLoad>
+    public interface IGroupLoadService : IGenericCatalogService<GroupLoad>
     {
-        List<GroupLoad> GetDisciplinesByGroup(string groupNumber);
+        IEnumerable<GroupLoad> GetDisciplinesByGroup(string groupNumber);
     }
 }
