@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TeacherLoadApp.Models.GroupDisciplinesViewModel>
+@{
+    ViewData["Title"] = "Дисциплины группы";
+}
+
+<h2>Список учебных дисциплин группы</h2>
+
+<div class="form-inline">
+    <label class="control-label">Группа</label>
+    @Html.DropDownList("GroupNumber", ViewBag.Groups as SelectList, new { @class = "form-control selected-group" })
+</div>
+
+<div id="content">
+       @{ await Html.RenderPartialAsync("GroupDisciplinesPartial"); }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $(".selected-group").change(function () {            
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GroupDisciplines")',
+                data: { id: $(".selected-group").val() },
+                success: function (data) {                   
+                    $('#content').html(data);
+                }
+            });           
+        });
+    });
+    </script>
+}

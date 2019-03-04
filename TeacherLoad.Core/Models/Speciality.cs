@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace TeacherLoad.Core.Models
 {
@@ -12,6 +10,8 @@ namespace TeacherLoad.Core.Models
         public string Code { get; set; }
         [Required]
         [Display(Name = "Название специальности")]
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Название специальности может содержать только буквы")]
         public string SpecialityName { get; set; }
 
         public List<Group> Groups { get; set; }

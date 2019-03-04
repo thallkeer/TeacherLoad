@@ -1,25 +1,22 @@
 ﻿@model IEnumerable<TeacherLoad.Core.Models.PersonalLoad>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Индивидуальная нагрузка";
 }
 
-<h2>Index</h2>
+<h2>Индивидуальная нагрузка</h2>
 
 <p>
-    <a asp-action="Create">Добавить индивидуальную нагрузку</a>
+    <a class="btn btn-primary" asp-action="Create">Добавить индивидуальную нагрузку</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Teacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IndividualClassID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VolumeByPerson)
+                @Html.DisplayNameFor(model => model.IndividualStudies)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StudentsCount)
@@ -28,26 +25,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IndividualStudies.IndividualClassName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolumeByPerson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentsCount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Подробнее</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndividualStudies.IndividualClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentsCount)
+                </td>
+                <td>
+                    <a class="btn-sm btn-success" href="@Url.Action("Edit", "PersonalLoads",new { teacherID = item.TeacherID, classID = item.IndividualClassID })">
+                        <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                        Редактировать
+                    </a>                
+                    <a class="btn-sm btn-danger" style="margin-left: 10px;" href="@Url.Action("Delete", "PersonalLoads",new { teacherID = item.TeacherID, classID = item.IndividualClassID })">
+                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
+                        Удалить
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

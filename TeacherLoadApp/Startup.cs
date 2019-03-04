@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,8 +35,9 @@ namespace TeacherLoadApp
             services.AddDbContext<TeacherLoadContext>(options => options.UseSqlServer(connection));
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             //services.AddScoped<ITeacherService,TeacherService>();
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<TeacherLoadContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<TeacherLoadContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -68,7 +64,7 @@ namespace TeacherLoadApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

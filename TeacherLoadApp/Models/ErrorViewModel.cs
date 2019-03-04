@@ -1,5 +1,3 @@
-using System;
-
 namespace TeacherLoadApp.Models
 {
     public class ErrorViewModel

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
@@ -16,7 +12,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class TeachersController : Controller
     {
-        private UnitOfWork unitOfWork;
+        private IUnitOfWork unitOfWork;
         public TeachersController(TeacherLoadContext context)
         {
             unitOfWork = new UnitOfWork(context);
@@ -24,7 +20,7 @@ namespace TeacherLoadApp.Controllers
 
         public IActionResult Index()
         {
-            var teachers = unitOfWork.Teachers.GetAll().OrderBy(t => t.LastName);            
+            var teachers = unitOfWork.Teachers.GetAll().OrderBy(t => t.LastName);             
             return View(teachers);
         }
 
@@ -106,18 +102,7 @@ namespace TeacherLoadApp.Controllers
             unitOfWork.Teachers.Delete(id);
             unitOfWork.Save();
             return RedirectToAction("Index");
-        }
-
-        public IActionResult Query()
-        {           
-            var teachers = from teacher in unitOfWork.Teachers.GetAll()
-                           join pl in unitOfWork.PersonalLoads.GetAll()
-                           on teacher.TeacherID equals pl.TeacherID
-                           where pl.IndividualClassID == 2
-                           select teacher;
-            
-            return View(teachers);
-        }
+        }       
 
         private void PopulateDropDownLists(object selectedDepartment = null,object selectedPosition = null)
         {

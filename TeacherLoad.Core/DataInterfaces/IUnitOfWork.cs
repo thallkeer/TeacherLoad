@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TeacherLoad.Core.Models;
+﻿using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {
@@ -17,5 +14,6 @@ namespace TeacherLoad.Core.DataInterfaces
         IGenericCatalogService<Discipline> Disciplines { get; }
         IGenericCatalogService<GroupStudies> GroupStudies { get; }
         IGenericCatalogService<IndividualStudies> IndividualStudies { get; }
+        void Save();
     }
 }

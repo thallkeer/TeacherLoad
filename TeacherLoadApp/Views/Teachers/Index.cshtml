@@ -7,13 +7,10 @@
 <h2>Сотрудники кафедры</h2>
 
 <p>
-    <a asp-action="CreateTeacher">Добавить нового преподавателя</a>
+    <a class="btn btn-primary" asp-action="CreateTeacher">Добавить нового преподавателя</a>
 </p>
-<p>
-    <a asp-action="Query">Показать преподавателей дипломников</a>
-</p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
@@ -34,29 +31,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Patronym)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.PositionName)
-            </td>
-            <td>
-                <a asp-action="EditTeacher" asp-route-id="@item.TeacherID">Редактировать</a> |
-                <a asp-action="TeacherDetails" asp-route-id="@item.TeacherID">Информация о сотруднике</a> |
-                <a asp-action="DeleteTeacher" asp-route-id="@item.TeacherID">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronym)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position.PositionName)
+                </td>
+                <td>
+                    <a asp-action="EditTeacher" asp-route-id="@item.TeacherID">Редактировать</a> |
+                    <a asp-action="DeleteTeacher" asp-route-id="@item.TeacherID">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

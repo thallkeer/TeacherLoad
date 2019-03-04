@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 
@@ -39,64 +36,92 @@ namespace TeacherLoadApp.Controllers
         // POST: Specialities/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Speciality speciality)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                unitOfWork.Specialities.Insert(speciality);
+                unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            }           
+            return View(speciality);
         }
 
         // GET: Specialities/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var speciality = unitOfWork.Specialities.GetByID(id);
+            if (speciality == null)
+            {
+                return NotFound();
+            }
+            return View(speciality);
         }
 
         // POST: Specialities/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, Speciality speciality)
         {
-            try
+            if (id != speciality.Code)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
-            }
+                try
+                {
+                    unitOfWork.Specialities.Update(speciality);
+                    unitOfWork.Save();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (unitOfWork.Specialities.GetByID(id) != null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }            
+            return View(speciality);
         }
 
         // GET: Specialities/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var speciality = unitOfWork.Specialities.GetByID(id);
+            if (speciality == null)
+            {
+                return NotFound();
+            }
+
+            return View(speciality);
         }
 
         // POST: Specialities/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(string id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var speciality = unitOfWork.Specialities.GetByID(id);
+            unitOfWork.Specialities.Delete(speciality);
+            unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

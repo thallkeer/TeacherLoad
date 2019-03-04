@@ -1,0 +1,37 @@
+﻿@model IEnumerable<GroupDisciplinesViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Discipline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discipline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassType)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    <a class="btn btn-primary" asp-controller="Groups" asp-action="Index">Назад</a>
+</div>

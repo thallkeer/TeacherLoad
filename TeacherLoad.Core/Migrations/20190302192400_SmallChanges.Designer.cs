@@ -10,8 +10,8 @@ using TeacherLoad.Core.Models;
 namespace TeacherLoad.Core.Migrations
 {
     [DbContext(typeof(TeacherLoadContext))]
-    [Migration("20190224114605_Initial")]
-    partial class Initial
+    [Migration("20190302192400_SmallChanges")]
+    partial class SmallChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,6 +131,57 @@ namespace TeacherLoad.Core.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("TeacherLoad.Core.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("IdentityUser");
+                });
+
             modelBuilder.Entity("TeacherLoad.Core.Models.Department", b =>
                 {
                     b.Property<int>("DepartmentID")
@@ -166,14 +217,10 @@ namespace TeacherLoad.Core.Migrations
                     b.Property<string>("GroupNumber")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("FullTime");
-
-                    b.Property<string>("Semester")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
                     b.Property<string>("SpecialityCode")
                         .IsRequired();
+
+                    b.Property<int>("StudentsCount");
 
                     b.HasKey("GroupNumber");
 
@@ -184,30 +231,29 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("TeacherLoad.Core.Models.GroupLoad", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("DisciplineID");
-
-                    b.Property<string>("GroupNumber")
-                        .IsRequired();
+                    b.Property<int>("TeacherID");
 
                     b.Property<int>("GroupStudiesID");
 
-                    b.Property<int>("TeacherID");
+                    b.Property<string>("GroupNumber");
+
+                    b.Property<int>("DisciplineID");
+
+                    b.Property<int>("Semester");
+
+                    b.Property<int>("StudyType");
+
+                    b.Property<int>("StudyYear");
 
                     b.Property<int>("VolumeHours");
 
-                    b.HasKey("ID");
+                    b.HasKey("TeacherID", "GroupStudiesID", "GroupNumber", "DisciplineID", "Semester", "StudyType", "StudyYear");
 
                     b.HasIndex("DisciplineID");
 
                     b.HasIndex("GroupNumber");
 
                     b.HasIndex("GroupStudiesID");
-
-                    b.HasIndex("TeacherID");
 
                     b.ToTable("GroupLoads");
                 });
@@ -237,6 +283,8 @@ namespace TeacherLoad.Core.Migrations
                     b.Property<string>("IndividualClassName")
                         .IsRequired();
 
+                    b.Property<decimal>("VolumeByPerson");
+
                     b.HasKey("IndividualClassID");
 
                     b.HasAlternateKey("IndividualClassName");
@@ -246,23 +294,15 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("TeacherLoad.Core.Models.PersonalLoad", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("TeacherID");
 
                     b.Property<int>("IndividualClassID");
 
                     b.Property<int>("StudentsCount");
 
-                    b.Property<int>("TeacherID");
-
-                    b.Property<int>("VolumeByPerson");
-
-                    b.HasKey("ID");
+                    b.HasKey("TeacherID", "IndividualClassID");
 
                     b.HasIndex("IndividualClassID");
-
-                    b.HasIndex("TeacherID");
 
                     b.ToTable("PersonalLoads");
                 });
@@ -328,57 +368,6 @@ namespace TeacherLoad.Core.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("TeacherLoad.Core.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("IdentityUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -389,7 +378,7 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TeacherLoad.Core.Models.User")
+                    b.HasOne("TeacherLoad.Core.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -397,7 +386,7 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TeacherLoad.Core.Models.User")
+                    b.HasOne("TeacherLoad.Core.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -410,7 +399,7 @@ namespace TeacherLoad.Core.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TeacherLoad.Core.Models.User")
+                    b.HasOne("TeacherLoad.Core.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -418,7 +407,7 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TeacherLoad.Core.Models.User")
+                    b.HasOne("TeacherLoad.Core.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

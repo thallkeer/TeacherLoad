@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
+
 
 namespace TeacherLoadApp.Controllers
 {
@@ -25,78 +26,119 @@ namespace TeacherLoadApp.Controllers
             return View(loads);
         }
 
-        // GET: PersonalLoads/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Query()
         {
-            return View();
+            var teachers = from teacher in unitOfWork.Teachers.GetAll()
+                           join pl in unitOfWork.PersonalLoads.GetAll()
+                           on teacher.TeacherID equals pl.TeacherID
+                           where pl.IndividualClassID == 2
+                           select teacher;
+            var loads = unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == 2 
+                ,q => q.OrderBy(pl => pl.Teacher.LastName)
+                ,"Teacher");
+
+            return View("DiplomaLoad",loads);
         }
 
-        // GET: PersonalLoads/Create
+        public int CalculateHours(int classID,int count)
+        {
+            IndividualStudies studyType = unitOfWork.IndividualStudies.GetByID(classID);
+            return studyType.VolumeByPerson * count;
+        }
+
+        // GET: GroupLoads/Create
         public ActionResult Create()
         {
+            FillDataLists();
             return View();
         }
 
-        // POST: PersonalLoads/Create
+        // POST: GroupLoads/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PersonalLoad personalLoad)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    unitOfWork.PersonalLoads.Insert(personalLoad);
+                    unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (DataException /* dex */)
             {
-                return View();
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+            FillDataLists(personalLoad);
+            return View(personalLoad);
         }
 
-        // GET: PersonalLoads/Edit/5
-        public ActionResult Edit(int id)
+        // GET: GroupLoads/Edit/5
+        public ActionResult Edit(int teacherID, int classID)
         {
-            return View();
+            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID,classID);
+            if (load == null)
+            {
+                return NotFound();
+            }
+            FillDataLists(load);
+            return View(load);
         }
 
-        // POST: PersonalLoads/Edit/5
-        [HttpPost]
+        // POST: GroupLoads/Edit/5
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditConfirmed(PersonalLoad load)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    unitOfWork.PersonalLoads.Update(load);
+                    unitOfWork.Save();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch (DataException /* dex */)
             {
-                return View();
+                //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+            return View(load);
         }
 
-        // GET: PersonalLoads/Delete/5
-        public ActionResult Delete(int id)
+        // GET: GroupLoads/Delete/5
+        public ActionResult Delete(int teacherID,int classID)
         {
-            return View();
+            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID,classID);
+            return View(load);
         }
 
-        // POST: PersonalLoads/Delete/5
-        [HttpPost]
+        // POST: GroupLoads/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int teacherID, int classID)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID, classID);
+            unitOfWork.PersonalLoads.Delete(load);
+            unitOfWork.Save();
+            return RedirectToAction("Index");
+        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+        private void FillDataLists(PersonalLoad load = null)
+        {
+            if (load == null)
             {
-                return View();
+                ViewData["Teachers"] = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName");                
+                ViewData["Classes"] = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName");
+            }
+            else
+            {
+                ViewData["Teachers"] = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName",load.TeacherID);
+                ViewData["Classes"] = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", load.IndividualClassID);
             }
         }
     }

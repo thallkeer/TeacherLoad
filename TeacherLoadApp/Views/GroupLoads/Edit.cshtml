@@ -1,51 +1,31 @@
 ﻿@model TeacherLoad.Core.Models.GroupLoad
 
 @{
-    ViewData["Title"] = "Редактирование групповой нагрузки";
+    ViewData["Title"] = "Групповая нагрузка";
 }
 
-<h2>Изменение групповой нагрузки</h2>
-
-<h4>Групповая нагрузка</h4>
-<hr />
+<h2>Редактирование групповой нагрузки</h2>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="TeacherID" class="control-label"></label>
-                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.TeacherID"></select>
-                <span asp-validation-for="TeacherID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GroupNumber" class="control-label"></label>
-                <select asp-for="GroupNumber" class="form-control" asp-items="ViewBag.GroupNumber"></select>
-                <span asp-validation-for="GroupNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DisciplineID" class="control-label"></label>
-                <select asp-for="DisciplineID" class="form-control" asp-items="ViewBag.DisciplineID"></select>
-                <span asp-validation-for="DisciplineID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GroupStudiesID" class="control-label"></label>
-                <select asp-for="GroupStudiesID" class="form-control" asp-items="ViewBag.GroupStudiesID"></select>
-                <span asp-validation-for="GroupStudiesID" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="VolumeHours" class="control-label"></label>
-                <input asp-for="VolumeHours" min="1" step="1" max="99" class="form-control" />
+                <input type="number" min="1" max="32" value="1" asp-for="VolumeHours" class="form-control" />
                 <span asp-validation-for="VolumeHours" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Semester" />
+            <input type="hidden" asp-for="StudyType" />
+            <input type="hidden" asp-for="StudyYear" />
+            <input type="hidden" asp-for="TeacherID" />
+            <input type="hidden" asp-for="DisciplineID" />
+            <input type="hidden" asp-for="GroupNumber" />
+            <input type="hidden" asp-for="GroupStudiesID" />
             <div class="form-group">
-                <input type="submit" value="Сохранить" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Назад</a>
 </div>
 

@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TeacherLoad.Core.Models
 {
-   public class IndividualStudies
+    public class IndividualStudies
     {
         [Key]
         public int IndividualClassID { get; set; }
         [Required]
         [Display(Name ="Вид занятия")]
-        public string IndividualClassName { get; set; }           
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Вид занятия может содержать только буквы")]
+        public string IndividualClassName { get; set; }
+        [Required]
+        [Display(Name = "Нагрузка на одного человека")]
+        [Range(1,32)]
+        public int VolumeByPerson { get; set; }
     }
 }

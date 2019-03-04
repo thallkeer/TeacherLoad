@@ -4,39 +4,31 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Добавить группу</h2>
-
-<h4>Список групп</h4>
+<h2>Добавление группы</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="FullTime" /> @Html.DisplayNameFor(model => model.FullTime)
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Semester" class="control-label"></label>
-                <input asp-for="Semester" class="form-control" />
-                <span asp-validation-for="Semester" class="text-danger"></span>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group">
                 <label asp-for="SpecialityCode" class="control-label"></label>
                 <select asp-for="SpecialityCode" class ="form-control" asp-items="ViewBag.SpecialityCode"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <label asp-for="StudentsCount" class="control-label"></label>
+                <input type="number" min="1" max="40" value="1" asp-for="StudentsCount" class="form-control" />
+                <span asp-validation-for="StudentsCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
 
 @section Scripts {

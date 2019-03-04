@@ -1,46 +1,63 @@
 ﻿@model TeacherLoad.Core.Models.GroupLoad
+@using static TeacherLoad.Core.Models.GroupLoad.StudyTypes
+@using static TeacherLoad.Core.Models.GroupLoad.SemesterType
 
 @{
     ViewData["Title"] = "Групповая нагрузка";
 }
 
-<h2>Создание новой групповой нагрузки</h2>
-
-<h4>Групповая нагрузка</h4>
+<h2>Добавление групповой нагрузки</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TeacherID" class="control-label"></label>
-                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.Teachers"></select>
+                <label asp-for="Semester" class="control-label"></label>
+                <select asp-for="StudyType" class="form-control"
+                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.SemesterType>()"></select>
+                @*<select asp-for="Semester" class="form-control"></select>
+            <span asp-validation-for="Semester" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="GroupNumber" class="control-label"></label>
-                <select asp-for="GroupNumber" class="form-control" asp-items="ViewBag.Groups"></select>
+                <label asp-for="StudyType" class="control-label"></label>
+                <select asp-for="StudyType" class="form-control"
+                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.StudyTypes>()"></select>
+                @*<select asp-for="StudyType" class="form-control"></select>
+            <span asp-validation-for="StudyType" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="StudyYear" class="control-label"></label>
+                <input type="number" min="1" max="4" value="1" asp-for="StudyYear" class="form-control" />
+                <span asp-validation-for="StudyYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherID" class="control-label"></label>
+                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.Teachers"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DisciplineID" class="control-label"></label>
                 <select asp-for="DisciplineID" class="form-control" asp-items="ViewBag.Disciplines"></select>
             </div>
             <div class="form-group">
-                <label asp-for="GroupStudies.GroupClassName" class="control-label"></label>
-                <select asp-for="GroupStudies.GroupClassName" class="form-control" asp-items="ViewBag.GroupStudies"></select>
+                <label asp-for="GroupNumber" class="control-label"></label>
+                <select asp-for="GroupNumber" class="form-control" asp-items="ViewBag.Groups"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupStudiesID" class="control-label"></label>
+                <select asp-for="GroupStudiesID" class="form-control" asp-items="ViewBag.GroupStudies"></select>
             </div>
             <div class="form-group">
                 <label asp-for="VolumeHours" class="control-label"></label>
-                <input asp-for="VolumeHours" step="1" min="1" max="99" class="form-control" />
+                <input type="number" min="1" max="32" value="1" asp-for="VolumeHours" class="form-control" />
                 <span asp-validation-for="VolumeHours" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Добавить" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Назад</a>
-</div>
 

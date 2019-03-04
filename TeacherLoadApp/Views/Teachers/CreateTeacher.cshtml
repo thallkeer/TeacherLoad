@@ -1,12 +1,10 @@
 ﻿@model TeacherLoad.Core.Models.Teacher
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Преподаватель";
 }
 
-<h2>Create</h2>
-
-<h4>Teacher</h4>
+<h4>Добавление нового преподавателя</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,37 +12,35 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <input type="text" asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <input type="text" asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Patronym" class="control-label"></label>
-                <input asp-for="Patronym" class="form-control" />
+                <input type="text" asp-for="Patronym" class="form-control" />
                 <span asp-validation-for="Patronym" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentID" class="control-label"></label>
-                <select asp-for="DepartmentID" class ="form-control" asp-items="ViewBag.DepartmentID"></select>
+                <select asp-for="DepartmentID" class ="form-control form" asp-items="ViewBag.DepartmentID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="PositionID" class="control-label"></label>
                 <select asp-for="PositionID" class ="form-control" asp-items="ViewBag.PositionID"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -94,7 +94,8 @@ namespace TeacherLoad.Core.Migrations
                 {
                     IndividualClassID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IndividualClassName = table.Column<string>(nullable: false)
+                    IndividualClassName = table.Column<string>(nullable: false),
+                    VolumeByPerson = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,9 +240,9 @@ namespace TeacherLoad.Core.Migrations
                 {
                     TeacherID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Patronym = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    Patronym = table.Column<string>(maxLength: 50, nullable: false),
                     DepartmentID = table.Column<int>(nullable: false),
                     PositionID = table.Column<int>(nullable: false)
                 },
@@ -267,8 +268,7 @@ namespace TeacherLoad.Core.Migrations
                 columns: table => new
                 {
                     GroupNumber = table.Column<string>(nullable: false),
-                    FullTime = table.Column<bool>(nullable: false),
-                    Semester = table.Column<string>(maxLength: 30, nullable: false),
+                    StudentsCount = table.Column<int>(nullable: false),
                     SpecialityCode = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -286,16 +286,13 @@ namespace TeacherLoad.Core.Migrations
                 name: "PersonalLoads",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     StudentsCount = table.Column<int>(nullable: false),
-                    VolumeByPerson = table.Column<int>(nullable: false),
                     TeacherID = table.Column<int>(nullable: false),
                     IndividualClassID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonalLoads", x => x.ID);
+                    table.PrimaryKey("PK_PersonalLoads", x => new { x.TeacherID, x.IndividualClassID });
                     table.ForeignKey(
                         name: "FK_PersonalLoads_PersonalStudies_IndividualClassID",
                         column: x => x.IndividualClassID,
@@ -314,9 +311,10 @@ namespace TeacherLoad.Core.Migrations
                 name: "GroupLoads",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     VolumeHours = table.Column<int>(nullable: false),
+                    Semester = table.Column<int>(nullable: false),
+                    StudyType = table.Column<int>(nullable: false),
+                    StudyYear = table.Column<int>(nullable: false),
                     TeacherID = table.Column<int>(nullable: false),
                     DisciplineID = table.Column<int>(nullable: false),
                     GroupNumber = table.Column<string>(nullable: false),
@@ -324,7 +322,7 @@ namespace TeacherLoad.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupLoads", x => x.ID);
+                    table.PrimaryKey("PK_GroupLoads", x => new { x.TeacherID, x.GroupStudiesID, x.GroupNumber, x.DisciplineID, x.Semester, x.StudyType, x.StudyYear });
                     table.ForeignKey(
                         name: "FK_GroupLoads_Disciplines_DisciplineID",
                         column: x => x.DisciplineID,
@@ -394,11 +392,6 @@ namespace TeacherLoad.Core.Migrations
                 column: "GroupStudiesID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupLoads_TeacherID",
-                table: "GroupLoads",
-                column: "TeacherID");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "IdentityUser",
                 column: "NormalizedEmail");
@@ -414,11 +407,6 @@ namespace TeacherLoad.Core.Migrations
                 name: "IX_PersonalLoads_IndividualClassID",
                 table: "PersonalLoads",
                 column: "IndividualClassID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersonalLoads_TeacherID",
-                table: "PersonalLoads",
-                column: "TeacherID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Positions_PositionID_PositionName",

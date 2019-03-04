@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TeacherLoad.Core.Models
 {
@@ -11,6 +8,8 @@ namespace TeacherLoad.Core.Models
         public int GroupClassID { get; set; }
         [Required]
         [Display(Name = "Вид занятия")]
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Вид занятия может содержать только буквы")]
         public string GroupClassName { get; set; }
     }
 }

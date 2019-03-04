@@ -4,13 +4,12 @@
     ViewData["Title"] = "Должности";
 }
 
-<h2>Должности</h2>
-
+<h2>Должности преподавателей</h2>
 <p>
-    <a asp-action="Create">Добавить должность</a>
+    <a class="btn btn-primary" asp-action="Create">Добавить должность</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.PositionName)
@@ -19,16 +18,17 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PositionName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PositionID">Редактировать</a> |                
-                <a asp-action="Delete" asp-route-id="@item.PositionID">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PositionID">Редактировать</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PositionID">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

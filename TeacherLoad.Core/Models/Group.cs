@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace TeacherLoad.Core.Models
 {
@@ -11,13 +8,12 @@ namespace TeacherLoad.Core.Models
     {
         [Key]
         [Display(Name = "Номер группы")]
-        public string GroupNumber { get; set; }
-        [Display(Name = "Дневное обучение")]
-        public bool FullTime { get; set; }
-        [Required]
-        [StringLength(30)]
-        [Display(Name = "Семестр")]
-        public string Semester { get; set; }
+        [RegularExpression(@"[0-9]{1,4}$",
+        ErrorMessage = "Номер группы состоит из четырех цифр")]
+        public string GroupNumber { get; set; }        
+        [Display(Name = "Количество студентов")]
+        [Range(1,40)]
+        public int StudentsCount { get; set; }
         [Required]
         [Display(Name = "Специальность")]
         public string SpecialityCode { get; set; }

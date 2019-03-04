@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeacherLoad.Core.Models
 {
@@ -11,12 +10,18 @@ namespace TeacherLoad.Core.Models
         public int TeacherID { get; set; }
         [Required]
         [Display(Name = "Имя")]
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Имя может содержать только буквы")]
         public string FirstName { get; set; }
         [Required]
         [Display(Name = "Фамилия")]
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Фамилия может содержать только буквы")]
         public string LastName { get; set; }
         [Required]
-        [Display(Name = "Отчество")]
+        [Display(Name = "Отчество")]        
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Отчество может содержать только буквы")]
         public string Patronym { get; set; }
         [Required]
         [Display(Name = "Кафедра")]
@@ -32,6 +37,7 @@ namespace TeacherLoad.Core.Models
         public List<GroupLoad> GroupLoads { get; set; }
         public List<PersonalLoad> PersonalLoads { get; set; }
 
+        [NotMapped]
         public string FullName
         {
             get { return $"{LastName}  {FirstName}  {Patronym}"; }

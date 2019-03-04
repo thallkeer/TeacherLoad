@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
+using TeacherLoadApp.Models;
+using System.Linq;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -21,9 +20,51 @@ namespace TeacherLoadApp.Controllers
         // GET: Groups
         public IActionResult Index()
         {
-            var groups = unitOfWork.Groups.Get(includeProperties: "Speciality");            
+            var groups = unitOfWork.Groups.GetAll();           
             return View(groups);
         }
+
+        [HttpGet]
+        public IActionResult GroupDisciplines(string id)
+        {
+            var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
+            ViewBag.Groups = groupselect;
+            if (id == null) return View(new List<GroupDisciplinesViewModel>());
+
+            var items = unitOfWork.GroupLoads.GetDisciplinesByGroup(id);
+            List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
+            foreach (GroupLoad groupLoad in items)
+            {
+                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel()
+                {
+                    ClassType = groupLoad.GroupStudies.GroupClassName,
+                    Discipline = groupLoad.Discipline.DisciplineName,
+                    TeacherName = groupLoad.Teacher.FullName
+                };
+                models.Add(model);
+            }            
+            return PartialView("GroupDisciplinesPartial", models);          
+        }
+
+        public IActionResult GroupDisciplinesPost(string id)
+        {
+            var items = unitOfWork.GroupLoads.GetDisciplinesByGroup(id);
+            List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
+            foreach (GroupLoad groupLoad in items)
+            {
+                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel()
+                {
+                    ClassType = groupLoad.GroupStudies.GroupClassName,
+                    Discipline = groupLoad.Discipline.DisciplineName,
+                    TeacherName = groupLoad.Teacher.FullName
+                };
+                models.Add(model);
+            }
+            var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
+            ViewBag.Groups = groupselect;
+            return View("GroupDisciplines", models);
+        }
+
 
         // GET: Groups/Details/5
         public IActionResult Details(string id)

@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeacherLoad.Core.Models
 {
     public class PersonalLoad
     {
-        [ScaffoldColumn(false)]
-        public int ID { get; set; }
         [Required]
         [Display(Name = "Число студентов")]
-        public int StudentsCount { get; set; }
-        [Required]
-        [Display(Name = "Нагрузка на одного человека")]
-        public int VolumeByPerson { get; set; }
+        [Range(1,40)]
+        public int StudentsCount { get; set; }        
         [Required]
         [Display(Name = "Преподаватель")]
         public int TeacherID { get; set; }
         [Required]
         [Display(Name = "Вид занятия")]
         public int IndividualClassID { get; set; }
+        [NotMapped]
+        [Display(Name ="Объем нагрузки")]
+        [ReadOnly(true)]
+        public int TotalVolume { get; set; }
         [Display(Name = "Преподаватель")]
         public virtual Teacher Teacher { get; set; }
         [Display(Name = "Вид занятия")]

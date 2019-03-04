@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TeacherLoad.Core.Models;
@@ -11,10 +10,10 @@ namespace TeacherLoadApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,13 +28,16 @@ namespace TeacherLoadApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User {  UserName = model.Username };
+                ApplicationUser user = new ApplicationUser {  UserName = model.Username };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     // установка куки
-                    await _signInManager.SignInAsync(user, false);
+                    AuthenticationProperties authProp = new AuthenticationProperties();
+                    authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(1);
+                    authProp.IsPersistent = true;
+                    await _signInManager.SignInAsync(user, authProp);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -84,11 +86,11 @@ namespace TeacherLoadApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> Logoff()
         {
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

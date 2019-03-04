@@ -1,23 +1,22 @@
 ﻿@model TeacherLoadApp.Models.RegisterViewModel
-<h2>Регистрация нового пользователя</h2>
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Username"></label><br />
-        <input asp-for="Username" />
+
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+
+<body class="text-center">
+    <form class="form-signin" method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация нового пользователя</h1>
+        <label asp-for="Username" class="sr-only">Login</label>
+        <input asp-for="Username" class="form-control" placeholder="Логин" required autofocus>
         <span asp-validation-for="Username"></span>
-    </div>    
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
+        <br />
+        <label asp-for="Password" class="sr-only">Password</label>
+        <input asp-for="Password" id="inputPasswordRegister" type="password" class="form-control" placeholder="Пароль" required>
         <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
+        <label asp-for="PasswordConfirm" class="sr-only">Password</label>
+        <input asp-for="PasswordConfirm" id="confirmPassword" type="password" class="form-control" placeholder="Подтвердите пароль" required>
         <span asp-validation-for="PasswordConfirm"></span>
-    </div>
-    <div>
-        <input type="submit" value="Регистрация" />
-    </div>
-</form>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Зарегистрироваться</button>
+    </form>
+
+</body>

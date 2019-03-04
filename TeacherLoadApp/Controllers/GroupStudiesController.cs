@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
@@ -20,7 +16,8 @@ namespace TeacherLoadApp.Controllers
         // GET: GroupStudies
         public ActionResult Index()
         {
-            return View();
+            var items = unitOfWork.GroupStudies.GetAll();
+            return View(items);
         }
 
         // GET: GroupStudies/Details/5

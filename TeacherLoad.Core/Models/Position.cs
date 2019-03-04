@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace TeacherLoad.Core.Models
 {
@@ -10,7 +8,9 @@ namespace TeacherLoad.Core.Models
         [ScaffoldColumn(false)]
         public int PositionID { get; set; }
         [Required]
-        [Display(Name ="Должность")]        
+        [Display(Name ="Должность")]
+        [RegularExpression(@"[А-Яа-я]{1,40}$",
+        ErrorMessage = "Должность может содержать только буквы")]
         public string PositionName { get; set; }
 
         public List<Teacher> Teachers { get; set; }

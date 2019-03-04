@@ -5,12 +5,11 @@
 }
 
 <h2>Специальности</h2>
-
 <p>
-    <a asp-action="Create">Добавить специальность</a>
+    <a class="btn btn-primary" asp-action="Create">Добавить специальность</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Code)
@@ -22,19 +21,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpecialityName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Code">Редактировать</a> |               
-                <a asp-action="Delete" asp-route-id="@item.Code">Удалить</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecialityName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Code">Редактировать</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Code">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

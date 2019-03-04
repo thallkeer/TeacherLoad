@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 
@@ -23,8 +21,25 @@ namespace TeacherLoad.Data.Service
 
         public IEnumerable<GroupLoad> GetDisciplinesByGroup(string groupNumber)
         {            
-            return dbSet.Where(x => x.GroupNumber == groupNumber).Where(x => x.GroupStudies.GroupClassName == "Лекция")
-                 .Include(x => x.Teacher).ToList();
+            return dbSet.Where(x => x.GroupNumber == groupNumber)
+                  .Include(x => x.GroupStudies)
+                  .Include(x => x.Discipline)
+                  .Include(x => x.Teacher).ToList();
         }
+
+        /// <summary>
+        /// Для упрощения работы со сложным составным ключом 
+        /// </summary>
+        /// <param name="load"></param>
+        /// <returns></returns>
+        public override GroupLoad GetByID(object load)
+        {
+            GroupLoad groupLoad = load as GroupLoad;
+            
+            return dbSet.Find(groupLoad.TeacherID, groupLoad.DisciplineID, groupLoad.GroupNumber,
+                groupLoad.GroupStudiesID, groupLoad.Semester, groupLoad.StudyType, groupLoad.StudyYear);
+        }
+
+
     }
 }
