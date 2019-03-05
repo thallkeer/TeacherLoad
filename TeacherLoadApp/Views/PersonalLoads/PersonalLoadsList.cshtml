@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TeacherLoad.Core.Models.PersonalLoad>
+
+@{
+    ViewData["Title"] = "Индивидуальная нагрузка";
+}
+
+<h2>Индивидуальная нагрузка</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Добавить индивидуальную нагрузку</a>
+    <div class="form-inline" style="margin: 20px auto;">
+        <label class="control-label">Вид занятий:</label>
+        @Html.DropDownList("IndividualClassID", ViewBag.ClassTypes as SelectList,"Все", new { @class = "form-control selected-class" })
+    </div>
+</p>
+
+<div id="content">
+    @{ await Html.RenderPartialAsync("LoadByClassTypePartial"); }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $(".selected-class").change(function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("TeacherLoadByClassType")',
+                data: { classID: $(".selected-class").val() },
+                success: function (data) {
+                    $("#content").html(data);
+                }
+            });
+        });
+    });
+    </script>
+}

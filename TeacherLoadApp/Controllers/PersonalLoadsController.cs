@@ -23,21 +23,20 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Index()
         {
             var loads = unitOfWork.PersonalLoads.GetAll();
-            return View(loads);
+            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName");
+            ViewBag.ClassTypes = classTypes;
+            return View("PersonalLoadsList",loads);
         }
 
-        public IActionResult Query()
+        public IActionResult TeacherLoadByClassType(int classID)
         {
-            var teachers = from teacher in unitOfWork.Teachers.GetAll()
-                           join pl in unitOfWork.PersonalLoads.GetAll()
-                           on teacher.TeacherID equals pl.TeacherID
-                           where pl.IndividualClassID == 2
-                           select teacher;
-            var loads = unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == 2 
-                ,q => q.OrderBy(pl => pl.Teacher.LastName)
-                ,"Teacher");
+            var loads = classID != 0 ? unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == classID
+                , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll();
 
-            return View("DiplomaLoad",loads);
+            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
+            
+            ViewBag.ClassTypes = classTypes;
+            return PartialView("LoadByClassTypePartial",loads);
         }
 
         public int CalculateHours(int classID,int count)
@@ -50,7 +49,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Create()
         {
             FillDataLists();
-            return View();
+            return View("CreatePersonalLoad");
         }
 
         // POST: GroupLoads/Create
@@ -73,7 +72,7 @@ namespace TeacherLoadApp.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             FillDataLists(personalLoad);
-            return View(personalLoad);
+            return View("CreatePersonalLoad",personalLoad);
         }
 
         // GET: GroupLoads/Edit/5
@@ -85,7 +84,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
             FillDataLists(load);
-            return View(load);
+            return View("EditPersonalLoad",load);
         }
 
         // POST: GroupLoads/Edit/5
@@ -107,14 +106,14 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return View(load);
+            return View("EditPersonalLoad",load);
         }
 
         // GET: GroupLoads/Delete/5
         public ActionResult Delete(int teacherID,int classID)
         {
             var load = unitOfWork.PersonalLoads.GetByKeys(teacherID,classID);
-            return View(load);
+            return View("DeletePersonalLoad",load);
         }
 
         // POST: GroupLoads/Delete/5

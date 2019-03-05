@@ -1,0 +1,71 @@
+﻿@model  TeacherLoadApp.Models.TeacherLoadViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">           
+            <div class="list-group" style="height: 400px; margin: 15px; overflow-y: scroll;">                
+                @foreach (var item in Model.TeachersList)
+                {
+                    <a class="list-group-item list-group-item-action @(item.TeacherID == ViewBag.Active ?
+                        "active" : "")" asp-controller="GroupLoads"
+                                    asp-action="TeachersGroupLoad" asp-route-teacherID="@item.TeacherID">
+                        @item.TeacherName
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="col-lg-7 col-lg-offset-1" style="margin: 15px;">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].VolumeHours)
+                        </th>                        
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].Discipline)
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].Group)
+                        </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].GroupStudies)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].Semester)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupLoads[0].StudyType)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.GroupLoads)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VolumeHours)
+                            </td>                           
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Discipline.DisciplineName)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.Group.GroupNumber)
+                            </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GroupStudies.GroupClassName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Semester)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StudyType)
+                            </td>                           
+                        </tr>
+                    }
+                </tbody>
+             </table>
+        </div>
+    </div>
+</div>
+

@@ -16,7 +16,7 @@ namespace TeacherLoad.Data.Service
             return dbSet.Include(i => i.Teacher)
                         .Include(i => i.Discipline)
                         .Include(i => i.Group)
-                        .Include(i => i.GroupStudies).ToList();
+                        .Include(i => i.GroupStudies).AsNoTracking().ToList();
         }
 
         public IEnumerable<GroupLoad> GetDisciplinesByGroup(string groupNumber)
@@ -24,7 +24,7 @@ namespace TeacherLoad.Data.Service
             return dbSet.Where(x => x.GroupNumber == groupNumber)
                   .Include(x => x.GroupStudies)
                   .Include(x => x.Discipline)
-                  .Include(x => x.Teacher).ToList();
+                  .Include(x => x.Teacher).AsNoTracking().ToList();
         }
 
         /// <summary>
@@ -35,9 +35,12 @@ namespace TeacherLoad.Data.Service
         public override GroupLoad GetByID(object load)
         {
             GroupLoad groupLoad = load as GroupLoad;
-            
-            return dbSet.Find(groupLoad.TeacherID, groupLoad.DisciplineID, groupLoad.GroupNumber,
-                groupLoad.GroupStudiesID, groupLoad.Semester, groupLoad.StudyType, groupLoad.StudyYear);
+            return Get(gl => gl.TeacherID == groupLoad.TeacherID && gl.GroupStudiesID == groupLoad.GroupStudiesID
+                   && gl.GroupNumber == groupLoad.GroupNumber && gl.Semester == groupLoad.Semester
+                   && gl.StudyType == groupLoad.StudyType && gl.StudyYear == groupLoad.StudyYear
+                   && gl.DisciplineID == groupLoad.DisciplineID,includeProperties: "GroupStudies,Discipline,Teacher,Group").FirstOrDefault();
+            //return dbSet.Find(groupLoad.TeacherID, groupLoad.DisciplineID, groupLoad.GroupNumber,
+            //    groupLoad.GroupStudiesID, groupLoad.Semester, groupLoad.StudyType, groupLoad.StudyYear);
         }
 
 

@@ -1,0 +1,29 @@
+﻿@model TeacherLoad.Core.Models.Group
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Удаление</h2>
+<h3>Вы уверены, что хотите удалить запись?</h3>
+<div>
+    <h4>Группа</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Speciality)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Speciality.SpecialityName)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.StudentsCount)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="GroupNumber" />
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a class="btn btn-primary" asp-action="Index">Отменить</a>
+    </form>
+</div>

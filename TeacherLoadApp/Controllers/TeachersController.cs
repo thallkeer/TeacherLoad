@@ -21,13 +21,13 @@ namespace TeacherLoadApp.Controllers
         public IActionResult Index()
         {
             var teachers = unitOfWork.Teachers.GetAll().OrderBy(t => t.LastName);             
-            return View(teachers);
+            return View("TeachersList",teachers);
         }
 
         public IActionResult CreateTeacher()
         {
             PopulateDropDownLists();
-            return View();
+            return View("CreateTeacher");
         }
 
         [HttpPost]
@@ -51,14 +51,14 @@ namespace TeacherLoadApp.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
-            return View(teacher);
+            return View("CreateTeacher",teacher);
         }
 
         public IActionResult EditTeacher(int id)
         {
             Teacher teacher = unitOfWork.Teachers.GetByID(id);
             PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
-            return View(teacher);
+            return View("EditTeacher",teacher);
         }
 
         [HttpPost]
@@ -80,18 +80,13 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }           
-            return View(teacher);
-        }
-
-        public IActionResult TeacherDetails(int id)
-        {
-            return View(unitOfWork.Teachers.GetByID(id));
+            return View("EditTeacher",teacher);
         }
 
         public IActionResult DeleteTeacher(int id)
         {
             Teacher teacher = unitOfWork.Teachers.GetByID(id);
-            return View(teacher);
+            return View("DeleteTeacher",teacher);
         }
 
         [HttpPost, ActionName("Delete")]

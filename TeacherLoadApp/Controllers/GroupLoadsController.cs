@@ -1,8 +1,12 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
+using TeacherLoadApp.Models;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -17,20 +21,34 @@ namespace TeacherLoadApp.Controllers
         public IActionResult Index()
         {
             var loads = unitOfWork.GroupLoads.GetAll();    
-            return View(loads);
+            return View("GroupLoadsList",loads);
         }
 
-        // GET: GroupLoads/Details/5
-        public ActionResult Details(int id)
+        public ActionResult TeachersGroupLoad(int teacherID)
         {
-            return View();
-        }
+            List<TeachersListViewModel> teachers = new List<TeachersListViewModel>();
+            foreach (Teacher teacher in unitOfWork.Teachers.Get())
+            {
+                teachers.Add(new TeachersListViewModel() { TeacherID = teacher.TeacherID, TeacherName = teacher.FullName });
+            }
+
+            if (teacherID == 0)
+                teacherID = teachers.First().TeacherID;
+
+            IEnumerable<GroupLoad> loads = 
+                //unitOfWork.GroupLoads.GetAll().Where(x => x.TeacherID == teacherID).OrderBy(x => x.GroupNumber);
+            unitOfWork.GroupLoads.GetAll().Where(x => x.TeacherID == teacherID)
+                .GroupBy(l => new { l.DisciplineID, l.GroupStudiesID })
+                .Select(g => g.First());
+            ViewBag.Active = teacherID;
+            return View(new TeacherLoadViewModel() { TeachersList = teachers, GroupLoads = loads.ToList() });
+        }      
 
         // GET: GroupLoads/Create
         public ActionResult Create()
         {
             FillDataLists();
-            return View();
+            return View("CreateGroupLoad");
         }
 
         // POST: GroupLoads/Create
@@ -53,19 +71,19 @@ namespace TeacherLoadApp.Controllers
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             FillDataLists(load);
-            return View(load);
+            return View("CreateGroupLoad",load);
         }
 
         // GET: GroupLoads/Edit/5
-        public ActionResult Edit([Bind("TeacherID,GroupNumber,DisciplineID,GroupStudiesID,StudyYear,StudyType,Semester")] GroupLoad item)
+        public ActionResult Edit(GroupLoad item)
         {
             var load = unitOfWork.GroupLoads.GetByID(item);
             if (load == null)
             {
                 return NotFound();
             }
-            FillDataLists(item);
-            return View(item);
+            FillDataLists(load);
+            return View("EditGroupLoad",load);
         }
 
         // POST: GroupLoads/Edit/5
@@ -87,14 +105,14 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return View(load);
+            return View("EditGroupLoad",load);
         }
 
         // GET: GroupLoads/Delete/5
         public ActionResult Delete(int id)
         {
             var load = unitOfWork.GroupLoads.GetAll();
-            return View();
+            return View("DeleteGroupLoad");
         }
 
         // POST: GroupLoads/Delete/5

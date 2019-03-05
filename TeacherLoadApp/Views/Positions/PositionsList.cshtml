@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TeacherLoad.Core.Models.Position>
+
+@{
+    ViewData["Title"] = "Должности";
+}
+
+<h2>Должности преподавателей</h2>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Добавить должность</a>
+</p>
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PositionName)
+                </td>
+                <td>
+                    <a class="btn-sm btn-success" asp-action="Edit" asp-route-id="@item.PositionID">
+                        <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                        Редактировать
+                    </a>
+                    <a class="btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.PositionID">
+                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
+                        Удалить
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

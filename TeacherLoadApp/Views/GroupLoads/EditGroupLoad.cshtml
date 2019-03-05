@@ -1,0 +1,55 @@
+﻿@model TeacherLoad.Core.Models.GroupLoad
+
+@{
+    ViewData["Title"] = "Групповая нагрузка";
+}
+
+<h2>Редактирование групповой нагрузки</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Semester" class="control-label"></label>
+                <select asp-for="StudyType" class="form-control"
+                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.SemesterType>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudyType" class="control-label"></label>
+                <select asp-for="StudyType" class="form-control"
+                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.StudyTypes>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudyYear" class="control-label"></label>
+                <input type="number" min="1" max="4" asp-for="StudyYear" class="form-control" />
+                <span asp-validation-for="StudyYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherID" class="control-label"></label>
+                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.TeacherID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisciplineID" class="control-label"></label>
+                <select asp-for="DisciplineID" class="form-control" asp-items="ViewBag.DisciplineID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupNumber" class="control-label"></label>
+                <select asp-for="GroupNumber" class="form-control" asp-items="ViewBag.GroupNumber"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupStudiesID" class="control-label"></label>
+                <select asp-for="GroupStudiesID" class="form-control" asp-items="ViewBag.GroupStudiesID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="VolumeHours" class="control-label"></label>
+                <input type="number" min="1" max="32" asp-for="VolumeHours" class="form-control" />
+                <span asp-validation-for="VolumeHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
+            </div>
+        </form>
+    </div>
+</div>
+

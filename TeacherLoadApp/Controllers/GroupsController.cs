@@ -21,32 +21,26 @@ namespace TeacherLoadApp.Controllers
         public IActionResult Index()
         {
             var groups = unitOfWork.Groups.GetAll();           
-            return View(groups);
+            return View("GroupsList",groups);
         }
 
-        [HttpGet]
         public IActionResult GroupDisciplines(string id)
         {
             var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
             ViewBag.Groups = groupselect;
-            if (id == null) return View(new List<GroupDisciplinesViewModel>());
-
-            var items = unitOfWork.GroupLoads.GetDisciplinesByGroup(id);
-            List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
-            foreach (GroupLoad groupLoad in items)
-            {
-                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel()
-                {
-                    ClassType = groupLoad.GroupStudies.GroupClassName,
-                    Discipline = groupLoad.Discipline.DisciplineName,
-                    TeacherName = groupLoad.Teacher.FullName
-                };
-                models.Add(model);
-            }            
-            return PartialView("GroupDisciplinesPartial", models);          
+            if (id == null)
+                return View(new List<GroupDisciplinesViewModel>());                    
+            return PartialView("GroupDisciplinesPartial", GetModels(id));          
         }
 
         public IActionResult GroupDisciplinesPost(string id)
+        {                     
+            var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
+            ViewBag.Groups = groupselect;
+            return View("GroupDisciplines", GetModels(id));
+        }
+
+        private List<GroupDisciplinesViewModel> GetModels(string id)
         {
             var items = unitOfWork.GroupLoads.GetDisciplinesByGroup(id);
             List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
@@ -60,34 +54,14 @@ namespace TeacherLoadApp.Controllers
                 };
                 models.Add(model);
             }
-            var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
-            ViewBag.Groups = groupselect;
-            return View("GroupDisciplines", models);
-        }
-
-
-        // GET: Groups/Details/5
-        public IActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @group = unitOfWork.Groups.GetByID(id);
-            if (@group == null)
-            {
-                return NotFound();
-            }
-
-            return View(@group);
+            return models;
         }
 
         // GET: Groups/Create
         public IActionResult Create()
         {
             ViewData["SpecialityCode"] = new SelectList(unitOfWork.Specialities.Get(), "Code", "SpecialityName");
-            return View();
+            return View("CreateGroup");
         }
 
         // POST: Groups/Create
@@ -104,7 +78,7 @@ namespace TeacherLoadApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["SpecialityCode"] = new SelectList(unitOfWork.Specialities.Get(), "Code", "SpecialityName", @group.SpecialityCode);
-            return View(@group);
+            return View("CreateGroup",@group);
         }
 
         // GET: Groups/Edit/5
@@ -121,7 +95,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
             ViewData["SpecialityCode"] = new SelectList(unitOfWork.Specialities.Get(), "Code", "SpecialityName", @group.SpecialityCode);
-            return View(@group);
+            return View("EditGroup",@group);
         }
 
         // POST: Groups/Edit/5
@@ -157,7 +131,7 @@ namespace TeacherLoadApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["SpecialityCode"] = new SelectList(unitOfWork.Specialities.Get(), "Code", "SpecialityName", @group.SpecialityCode);
-            return View(@group);
+            return View("EditGroup",@group);
         }
 
         // GET: Groups/Delete/5
@@ -174,7 +148,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
 
-            return View(@group);
+            return View("DeleteGroup",@group);
         }
 
         // POST: Groups/Delete/5

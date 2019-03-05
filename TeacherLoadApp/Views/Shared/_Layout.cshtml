@@ -57,12 +57,10 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Все дисциплины для указанной группы", "GroupDisciplines", "Groups")</li>
-                                    <li>@Html.ActionLink("Преподаватели с выбранным видом занятий", "Query", "Teachers")</li>
+                                    <li>@Html.ActionLink("Преподаватели с выбранным видом занятий", "Index", "PersonalLoads")</li>
+                                    <li>@Html.ActionLink("Групповая нагрузка преподавателя", "TeachersGroupLoad", "GroupLoads")</li>
                                 </ul>
-                            </li>
-                                    <li class="nav-item">
-                                        @Html.ActionLink("Запросы", "Index", "Home")
-                                    </li>
+                            </li>                                    
                                     <li class="nav-item">
                                         @Html.ActionLink("Отчеты", "Index", "Home")
                                     </li>

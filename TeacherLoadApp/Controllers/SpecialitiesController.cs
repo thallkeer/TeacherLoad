@@ -18,19 +18,13 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Index()
         {
             var specialities = unitOfWork.Specialities.Get(orderBy: q => q.OrderBy(s => s.Code));
-            return View(specialities);
-        }
-
-        // GET: Specialities/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View("SpecialitiesList", specialities);
         }
 
         // GET: Specialities/Create
         public ActionResult Create()
         {
-            return View();
+            return View("CreateSpeciality");
         }
 
         // POST: Specialities/Create
@@ -44,7 +38,7 @@ namespace TeacherLoadApp.Controllers
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }           
-            return View(speciality);
+            return View("CreateSpeciality", speciality);
         }
 
         // GET: Specialities/Edit/5
@@ -60,7 +54,7 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-            return View(speciality);
+            return View("EditSpeciality",speciality);
         }
 
         // POST: Specialities/Edit/5
@@ -93,7 +87,7 @@ namespace TeacherLoadApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }            
-            return View(speciality);
+            return View("EditSpeciality",speciality);
         }
 
         // GET: Specialities/Delete/5
@@ -110,7 +104,7 @@ namespace TeacherLoadApp.Controllers
                 return NotFound();
             }
 
-            return View(speciality);
+            return View("DeleteSpeciality",speciality);
         }
 
         // POST: Specialities/Delete/5
