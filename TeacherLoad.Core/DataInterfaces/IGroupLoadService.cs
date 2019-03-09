@@ -3,7 +3,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface IGroupLoadService : IGenericCatalogService<GroupLoad>
+    public interface IGroupLoadService : IGenericService<GroupLoad>
     {
         /// <summary>
         /// Получить список дисциплин, читаемых преподавателями

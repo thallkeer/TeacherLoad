@@ -11,12 +11,12 @@ namespace TeacherLoad.Data.Service
         private IGroupService groupService;
         private IGroupLoadService groupLoadService;
         private IPersonalLoadService personalLoadService;
-        private IGenericCatalogService<Position> positionsService;
-        private IGenericCatalogService<Department> departmentsService;
-        private IGenericCatalogService<Speciality> specialitiesService;
-        private IGenericCatalogService<Discipline> disciplinesService;
-        private IGenericCatalogService<GroupStudies> groupStudiesService;
-        private IGenericCatalogService<IndividualStudies> individualStudiesService;
+        private IGenericService<Position> positionsService;
+        private IGenericService<Department> departmentsService;
+        private IGenericService<Speciality> specialitiesService;
+        private IGenericService<Discipline> disciplinesService;
+        private IGenericService<GroupStudies> groupStudiesService;
+        private IGenericService<IndividualStudies> individualStudiesService;
 
         public UnitOfWork(TeacherLoadContext context)
         {
@@ -43,34 +43,34 @@ namespace TeacherLoad.Data.Service
             get => personalLoadService = personalLoadService ?? new PersonalLoadService(context);
         }
 
-        public IGenericCatalogService<Position> Positions
+        public IGenericService<Position> Positions
         {
-            get => positionsService = positionsService ?? new GenericCatalogService<Position>(context);
+            get => positionsService = positionsService ?? new GenericService<Position>(context);
         }
 
-        public IGenericCatalogService<Department> Departments
+        public IGenericService<Department> Departments
         {
-            get => departmentsService = departmentsService ?? new GenericCatalogService<Department>(context);
+            get => departmentsService = departmentsService ?? new GenericService<Department>(context);
         }
 
-        public IGenericCatalogService<Speciality> Specialities
+        public IGenericService<Speciality> Specialities
         {
-            get => specialitiesService = specialitiesService ?? new GenericCatalogService<Speciality>(context);
+            get => specialitiesService = specialitiesService ?? new GenericService<Speciality>(context);
         }
 
-        public IGenericCatalogService<Discipline> Disciplines
+        public IGenericService<Discipline> Disciplines
         {
-            get => disciplinesService = disciplinesService ?? new GenericCatalogService<Discipline>(context);
+            get => disciplinesService = disciplinesService ?? new GenericService<Discipline>(context);
         }
 
-        public IGenericCatalogService<GroupStudies> GroupStudies
+        public IGenericService<GroupStudies> GroupStudies
         {
-            get => groupStudiesService = groupStudiesService ?? new GenericCatalogService<GroupStudies>(context);
+            get => groupStudiesService = groupStudiesService ?? new GenericService<GroupStudies>(context);
         }
 
-        public IGenericCatalogService<IndividualStudies> IndividualStudies
+        public IGenericService<IndividualStudies> IndividualStudies
         {
-            get => individualStudiesService = individualStudiesService ?? new GenericCatalogService<IndividualStudies>(context);
+            get => individualStudiesService = individualStudiesService ?? new GenericService<IndividualStudies>(context);
         }
 
         public void Save()

@@ -8,12 +8,12 @@ namespace TeacherLoad.Core.DataInterfaces
         IGroupService Groups { get; }
         IGroupLoadService GroupLoads { get; }
         IPersonalLoadService PersonalLoads { get; }
-        IGenericCatalogService<Position> Positions { get; }
-        IGenericCatalogService<Department> Departments { get; }
-        IGenericCatalogService<Speciality> Specialities { get; }
-        IGenericCatalogService<Discipline> Disciplines { get; }
-        IGenericCatalogService<GroupStudies> GroupStudies { get; }
-        IGenericCatalogService<IndividualStudies> IndividualStudies { get; }
+        IGenericService<Position> Positions { get; }
+        IGenericService<Department> Departments { get; }
+        IGenericService<Speciality> Specialities { get; }
+        IGenericService<Discipline> Disciplines { get; }
+        IGenericService<GroupStudies> GroupStudies { get; }
+        IGenericService<IndividualStudies> IndividualStudies { get; }
         void Save();
     }
 }

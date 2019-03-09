@@ -10,7 +10,7 @@ namespace TeacherLoadApp.Models
     public class TeacherPersonalLoadViewModel
     {
        public SelectList PersonalStudies { get; set; }
-       public List<GroupingPersonalLoadViewModel> GroupedLoads { get; set; }
+       public List<GroupingViewModel<PersonalLoad>> GroupedLoads { get; set; }
        public List<PersonalLoad> PersonalLoads { get; set; }
     }
 }

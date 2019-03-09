@@ -1,0 +1,35 @@
+﻿@model List<TeacherLoadApp.Models.GroupingViewModel<TeacherLoad.Core.Models.PersonalLoad>>
+
+
+@foreach (var group in Model)
+{
+    <tr>
+        <th colspan="5" style="background-color: #ADD8E6;
+    border-color: #dee2e6;">@group.Key</th>
+</tr>
+    foreach (var load in group.Values)
+    {
+    <tr>       
+        <td>
+            @Html.DisplayFor(modelItem => load.IndividualStudies.IndividualClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.StudentsCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.TotalVolume)
+        </td>
+        <td>
+            <a class="btn-sm btn-success" asp-rou href="@Url.Action("Edit", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
+                <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                Редактировать
+            </a>
+            <a class="btn-sm btn-danger" style="margin-left: 10px;" href="@Url.Action("Delete", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
+                <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
+                Удалить
+            </a>
+        </td>
+    </tr>
+    }
+}
+

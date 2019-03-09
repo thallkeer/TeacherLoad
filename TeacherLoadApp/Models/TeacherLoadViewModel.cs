@@ -15,6 +15,6 @@ namespace TeacherLoadApp.Models
         public SelectList Semesters { get; set; }
         public SelectList StudyTypes { get; set; }
         public SelectList StudyYears { get; set; }
-        public List<GroupingViewModel> GroupedLoads { get; set; }       
+        public List<GroupingViewModel<GroupLoad>> GroupedLoads { get; set; }       
     }
 }

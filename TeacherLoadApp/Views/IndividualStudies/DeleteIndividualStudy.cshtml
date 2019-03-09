@@ -1,0 +1,33 @@
+﻿@model TeacherLoad.Core.Models.IndividualStudies
+
+@{
+    ViewData["Title"] = "DeleteIndividualStudy";
+}
+
+<h2>DeleteIndividualStudy</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>IndividualStudies</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IndividualClassName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndividualClassName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VolumeByPerson)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VolumeByPerson)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IndividualClassID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

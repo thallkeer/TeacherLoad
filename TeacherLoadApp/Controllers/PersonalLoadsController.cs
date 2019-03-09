@@ -24,8 +24,8 @@ namespace TeacherLoadApp.Controllers
         {
             var loads = unitOfWork.PersonalLoads.GetAll();
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName");
-            List<GroupingPersonalLoadViewModel> grouped = loads.GroupBy(x => x.Teacher.FullName)
-                .Select(g => new GroupingPersonalLoadViewModel { Key = g.Key, Values = g.ToList() }).ToList();
+            List<GroupingViewModel<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingViewModel<PersonalLoad> { Key = g.Key, Values = g.ToList() }).ToList();
 
             var model = new TeacherPersonalLoadViewModel()
             {
@@ -41,8 +41,8 @@ namespace TeacherLoadApp.Controllers
             var loads = classID != 0 ? unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == classID
                 , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll();
 
-            List<GroupingPersonalLoadViewModel> grouped = loads.GroupBy(x => x.Teacher.FullName)
-                .Select(g => new GroupingPersonalLoadViewModel{ Key=g.Key, Values = g.ToList() }).ToList();
+            List<GroupingViewModel<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingViewModel<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
             
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
 

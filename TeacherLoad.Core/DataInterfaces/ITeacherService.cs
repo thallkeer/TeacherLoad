@@ -2,7 +2,7 @@
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface ITeacherService : IGenericCatalogService<Teacher>
+    public interface ITeacherService : IGenericService<Teacher>
     {
         
     }

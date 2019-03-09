@@ -4,7 +4,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Data.Service
 {
-    public class PersonalLoadService : GenericCatalogService<PersonalLoad>,IPersonalLoadService
+    public class PersonalLoadService : GenericService<PersonalLoad>,IPersonalLoadService
     {
         public PersonalLoadService(TeacherLoadContext context): base(context)
         {}

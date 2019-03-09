@@ -5,7 +5,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Data.Service
 {
-    public class TeacherService : GenericCatalogService<Teacher>,ITeacherService
+    public class TeacherService : GenericService<Teacher>,ITeacherService
     {
         public TeacherService(TeacherLoadContext context) : base(context)
         {}

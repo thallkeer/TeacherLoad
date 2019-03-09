@@ -24,7 +24,7 @@ namespace TeacherLoadApp.Controllers
             return View("TeachersList",teachers);
         }
 
-        public IActionResult CreateTeacher()
+        public IActionResult Create()
         {
             PopulateDropDownLists();
             return View("CreateTeacher");
@@ -32,7 +32,7 @@ namespace TeacherLoadApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateTeacher(
+        public ActionResult Create(
           [Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
          Teacher teacher)
         {
@@ -54,7 +54,7 @@ namespace TeacherLoadApp.Controllers
             return View("CreateTeacher",teacher);
         }
 
-        public IActionResult EditTeacher(int id)
+        public IActionResult Edit(int id)
         {
             Teacher teacher = unitOfWork.Teachers.GetByID(id);
             PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
@@ -63,7 +63,7 @@ namespace TeacherLoadApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditTeacher([Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
+        public IActionResult Edit([Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
          Teacher teacher)
         {
             try
@@ -83,7 +83,7 @@ namespace TeacherLoadApp.Controllers
             return View("EditTeacher",teacher);
         }
 
-        public IActionResult DeleteTeacher(int id)
+        public IActionResult Delete(int id)
         {
             Teacher teacher = unitOfWork.Teachers.GetByID(id);
             return View("DeleteTeacher",teacher);

@@ -50,10 +50,10 @@ namespace TeacherLoadApp.Controllers
 
             var loadsByTeacher = unitOfWork.GroupLoads.GetByTeacher(teacherID);
 
-            List<GroupingViewModel> groupedLoads = loadsByTeacher
+            List<GroupingViewModel<GroupLoad>> groupedLoads = loadsByTeacher
                 .GroupBy(x => new { x.DisciplineID, x.GroupStudiesID })
                 .Select(g => g.First()).GroupBy(x => x.Discipline.DisciplineName)
-                .Select(g => new GroupingViewModel { Key = g.Key, Values = g.ToList() }).ToList();
+                .Select(g => new GroupingViewModel<GroupLoad> { Key = g.Key, Values = g.ToList() }).ToList();
                                              
             var groupStudiesList = new SelectList(unitOfWork.GroupStudies.Get(), "GroupClassID", "GroupClassName");
 
@@ -109,8 +109,8 @@ namespace TeacherLoadApp.Controllers
                 .GroupBy(l => new { l.DisciplineID, l.GroupStudiesID })
                 .Select(g => g.First());            
             
-            List<GroupingViewModel> groupedLoads = loads.GroupBy(x => x.Discipline.DisciplineName)
-               .Select(g => new GroupingViewModel { Key = g.Key, Values = g.ToList() }).ToList();
+            List<GroupingViewModel<GroupLoad>> groupedLoads = loads.GroupBy(x => x.Discipline.DisciplineName)
+               .Select(g => new GroupingViewModel<GroupLoad> { Key = g.Key, Values = g.ToList() }).ToList();
 
             return PartialView("TeacherLoadsPartial",groupedLoads);
         }

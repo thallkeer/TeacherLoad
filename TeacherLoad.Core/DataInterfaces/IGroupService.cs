@@ -2,7 +2,7 @@
 
 namespace TeacherLoad.Core.DataInterfaces
 {
-    public interface IGroupService : IGenericCatalogService<Group>
+    public interface IGroupService : IGenericService<Group>
     {
         
     }

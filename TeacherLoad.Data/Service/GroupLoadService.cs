@@ -6,7 +6,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Data.Service
 {
-    public class GroupLoadService : GenericCatalogService<GroupLoad>, IGroupLoadService
+    public class GroupLoadService : GenericService<GroupLoad>, IGroupLoadService
     {
         public GroupLoadService(TeacherLoadContext context) : base(context)
         {}
