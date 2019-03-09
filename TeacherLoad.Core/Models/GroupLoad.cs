@@ -7,19 +7,19 @@ namespace TeacherLoad.Core.Models
         public enum SemesterType
         {
             [Display(Name = "Осенний")]
-            FallSemester,
+            FallSemester=1,
             [Display(Name = "Весенний")]
-            SpringSemester
-        }
+            SpringSemester=2
+        }     
 
         public enum StudyTypes
         {
             [Display(Name = "Очное")]
-            FullTime,
+            FullTime=1,
             [Display(Name = "Заочное")]
-            CorrespondenceCourse,
+            CorrespondenceCourse=2,
             [Display(Name = "Вечернее")]
-            Evening
+            Evening=3
         }
                 
         [Required]

@@ -1,50 +1,38 @@
-﻿@model IEnumerable<TeacherLoad.Core.Models.PersonalLoad>
+﻿@model List<TeacherLoadApp.Models.GroupingPersonalLoadViewModel>
 
-    <table class="table table-striped">
-        <thead class="thead-light">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Teacher)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IndividualStudies)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StudentsCount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TotalVolume)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Teacher.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IndividualStudies.IndividualClassName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StudentsCount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalVolume)
-                    </td>
-                    <td>
-                        <a class="btn-sm btn-success" href="@Url.Action("Edit", "PersonalLoads",new { teacherID = item.TeacherID, classID = item.IndividualClassID })">
-                            <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
-                            Редактировать
-                        </a>
-                        <a class="btn-sm btn-danger" style="margin-left: 10px;" href="@Url.Action("Delete", "PersonalLoads",new { teacherID = item.TeacherID, classID = item.IndividualClassID })">
-                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
-                            Удалить
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+@foreach (var group in Model)
+{
+    <tr>
+        <th colspan="5" style="background-color: #ADD8E6;
+    border-color: #dee2e6;">@group.Key</th>
+</tr>
+    foreach (var load in group.Values)
+    {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => load.Teacher.FullName)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => load.IndividualStudies.IndividualClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.StudentsCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.TotalVolume)
+        </td>
+        <td>
+            <a class="btn-sm btn-success" asp-rou href="@Url.Action("Edit", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
+                <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                Редактировать
+            </a>
+            <a class="btn-sm btn-danger" style="margin-left: 10px;" href="@Url.Action("Delete", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
+                <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
+                Удалить
+            </a>
+        </td>
+    </tr>
+    }
+}
+

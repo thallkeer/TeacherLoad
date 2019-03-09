@@ -19,5 +19,14 @@ namespace TeacherLoad.Core.Models
         public string SpecialityCode { get; set; }
         [Display(Name = "Специальность")]
         public virtual Speciality Speciality { get; set; }
+        [NotMapped]
+        [Display(Name = "Курс")]
+        public int StudyYear
+        {
+            get
+            {
+                return int.Parse(GroupNumber[1].ToString()); //second digit in group number is the study year 
+            }
+        }
     }
 }

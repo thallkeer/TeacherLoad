@@ -1,71 +1,96 @@
-﻿@model  TeacherLoadApp.Models.TeacherLoadViewModel
+﻿@model TeacherLoadApp.Models.TeacherLoadViewModel
 
-<div class="container">
+<div>
     <div class="row">
-        <div class="col-lg-4">           
-            <div class="list-group" style="height: 400px; margin: 15px; overflow-y: scroll;">                
+        <div style="width:20%; left: 10px; display:inline-block; position:absolute;">
+            <div class="list-group" style="height: 400px; margin: 15px; overflow-y: scroll;">
                 @foreach (var item in Model.TeachersList)
                 {
-                    <a class="list-group-item list-group-item-action @(item.TeacherID == ViewBag.Active ?
-                        "active" : "")" asp-controller="GroupLoads"
-                                    asp-action="TeachersGroupLoad" asp-route-teacherID="@item.TeacherID">
+                    @*<a class="list-group-item list-group-item-action @(item.TeacherID == Model.SelectedTeacher ?
+                    "active" : "")" asp-controller="GroupLoads"
+                       asp-action="TeachersGroupLoad" asp-route-teacherID="@item.TeacherID">
                         @item.TeacherName
-                    </a>
+                    </a>*@
+                    <button type="button" onclick="selectTeacher(this,@item.TeacherID);" 
+                     class="list-group-item list-group-item-action 
+                            @(item.TeacherID == Model.SelectedTeacher ? "active" : "")">
+                        @item.TeacherName
+                    </button>                
                 }
-            </div>
+            </div>                   
         </div>
-        <div class="col-lg-7 col-lg-offset-1" style="margin: 15px;">
-            <table class="table table-striped">
+        
+        <div style="width: 75%; margin: 15px; display: inline-block; position: absolute; right: 10px;">
+            <table class="table table-hover">
                 <thead class="thead-light">
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].VolumeHours)
-                        </th>                        
-                        <th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].Discipline)
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].Group)
-                        </th>*@
-                        <th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].GroupStudies)
+                        <th>                           
+                            @Html.DisplayNameFor(model => model.GroupedLoads[0].Values[0].GroupStudies)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].Semester)
+                            @Html.DisplayNameFor(model => model.GroupedLoads[0].Values[0].Semester)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.GroupLoads[0].StudyType)
+                            @Html.DisplayNameFor(model => model.GroupedLoads[0].Values[0].StudyType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupedLoads[0].Values[0].StudyYear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.GroupedLoads[0].Values[0].VolumeHours)
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr style="background-color: white;">
+                        <th>
+                            @Html.DropDownList("GroupStudies", Model.GroupStudies, "Вид занятий", new { @class = "form-control selected-groupClass", @onchange = "doFilter()" })
+                        </th>
+                        <th>
+                            @Html.DropDownList("Semesters", Model.Semesters, "Семестр", new { @class = "form-control selected-semester", @onchange = "doFilter()" })
+                        </th>
+                        <th>
+                            @Html.DropDownList("StudyTypes", Model.StudyTypes, "Вид обучения", new { @class = "form-control selected-studyType", @onchange = "doFilter()" })
+                        </th>
+                        <th>
+                            @Html.DropDownList("StudyYears", Model.StudyYears, "Курс", new { @class = "form-control selected-year", @onchange = "doFilter()" })
                         </th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model.GroupLoads)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.VolumeHours)
-                            </td>                           
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Discipline.DisciplineName)
-                            </td>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.Group.GroupNumber)
-                            </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.GroupStudies.GroupClassName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Semester)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StudyType)
-                            </td>                           
-                        </tr>
-                    }
+                <tbody id="table-body">
+                    @{ await Html.RenderPartialAsync("TeacherLoadsPartial", Model.GroupedLoads);}                   
                 </tbody>
-             </table>
+            </table>
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function selectTeacher(btn, id) {
+            $(".list-group-item-action.active").removeClass("active");
+            $(btn).addClass("active");
+            doFilter(id);    
+        };
+
+        function doFilter(teacher) {            
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetGroupLoads")',
+                    data: {
+                        teacherID: teacher == null ? @Model.SelectedTeacher : teacher,
+                        groupClassID: $(".selected-groupClass").val(),                       
+                        semester: $(".selected-semester").val(),
+                        studyType: $(".selected-studyType").val(),
+                        studyYear: $(".selected-year").val()
+                    },
+                    success: function (data) {
+                        $('#table-body').html(data);
+                    }
+                });
+        };
+       
+    </script>
+}
 

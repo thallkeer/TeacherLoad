@@ -6,6 +6,7 @@ using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 using TeacherLoadApp.Models;
 using System.Linq;
+using System;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -18,9 +19,11 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: Groups
-        public IActionResult Index()
+        public IActionResult Index(int year=1)
         {
-            var groups = unitOfWork.Groups.GetAll();           
+            var groups = unitOfWork.Groups.Get(g => g.StudyYear == year,includeProperties: "Speciality")
+                                   .OrderBy(g => g.GroupNumber);
+            ViewBag.Years = new SelectList(unitOfWork.Groups.Get().Select(g => g.StudyYear).Distinct(),year);
             return View("GroupsList",groups);
         }
 
@@ -29,8 +32,8 @@ namespace TeacherLoadApp.Controllers
             var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
             ViewBag.Groups = groupselect;
             if (id == null)
-                return View(new List<GroupDisciplinesViewModel>());                    
-            return PartialView("GroupDisciplinesPartial", GetModels(id));          
+                return View(new List<GroupDisciplinesViewModel>());
+            return PartialView("GroupDisciplinesPartial", GetModels(id));
         }
 
         public IActionResult GroupDisciplinesPost(string id)

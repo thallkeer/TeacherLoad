@@ -6,32 +6,32 @@ namespace TeacherLoad.Core.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Patronym",
-                table: "Teachers",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldMaxLength: 50);
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "Patronym",
+            //    table: "Teachers",
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldMaxLength: 50);
 
-            migrationBuilder.AlterColumn<string>(
-                name: "LastName",
-                table: "Teachers",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldMaxLength: 50);
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "LastName",
+            //    table: "Teachers",
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldMaxLength: 50);
 
-            migrationBuilder.AlterColumn<string>(
-                name: "FirstName",
-                table: "Teachers",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldMaxLength: 50);
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "FirstName",
+            //    table: "Teachers",
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldMaxLength: 50);
 
-            migrationBuilder.AlterColumn<decimal>(
-                name: "VolumeByPerson",
-                table: "PersonalStudies",
-                nullable: false,
-                oldClrType: typeof(int));
+            //migrationBuilder.AlterColumn<decimal>(
+            //    name: "VolumeByPerson",
+            //    table: "PersonalStudies",
+            //    nullable: false,
+            //    oldClrType: typeof(int));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeacherLoad.Core.Models.PersonalLoad>
+﻿@model TeacherLoadApp.Models.TeacherPersonalLoadViewModel
 
 @{
     ViewData["Title"] = "Индивидуальная нагрузка";
@@ -10,16 +10,35 @@
     <a class="btn btn-primary" asp-action="Create">Добавить индивидуальную нагрузку</a>
     <div class="form-inline" style="margin: 20px auto;">
         <label class="control-label">Вид занятий:</label>
-        @Html.DropDownList("IndividualClassID", ViewBag.ClassTypes as SelectList,"Все", new { @class = "form-control selected-class" })
+        @Html.DropDownList("IndividualClassID", Model.PersonalStudies,"Все", new { @class = "form-control selected-class" })
     </div>
 </p>
 
-<div id="content">
-    @{ await Html.RenderPartialAsync("LoadByClassTypePartial"); }
-</div>
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.PersonalLoads[0].Teacher.FullName)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoads[0].IndividualStudies)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoads[0].StudentsCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalLoads[0].TotalVolume)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+        @{ await Html.RenderPartialAsync("LoadByClassTypePartial", Model.GroupedLoads);}
+    </tbody>
+</table>
 
-@section scripts{
-    <script type="text/javascript">
+    @section scripts{
+        <script type="text/javascript">
     $(document).ready(function () {
         $(".selected-class").change(function () {
             $.ajax({
@@ -27,10 +46,10 @@
                 url: '@Url.Action("TeacherLoadByClassType")',
                 data: { classID: $(".selected-class").val() },
                 success: function (data) {
-                    $("#content").html(data);
+                    $("#table-body").html(data);
                 }
             });
         });
     });
-    </script>
-}
+        </script>
+    }

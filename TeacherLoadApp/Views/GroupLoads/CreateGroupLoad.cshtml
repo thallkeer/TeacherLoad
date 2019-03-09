@@ -14,10 +14,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Semester" class="control-label"></label>
-                <select asp-for="StudyType" class="form-control"
+                <select asp-for="Semester" class="form-control"
                         asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.SemesterType>()"></select>
-                @*<select asp-for="Semester" class="form-control"></select>
-            <span asp-validation-for="Semester" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="StudyType" class="control-label"></label>

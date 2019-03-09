@@ -22,6 +22,7 @@ namespace TeacherLoad.Data.Service
         public IEnumerable<GroupLoad> GetDisciplinesByGroup(string groupNumber)
         {            
             return dbSet.Where(x => x.GroupNumber == groupNumber)
+                  .Include(x => x.Group)
                   .Include(x => x.GroupStudies)
                   .Include(x => x.Discipline)
                   .Include(x => x.Teacher).AsNoTracking().ToList();
@@ -39,10 +40,11 @@ namespace TeacherLoad.Data.Service
                    && gl.GroupNumber == groupLoad.GroupNumber && gl.Semester == groupLoad.Semester
                    && gl.StudyType == groupLoad.StudyType && gl.StudyYear == groupLoad.StudyYear
                    && gl.DisciplineID == groupLoad.DisciplineID,includeProperties: "GroupStudies,Discipline,Teacher,Group").FirstOrDefault();
-            //return dbSet.Find(groupLoad.TeacherID, groupLoad.DisciplineID, groupLoad.GroupNumber,
-            //    groupLoad.GroupStudiesID, groupLoad.Semester, groupLoad.StudyType, groupLoad.StudyYear);
         }
 
-
+        public IEnumerable<GroupLoad> GetByTeacher(int teacherID)
+        {
+            return Get(x => x.TeacherID == teacherID,includeProperties: "Teacher,Discipline,GroupStudies");
+        }
     }
 }

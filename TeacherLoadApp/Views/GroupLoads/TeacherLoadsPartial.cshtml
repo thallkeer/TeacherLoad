@@ -1,0 +1,42 @@
+﻿@model List<TeacherLoadApp.Models.GroupingViewModel>
+
+
+@foreach (var group in Model)
+{
+    <tr>
+        <th colspan="6" style="background-color: #ADD8E6;
+    border-color: #dee2e6;">@group.Key</th>
+</tr>
+foreach (var load in group.Values)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => load.GroupStudies.GroupClassName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.Semester)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.StudyType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => load.StudyYear)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => load.VolumeHours)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "GroupLoads",load)">
+                <span><i class="glyphicon glyphicon-pencil"></i></span>
+            </a>
+            <a style="margin-left: 5px;" href="@Url.Action("Delete", "GroupLoads",load)">
+                <span><i class="glyphicon glyphicon-trash"></i></span>
+            </a>
+        </td>
+    </tr>
+}
+}
+<tr>    
+        <th colspan="6" style="background-color: white;
+    border-color: #dee2e6;"><a class="btn btn-primary" asp-action="Create">Добавить нагрузку</a></th>           
+</tr>

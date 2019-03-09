@@ -243,7 +243,9 @@ namespace TeacherLoad.Core.Migrations
 
                     b.Property<int>("StudyYear");
 
-                    b.Property<int>("VolumeHours");
+                    b.Property<int>("VolumeHours")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.HasKey("TeacherID", "GroupStudiesID", "GroupNumber", "DisciplineID", "Semester", "StudyType", "StudyYear");
 
@@ -281,7 +283,9 @@ namespace TeacherLoad.Core.Migrations
                     b.Property<string>("IndividualClassName")
                         .IsRequired();
 
-                    b.Property<decimal>("VolumeByPerson");
+                    b.Property<int>("VolumeByPerson")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.HasKey("IndividualClassID");
 
@@ -296,7 +300,9 @@ namespace TeacherLoad.Core.Migrations
 
                     b.Property<int>("IndividualClassID");
 
-                    b.Property<int>("StudentsCount");
+                    b.Property<int>("StudentsCount")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.HasKey("TeacherID", "IndividualClassID");
 
@@ -326,6 +332,8 @@ namespace TeacherLoad.Core.Migrations
                 {
                     b.Property<string>("Code")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EducationLevel");
 
                     b.Property<string>("SpecialityName")
                         .IsRequired();

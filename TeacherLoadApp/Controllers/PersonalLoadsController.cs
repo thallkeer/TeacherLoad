@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
-
+using TeacherLoadApp.Models;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -24,8 +24,16 @@ namespace TeacherLoadApp.Controllers
         {
             var loads = unitOfWork.PersonalLoads.GetAll();
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName");
-            ViewBag.ClassTypes = classTypes;
-            return View("PersonalLoadsList",loads);
+            List<GroupingPersonalLoadViewModel> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingPersonalLoadViewModel { Key = g.Key, Values = g.ToList() }).ToList();
+
+            var model = new TeacherPersonalLoadViewModel()
+            {
+                PersonalStudies = classTypes,
+                PersonalLoads = loads.ToList(),
+                GroupedLoads = grouped
+            };
+            return View("PersonalLoadsList",model);
         }
 
         public IActionResult TeacherLoadByClassType(int classID)
@@ -33,10 +41,18 @@ namespace TeacherLoadApp.Controllers
             var loads = classID != 0 ? unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == classID
                 , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll();
 
-            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
+            List<GroupingPersonalLoadViewModel> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingPersonalLoadViewModel{ Key=g.Key, Values = g.ToList() }).ToList();
             
-            ViewBag.ClassTypes = classTypes;
-            return PartialView("LoadByClassTypePartial",loads);
+            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
+
+            var model = new TeacherPersonalLoadViewModel()
+            {
+                PersonalStudies = classTypes,
+                GroupedLoads = grouped
+            };
+            
+            return PartialView("LoadByClassTypePartial",grouped);
         }
 
         public int CalculateHours(int classID,int count)
