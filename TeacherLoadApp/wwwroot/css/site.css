@@ -27,6 +27,11 @@ body {
     color: #e8e8e8;
 }
 
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: #336aa0;
+}
+
 table > .thead-light {
     background-color: #e9ecef;
     border-color: #dee2e6;

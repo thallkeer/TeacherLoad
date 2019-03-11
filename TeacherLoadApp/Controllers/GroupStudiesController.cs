@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 
@@ -8,7 +9,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class GroupStudiesController : Controller
     {
-        private UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
         public GroupStudiesController(TeacherLoadContext context)
         {
@@ -23,8 +24,6 @@ namespace TeacherLoadApp.Controllers
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(GroupStudies groupStudy)
         {
             if (ModelState.IsValid)
@@ -37,7 +36,7 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: Groups/Edit/5
-        public IActionResult Edit(int id)
+        public ActionResult Edit(int id)
         {
             var groupStudy = unitOfWork.GroupStudies.GetByID(id);
             if (groupStudy == null)

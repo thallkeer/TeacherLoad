@@ -9,7 +9,7 @@ namespace TeacherLoad.Core.Models
         public TeacherLoadContext(DbContextOptions<TeacherLoadContext> options) : base(options)
         {
             Database.EnsureCreated();
-        }
+        }       
 
         public DbSet<Department> Departments { get; set; }
         public DbSet<Discipline> Disciplines { get; set; }
@@ -21,7 +21,7 @@ namespace TeacherLoad.Core.Models
         public DbSet<Position> Positions { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
         public DbSet<Teacher> Teachers { get; set; }       
-
+                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -7,20 +7,23 @@ using TeacherLoad.Data.Service;
 using TeacherLoadApp.Models;
 using System.Linq;
 using System;
+using TeacherLoad.Core.DataInterfaces;
 
 namespace TeacherLoadApp.Controllers
 {
     public class GroupsController : Controller
     {
-        private UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         public GroupsController(TeacherLoadContext context)
         {
             unitOfWork = new UnitOfWork(context);
         }
 
         // GET: Groups
-        public IActionResult Index(int year=1)
+        public IActionResult Index(int year)
         {
+            if (year == 0)
+                year = 1;
             var groups = unitOfWork.Groups.Get(g => g.StudyYear == year,includeProperties: "Speciality")
                                    .OrderBy(g => g.GroupNumber);
             ViewBag.Years = new SelectList(unitOfWork.Groups.Get().Select(g => g.StudyYear).Distinct(),year);
@@ -49,7 +52,7 @@ namespace TeacherLoadApp.Controllers
             List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
             foreach (GroupLoad groupLoad in items)
             {
-                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel()
+                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel
                 {
                     ClassType = groupLoad.GroupStudies.GroupClassName,
                     Discipline = groupLoad.Discipline.DisciplineName,

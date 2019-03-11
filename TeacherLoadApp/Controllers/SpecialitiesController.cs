@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 
@@ -8,7 +9,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class SpecialitiesController : Controller
     {
-        private UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
         public SpecialitiesController(TeacherLoadContext context)
         {

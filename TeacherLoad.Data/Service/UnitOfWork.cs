@@ -6,7 +6,7 @@ namespace TeacherLoad.Data.Service
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private TeacherLoadContext context;
+        private readonly TeacherLoadContext context;
         private ITeacherService teacherService;
         private IGroupService groupService;
         private IGroupLoadService groupLoadService;
@@ -78,7 +78,7 @@ namespace TeacherLoad.Data.Service
             context.SaveChanges();
         }
 
-        private bool disposed = false;
+        private bool disposed;
 
         protected virtual void Dispose(bool disposing)
         {

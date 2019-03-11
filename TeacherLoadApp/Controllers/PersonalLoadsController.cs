@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 using TeacherLoadApp.Models;
@@ -12,7 +13,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class PersonalLoadsController : Controller
     {
-        private UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
         public PersonalLoadsController(TeacherLoadContext context)
         {
@@ -27,7 +28,7 @@ namespace TeacherLoadApp.Controllers
             List<GroupingViewModel<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
                 .Select(g => new GroupingViewModel<PersonalLoad> { Key = g.Key, Values = g.ToList() }).ToList();
 
-            var model = new TeacherPersonalLoadViewModel()
+            var model = new TeacherPersonalLoadViewModel
             {
                 PersonalStudies = classTypes,
                 PersonalLoads = loads.ToList(),
@@ -46,7 +47,7 @@ namespace TeacherLoadApp.Controllers
             
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
 
-            var model = new TeacherPersonalLoadViewModel()
+            var model = new TeacherPersonalLoadViewModel
             {
                 PersonalStudies = classTypes,
                 GroupedLoads = grouped

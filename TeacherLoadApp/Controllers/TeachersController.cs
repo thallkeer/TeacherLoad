@@ -12,7 +12,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class TeachersController : Controller
     {
-        private IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         public TeachersController(TeacherLoadContext context)
         {
             unitOfWork = new UnitOfWork(context);

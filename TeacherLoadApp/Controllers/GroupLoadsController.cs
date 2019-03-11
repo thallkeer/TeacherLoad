@@ -18,7 +18,7 @@ namespace TeacherLoadApp.Controllers
 {
     public class GroupLoadsController : Controller
     {
-        private IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
         public GroupLoadsController(TeacherLoadContext context)
         {
             unitOfWork = new UnitOfWork(context);
@@ -36,7 +36,7 @@ namespace TeacherLoadApp.Controllers
             List<TeachersListViewModel> teachers = new List<TeachersListViewModel>();            
             foreach (Teacher teacher in unitOfWork.Teachers.Get())
             {
-                teachers.Add(new TeachersListViewModel()
+                teachers.Add(new TeachersListViewModel
                 {
                     TeacherID = teacher.TeacherID,
                     TeacherName = teacher.FullName
@@ -44,9 +44,7 @@ namespace TeacherLoadApp.Controllers
             }
 
             if (teacherID == 0)
-                teacherID = teachers.First().TeacherID;
-
-            SelectList teachersList = new SelectList(teachers, "TeacherID", "TeacherName", teacherID);
+                teacherID = teachers.First().TeacherID;           
 
             var loadsByTeacher = unitOfWork.GroupLoads.GetByTeacher(teacherID);
 
@@ -65,7 +63,7 @@ namespace TeacherLoadApp.Controllers
                 Value = x.ToString(),
             }));           
 
-            var model = new TeacherLoadViewModel()
+            var model = new TeacherLoadViewModel
             {
                 TeachersList = teachers,
                 GroupStudies = groupStudiesList,
@@ -115,7 +113,7 @@ namespace TeacherLoadApp.Controllers
             return PartialView("TeacherLoadsPartial",groupedLoads);
         }
 
-        private Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID,int groupStudyID=0,int semester=0,int studyType=0,int studyYear=0)
+        private static Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID,int groupStudyID=0,int semester=0,int studyType=0,int studyYear=0)
         {           
             Expression<Func<GroupLoad, bool>> filter = (x) => x.TeacherID == teacherID;            
             if (groupStudyID != 0)

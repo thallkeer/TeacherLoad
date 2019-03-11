@@ -33,8 +33,7 @@ namespace TeacherLoadApp
            
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TeacherLoadContext>(options => options.UseSqlServer(connection));
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            //services.AddScoped<ITeacherService,TeacherService>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();           
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<TeacherLoadContext>()
                 .AddDefaultTokenProviders();

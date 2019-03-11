@@ -4,9 +4,7 @@
     ViewData["Title"] = "EditIndividualStudy";
 }
 
-<h2>EditIndividualStudy</h2>
-
-<h4>IndividualStudies</h4>
+<h2>Редактирование вида индивидуальных занятий</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +22,8 @@
                 <span asp-validation-for="VolumeByPerson" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
             </div>
         </form>
     </div>
