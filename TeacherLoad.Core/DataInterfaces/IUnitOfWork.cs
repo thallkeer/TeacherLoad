@@ -14,6 +14,7 @@ namespace TeacherLoad.Core.DataInterfaces
         IGenericService<Discipline> Disciplines { get; }
         IGenericService<GroupStudies> GroupStudies { get; }
         IGenericService<IndividualStudies> IndividualStudies { get; }
+        IGenericService<ApplicationUser> AppUsers { get;}
         void Save();
     }
 }

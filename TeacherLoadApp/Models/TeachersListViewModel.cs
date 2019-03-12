@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TeacherLoad.Core.Models;
-
-namespace TeacherLoadApp.Models
+﻿namespace TeacherLoadApp.Models
 {
     public class TeachersListViewModel
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TeacherLoad.Core.Models;
+﻿using System.Collections.Generic;
 
 namespace TeacherLoadApp.Models
 {

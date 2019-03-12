@@ -25,9 +25,7 @@ namespace TeacherLoadApp.Controllers
         }
 
         public IActionResult Index()
-        {
-            //var loads = unitOfWork.GroupLoads.GetAll();    
-            //return View("GroupLoadsList",loads);
+        { 
             return RedirectToAction("TeachersGroupLoad");
         }
 
@@ -113,7 +111,7 @@ namespace TeacherLoadApp.Controllers
             return PartialView("TeacherLoadsPartial",groupedLoads);
         }
 
-        private static Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID,int groupStudyID=0,int semester=0,int studyType=0,int studyYear=0)
+        private static Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID,int groupStudyID,int semester,int studyType,int studyYear)
         {           
             Expression<Func<GroupLoad, bool>> filter = (x) => x.TeacherID == teacherID;            
             if (groupStudyID != 0)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TeacherLoad.Core.Models

@@ -28,10 +28,5 @@ namespace TeacherLoad.Core.Models
                 return int.Parse(GroupNumber[1].ToString()); //second digit in group number is the study year 
             }
         }
-
-        public Group()
-        {
-
-        }
     }
 }

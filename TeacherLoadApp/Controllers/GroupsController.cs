@@ -6,7 +6,6 @@ using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
 using TeacherLoadApp.Models;
 using System.Linq;
-using System;
 using TeacherLoad.Core.DataInterfaces;
 
 namespace TeacherLoadApp.Controllers

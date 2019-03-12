@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TeacherLoad.Core.Models;
+﻿using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
 {

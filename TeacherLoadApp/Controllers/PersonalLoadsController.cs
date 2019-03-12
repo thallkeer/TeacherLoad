@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TeacherLoad.Core.DataInterfaces;
@@ -46,14 +45,8 @@ namespace TeacherLoadApp.Controllers
                 .Select(g => new GroupingViewModel<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
             
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
-
-            var model = new TeacherPersonalLoadViewModel
-            {
-                PersonalStudies = classTypes,
-                GroupedLoads = grouped
-            };
             
-            return PartialView("LoadByClassTypePartial",grouped);
+            return PartialView("PersonalLoadPartial",grouped);
         }
 
         public int CalculateHours(int classID,int count)

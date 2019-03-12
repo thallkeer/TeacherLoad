@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
