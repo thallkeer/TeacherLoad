@@ -42,4 +42,14 @@ table > .thead-light {
     left: -3px;
 }
 
+.editUser-block {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    border: 1px solid red;
+}
 
+.editUser-checkboxes {
+    margin-top: 15px; 
+    margin-bottom: 25px;
+}

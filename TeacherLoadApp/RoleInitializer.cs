@@ -4,7 +4,7 @@ using TeacherLoad.Core.Models;
 
 namespace TeacherLoadApp
 {
-    public class RoleInitializer
+    public static class RoleInitializer
     {
         public static async Task InitializeAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {

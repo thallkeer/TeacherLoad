@@ -23,10 +23,19 @@ namespace TeacherLoadApp.Controllers
         {
             if (year == 0)
                 year = 1;
-            var groups = unitOfWork.Groups.Get(g => g.StudyYear == year,includeProperties: "Speciality")
+            var groups = unitOfWork.Groups.Get(g => g.StudyYear == year, includeProperties: "Speciality")
                                    .OrderBy(g => g.GroupNumber);
-            ViewBag.Years = new SelectList(unitOfWork.Groups.Get().Select(g => g.StudyYear).Distinct(),year);
-            return View("GroupsList",groups);
+            var groupedGroups = groups.GroupBy(x => x.Speciality.SpecialityName)
+                  .Select(g => new GroupingViewModel<Group> { Key = g.Key, Values = g.ToList() }).ToList();
+
+            var model = new GroupsIndexViewModel
+            {
+                Instance = groups.FirstOrDefault(),
+                Years = new SelectList(unitOfWork.Groups.Get().Select(g => g.StudyYear).Distinct(), year),
+                GroupedStudyGroups = groupedGroups
+            };
+
+            return View("GroupsList", model);
         }
 
         public IActionResult GroupDisciplines(string id)

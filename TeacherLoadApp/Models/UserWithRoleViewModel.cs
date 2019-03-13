@@ -7,12 +7,14 @@ namespace TeacherLoadApp.Models
     public class UserWithRoleViewModel
     {
         public string UserId { get; set; }
-        [Display(Name = "Имя пользователя")]
+        [Display(Name = "Логин")]
+        [Required]
         public string UserName { get; set; }
         [Display(Name = "Пароль")]
+        [Required]
         public string Password { get; set; }
         public List<IdentityRole> AllRoles { get; set; }
-        [Display(Name = "Роли пользователя")]
+        [Display(Name = "Роли пользователя")]       
         public IList<string> UserRoles { get; set; }
         public UserWithRoleViewModel()
         {

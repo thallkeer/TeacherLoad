@@ -11,8 +11,8 @@ namespace TeacherLoadApp.Controllers
 {
     public class RolesController : Controller
     {
-        RoleManager<IdentityRole> _roleManager;
-        UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         public RolesController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _roleManager = roleManager;
@@ -48,7 +48,7 @@ namespace TeacherLoadApp.Controllers
             IdentityRole role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
+                await _roleManager.DeleteAsync(role);
             }
             return RedirectToAction("Index");
         }
@@ -59,7 +59,10 @@ namespace TeacherLoadApp.Controllers
         {
             // получаем пользователя
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                return NotFound();
+            }
             // получем список ролей пользователя
             var userRoles = await _userManager.GetRolesAsync(user);
             var allRoles = _roleManager.Roles.ToList();
@@ -77,11 +80,14 @@ namespace TeacherLoadApp.Controllers
         {
             // получаем пользователя
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                return NotFound();
+            }
             // получем список ролей пользователя
             var userRoles = await _userManager.GetRolesAsync(user);
             // получаем все роли
-            var allRoles = _roleManager.Roles.ToList();
+            //var allRoles = _roleManager.Roles.ToList();
             // получаем список ролей, которые были добавлены
             var addedRoles = roles.Except(userRoles);
             // получаем роли, которые были удалены
@@ -91,7 +97,7 @@ namespace TeacherLoadApp.Controllers
 
             await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
-            return RedirectToAction("UserList");
+            return RedirectToAction("UsersList");
         }
     }
 }

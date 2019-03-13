@@ -16,8 +16,7 @@ namespace TeacherLoad.Data.Service
         private IGenericService<Speciality> specialitiesService;
         private IGenericService<Discipline> disciplinesService;
         private IGenericService<GroupStudies> groupStudiesService;
-        private IGenericService<IndividualStudies> individualStudiesService;
-        private IGenericService<ApplicationUser> appUsersService;
+        private IGenericService<IndividualStudies> individualStudiesService;       
 
         public UnitOfWork(TeacherLoadContext context)
         {
@@ -72,12 +71,7 @@ namespace TeacherLoad.Data.Service
         public IGenericService<IndividualStudies> IndividualStudies
         {
             get => individualStudiesService = individualStudiesService ?? new GenericService<IndividualStudies>(context);
-        }
-
-        public IGenericService<ApplicationUser> AppUsers
-        {
-            get => appUsersService = appUsersService ?? new GenericService<ApplicationUser>(context);
-        }
+        }      
 
         public void Save()
         {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeacherLoad.Core.Models.Group>
+﻿@model TeacherLoadApp.Models.GroupsIndexViewModel
 
 @{
     ViewData["Title"] = "Учебные группы";
@@ -10,26 +10,48 @@
     <div class="form-inline" style="margin: 20px auto;">
         <a class="btn btn-primary" asp-action="Create">Создать группу</a>
         <label class="control-label">Курс</label>
-        @Html.DropDownList("Year", ViewBag.Years as SelectList, new { @class = "form-control selected-year" })
+        @Html.DropDownList("Year", Model.Years, new { @class = "form-control selected-year" })
     </div>
 
     <table class="table table-hover">
         <thead class="thead-light">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.GroupNumber)
+                    @Html.DisplayNameFor(model => model.Instance.GroupNumber)
                 </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Instance.Speciality)
+                </th>*@
                 <th>
-                    @Html.DisplayNameFor(model => model.Speciality)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StudentsCount)
+                    @Html.DisplayNameFor(model => model.Instance.StudentsCount)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var groupedGroup in Model.GroupedStudyGroups)
+            {
+                <tr>
+                    <th colspan="6" style="background-color: #ADD8E6;
+                            border-color: #dee2e6;">@groupedGroup.Key</th>
+                        </tr>
+                        foreach (var group in groupedGroup.Values)
+                        {
+                <tr>
+                    <td>
+                        <a asp-controller="Groups" asp-action="GroupDisciplinesPost" asp-route-id="@group.GroupNumber">
+                        @Html.DisplayFor(modelItem => group.GroupNumber)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => group.StudentsCount)
+                    </td>
+                    <td>
+                        @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = group.GroupNumber);}
+                    </td>
+                </tr>
+                    }
+                }
+            @*@foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -45,9 +67,10 @@
                         @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.GroupNumber);}
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+            }*@
+
+            </tbody>
+        </table>
 </div>
 
 @section scripts{

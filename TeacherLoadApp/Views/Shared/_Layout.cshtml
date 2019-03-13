@@ -43,7 +43,7 @@
                                     <li>@Html.ActionLink("Специальности", "Index", "Specialities")</li>
                                     <li>@Html.ActionLink("Дисциплины", "Index", "Disciplines")</li>
                                     <li>@Html.ActionLink("Должности", "Index", "Positions")</li>
-                                    <li>@Html.ActionLink("Пользователи", "Users", "Account")</li>
+                                    <li>@Html.ActionLink("Пользователи", "UsersList","Users")</li>
                                     <li><hr /></li>
                                     <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
                                     <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
@@ -66,10 +66,10 @@
                                         @Html.ActionLink("Отчеты", "Index", "Home")
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)</a>
+                                        <a asp-area="Identity" title="Manage">@UserManager.GetUserName(User)</a>
                                     </li>
                                     <li class="nav-item">
-                                        <form method="post" asp-controller="Account" asp-action="Logoff">
+                                        <form method="post" asp-controller="Users" asp-action="Logoff">
                                             <button class="btn-logoff" type="submit">Выйти</button>
                                         </form>
                                     </li>

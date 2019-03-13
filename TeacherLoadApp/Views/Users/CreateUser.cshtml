@@ -1,0 +1,43 @@
+﻿@model TeacherLoadApp.Models.UserWithRoleViewModel
+
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+
+<body class="text-center">
+    <form class="form-signin" method="post" asp-controller="Users" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <h1 class="h3 mb-3 font-weight-normal">Создание пользователя</h1>        
+        <div style="margin: 20px auto;">
+            <label asp-for="UserName" class="sr-only">Login</label>
+            <input asp-for="UserName" id="inputEmail" class="form-control" placeholder="Логин" required autofocus>
+            <label asp-for="Password" class="sr-only">Password</label>
+            <input asp-for="Password" id="inputPassword" type="password" class="form-control" placeholder="Пароль" required>
+        </div>
+        @*<span asp-validation-for="Password"></span>*@
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2" style="padding-top: 0px; border: none;">Роли</legend>
+                <div class="col-sm-10 text-left">
+                    @foreach (var role in Model.AllRoles)
+                    {
+                        <div class="checkbox mb-3" style="margin-left: 15px;">
+                            <label>
+                                <input type="checkbox" class="form-check-input" name="UserRoles"
+                                       value="@role.Name" />@role.Name
+                                </label>
+                            </div>
+                        }
+                </div>
+            </div>
+        </fieldset>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Сохранить</button>
+    </form>
+
+</body>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $("#inputEmail").val('');
+        });
+    </script>
+}
