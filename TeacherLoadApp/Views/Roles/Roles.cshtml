@@ -2,7 +2,9 @@
 
 <h2>Список ролей</h2>
 <p>
-    <a class="btn btn-primary" asp-action="Create">Добавить роль</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Добавить роль
+    </button>
     <a class="btn btn-primary" asp-controller="Users" asp-action="UsersList">Список пользователей</a>
 </p>
 <table class="table">
@@ -20,3 +22,28 @@
         </tr>
     }
 </table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Создание новой роли</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body">
+                    <input type="text" pattern="^([А-Яа-яЁё\s]{3,20})+$" class="form-control" name="name" placeholder="Имя роли" required autofocus />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

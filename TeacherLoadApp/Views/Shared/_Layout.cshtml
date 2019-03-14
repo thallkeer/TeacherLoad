@@ -43,14 +43,17 @@
                                     <li>@Html.ActionLink("Специальности", "Index", "Specialities")</li>
                                     <li>@Html.ActionLink("Дисциплины", "Index", "Disciplines")</li>
                                     <li>@Html.ActionLink("Должности", "Index", "Positions")</li>
-                                    <li>@Html.ActionLink("Пользователи", "UsersList","Users")</li>
-                                    <li><hr /></li>
-                                    <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
-                                    <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
-                                    <li><hr /></li>
-                                    <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
-                                    <li>@Html.ActionLink("Индивидуальная нагрузка", "Index", "PersonalLoads")</li>
-                                </ul>
+                                    @if (User.IsInRole("Администратор") || User.IsInRole("Оператор"))
+                                    {
+                                        <li>@Html.ActionLink("Пользователи", "UsersList", "Users")</li>
+                                    }
+                                        <li><hr /></li>
+                                        <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
+                                        <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
+                                        <li><hr /></li>
+                                        <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
+                                        <li>@Html.ActionLink("Индивидуальная нагрузка", "Index", "PersonalLoads")</li>
+                                    </ul>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

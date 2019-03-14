@@ -49,19 +49,7 @@ namespace TeacherLoadApp.Controllers
                     //authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(1);
                     //authProp.IsPersistent = true;
                     //await _signInManager.SignInAsync(user, authProp);
-                    // получем список ролей пользователя
-                    var userRoles = await _userManager.GetRolesAsync(user);
-                    // получаем все роли
-                    var allRoles = _roleManager.Roles.ToList();
-                    // получаем список ролей, которые были добавлены
-                    var addedRoles = model.UserRoles.Except(userRoles);                   
-
-                    // получаем роли, которые были удалены
-                    var removedRoles = userRoles.Except(model.UserRoles);
-                    
-                    await _userManager.AddToRolesAsync(user, addedRoles);
-
-                    await _userManager.RemoveFromRolesAsync(user, removedRoles);
+                    await UpdateUserRoles(user, model.UserRoles.ToList());
                     return RedirectToAction("UsersList");
                 }
                 else
@@ -74,7 +62,7 @@ namespace TeacherLoadApp.Controllers
             }
             return View(model);
         }
-        [HttpGet]
+        [HttpGet]        
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
@@ -102,7 +90,7 @@ namespace TeacherLoadApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("WrongData", "Неправильный логин и (или) пароль");
                 }
             }
             return View(model);
@@ -151,41 +139,15 @@ namespace TeacherLoadApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(UserWithRoleViewModel model)
+        public async Task<ActionResult> Edit(string UserId, List<string> UserRoles)
         {
-            if (ModelState.IsValid)
+            ApplicationUser user = await _userManager.FindByIdAsync(UserId);
+            if (user != null)
             {
-                ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
-                if (user != null)
-                {
-                    user.UserName = model.UserName;
-
-                    var result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        var userRoles = await _userManager.GetRolesAsync(user);
-                        // получаем все роли
-                        var allRoles = _roleManager.Roles.ToList();
-                        // получаем список ролей, которые были добавлены
-                        var addedRoles = model.UserRoles.Except(userRoles);
-                        // получаем роли, которые были удалены
-                        var removedRoles = userRoles.Except(model.UserRoles);
-
-                        await _userManager.AddToRolesAsync(user, addedRoles);
-
-                        await _userManager.RemoveFromRolesAsync(user, removedRoles);
-                        return RedirectToAction("UsersList");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-                    }
-                }
+                await UpdateUserRoles(user, UserRoles);
+                return RedirectToAction("UsersList");
             }
-            return View(model);
+            return NotFound();
         }
 
         /*[HttpPost]*/
@@ -197,6 +159,18 @@ namespace TeacherLoadApp.Controllers
                 await _userManager.DeleteAsync(user);
             }
             return RedirectToAction("UsersList");
+        }
+
+        public async Task UpdateUserRoles(ApplicationUser user, List<string> roles)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            // получаем список ролей, которые были добавлены
+            var addedRoles = roles.Except(userRoles);
+            // получаем роли, которые были удалены
+            var removedRoles = userRoles.Except(roles);
+
+            await _userManager.AddToRolesAsync(user, addedRoles);
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
         }
     }
 }
