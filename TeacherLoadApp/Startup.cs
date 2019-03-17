@@ -63,7 +63,7 @@ namespace TeacherLoadApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Users}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -51,25 +51,7 @@
                 </tr>
                     }
                 }
-            @*@foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <a asp-controller="Groups" asp-action="GroupDisciplinesPost" asp-route-id="@item.GroupNumber">@Html.DisplayFor(modelItem => item.GroupNumber)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Speciality.SpecialityName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StudentsCount)
-                    </td>
-                    <td>
-                        @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.GroupNumber);}
-                    </td>
-                </tr>
-            }*@
-
-            </tbody>
+        </tbody>
         </table>
 </div>
 

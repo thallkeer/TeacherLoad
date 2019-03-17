@@ -6,29 +6,18 @@
 
 <h2>Дисциплины</h2>
 
+
+<div id="modal-placeholder"></div>
 <p>
     <a class="btn btn-primary" asp-action="Create">Добавить дисциплину</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-discipline"
+            data-url="@Url.Action("Create")">
+        Добавить дисциплину модально
+    </button>
 </p>
-<table class="table table-hover">
-    <thead class="thead-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DisciplineName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisciplineName)
-                </td>
-                <td>
-                    @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.DisciplineID);}
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+@{await Html.RenderPartialAsync("_Disciplines", Model);}
+
+
+
+

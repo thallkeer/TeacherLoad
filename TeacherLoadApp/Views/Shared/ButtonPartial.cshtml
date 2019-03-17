@@ -4,6 +4,7 @@
 
 @if (User.IsInRole("Администратор") || User.IsInRole("Оператор"))
 {
+<div style="float: right;">
     <a class="btn-sm btn-success" asp-action="Edit" asp-route-id="@ViewData["id"]">
         <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
         Изменить
@@ -12,4 +13,5 @@
         <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
         Удалить
     </a>
+</div>
 }

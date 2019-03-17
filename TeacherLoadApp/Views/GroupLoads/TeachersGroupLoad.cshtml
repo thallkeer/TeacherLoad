@@ -5,12 +5,7 @@
         <div style="width:20%; left: 10px; display:inline-block; position:absolute;">
             <div class="list-group" style="height: 400px; margin: 15px; overflow-y: scroll;">
                 @foreach (var item in Model.TeachersList)
-                {
-                    @*<a class="list-group-item list-group-item-action @(item.TeacherID == Model.SelectedTeacher ?
-                    "active" : "")" asp-controller="GroupLoads"
-                       asp-action="TeachersGroupLoad" asp-route-teacherID="@item.TeacherID">
-                        @item.TeacherName
-                    </a>*@
+                {                   
                     <button type="button" onclick="selectTeacher(this,@item.TeacherID);" 
                      class="list-group-item list-group-item-action 
                             @(item.TeacherID == Model.SelectedTeacher ? "active" : "")">

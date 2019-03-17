@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 
@@ -71,7 +72,7 @@ namespace TeacherLoad.Data.Service
         public IGenericService<IndividualStudies> IndividualStudies
         {
             get => individualStudiesService = individualStudiesService ?? new GenericService<IndividualStudies>(context);
-        }      
+        }
 
         public void Save()
         {

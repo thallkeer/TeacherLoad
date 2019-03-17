@@ -1,18 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
-using TeacherLoad.Data.Service;
 using TeacherLoadApp.Models;
 using System.Linq;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 
 namespace TeacherLoadApp.Controllers
-{   
+{
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -25,7 +20,7 @@ namespace TeacherLoadApp.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;            
         }
-        [HttpGet]       
+        [HttpGet]
         public IActionResult Register()
         {
             UserWithRoleViewModel model = new UserWithRoleViewModel
@@ -43,12 +38,7 @@ namespace TeacherLoadApp.Controllers
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {
-                    // установка куки
-                    //AuthenticationProperties authProp = new AuthenticationProperties();
-                    //authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(1);
-                    //authProp.IsPersistent = true;
-                    //await _signInManager.SignInAsync(user, authProp);
+                {                   
                     await UpdateUserRoles(user, model.UserRoles.ToList());
                     return RedirectToAction("UsersList");
                 }
@@ -74,6 +64,12 @@ namespace TeacherLoadApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // установка куки
+                //var user = _userManager.Users.Single(u => u.UserName == model.Username);
+                //AuthenticationProperties authProp = new AuthenticationProperties();
+                //authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(5);
+                //authProp.IsPersistent = model.RememberMe;
+                //await _signInManager.SignInAsync(user, authProp);
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
                 if (result.Succeeded)

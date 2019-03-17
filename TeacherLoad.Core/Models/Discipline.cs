@@ -7,10 +7,10 @@ namespace TeacherLoad.Core.Models
     {
         [ScaffoldColumn(false)]
         public int DisciplineID { get; set; }
-        [Required]
-        [Display(Name = "Дисциплина")]
-        [RegularExpression(@"[А-Яа-я]{1,50}$",
-        ErrorMessage = "Название дисциплины может содержать только буквы")]
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Дисциплина")]    
+        [RegularExpression(@"^[а-яА-Я]+$", ErrorMessage = "Название дисциплины может содержать только буквы!")]        
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Название должно содержать от 2 до 30 символов!")]        
         public string DisciplineName { get; set; }
 
         public List<GroupLoad> GroupLoads { get; set; }

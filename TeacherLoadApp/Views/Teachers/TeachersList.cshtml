@@ -9,6 +9,7 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Добавить нового преподавателя</a>
 </p>
+
 <table class="table table-hover">
     <thead class="thead-light">
         <tr>
@@ -21,9 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Patronym)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Department)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Position)
             </th>
@@ -43,9 +44,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Patronym)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Department.DepartmentName)
-                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                    </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Position.PositionName)
                 </td>
@@ -56,3 +57,4 @@
         }
     </tbody>
 </table>
+   

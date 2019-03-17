@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TeacherLoad.Core.Models.Discipline>
+
+    <table class="table table-striped table-hover" id="disciplines" data-url="@Url.Action("Index")">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DisciplineName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisciplineName)
+                    </td>
+                    <td>
+                        @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.DisciplineID);}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

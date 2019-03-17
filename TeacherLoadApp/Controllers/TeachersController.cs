@@ -32,9 +32,7 @@ namespace TeacherLoadApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(
-          [Bind("TeacherID,FirstName,LastName,Patronym,DepartmentID,PositionID")]
-         Teacher teacher)
+        public ActionResult Create(Teacher teacher)
         {
             try
             {
@@ -50,8 +48,8 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            PopulateDropDownLists(teacher.DepartmentID,teacher.PositionID);
-            return View("CreateTeacher",teacher);
+            PopulateDropDownLists(teacher.DepartmentID, teacher.PositionID);
+            return View("CreateTeacher", teacher);
         }
 
         public IActionResult Edit(int id)
