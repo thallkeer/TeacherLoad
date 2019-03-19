@@ -6,6 +6,8 @@ namespace TeacherLoad.Core.Models
 {
     public class PersonalLoad
     {
+        [ScaffoldColumn(false)]
+        public int PersonalLoadID { get; set; }
         [Required]
         [Display(Name = "Число студентов")]
         [Range(1,40)]

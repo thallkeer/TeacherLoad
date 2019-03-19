@@ -26,25 +26,11 @@ namespace TeacherLoad.Data.Service
                   .Include(x => x.GroupStudies)
                   .Include(x => x.Discipline)
                   .Include(x => x.Teacher).AsNoTracking().ToList();
-        }
-
-        /// <summary>
-        /// Для упрощения работы со сложным составным ключом 
-        /// </summary>
-        /// <param name="load"></param>
-        /// <returns></returns>
-        public override GroupLoad GetByID(object load)
-        {
-            GroupLoad groupLoad = load as GroupLoad;
-            return Get(gl => gl.TeacherID == groupLoad.TeacherID && gl.GroupStudiesID == groupLoad.GroupStudiesID
-                   && gl.GroupNumber == groupLoad.GroupNumber && gl.Semester == groupLoad.Semester
-                   && gl.StudyType == groupLoad.StudyType && gl.StudyYear == groupLoad.StudyYear
-                   && gl.DisciplineID == groupLoad.DisciplineID,includeProperties: "GroupStudies,Discipline,Teacher,Group").FirstOrDefault();
-        }
+        }        
 
         public IEnumerable<GroupLoad> GetByTeacher(int teacherID)
         {
             return Get(x => x.TeacherID == teacherID,includeProperties: "Teacher,Discipline,GroupStudies");
-        }
+        }        
     }
 }

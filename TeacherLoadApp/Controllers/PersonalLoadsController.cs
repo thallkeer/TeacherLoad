@@ -24,10 +24,10 @@ namespace TeacherLoadApp.Controllers
         {
             var loads = unitOfWork.PersonalLoads.GetAll();
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName");
-            List<GroupingViewModel<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
-                .Select(g => new GroupingViewModel<PersonalLoad> { Key = g.Key, Values = g.ToList() }).ToList();
+            List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingVM<PersonalLoad> { Key = g.Key, Values = g.ToList() }).ToList();
 
-            var model = new TeacherPersonalLoadViewModel
+            var model = new TeacherPersonalLoadVM
             {
                 PersonalStudies = classTypes,
                 PersonalLoads = loads.ToList(),
@@ -41,8 +41,8 @@ namespace TeacherLoadApp.Controllers
             var loads = classID != 0 ? unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == classID
                 , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll();
 
-            List<GroupingViewModel<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
-                .Select(g => new GroupingViewModel<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
+            List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
+                .Select(g => new GroupingVM<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
             
             var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
             
@@ -86,9 +86,9 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: GroupLoads/Edit/5
-        public ActionResult Edit(int teacherID, int classID)
+        public ActionResult Edit(int id)
         {
-            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID,classID);
+            var load = unitOfWork.PersonalLoads.GetByID(id);
             if (load == null)
             {
                 return NotFound();
@@ -120,18 +120,18 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: GroupLoads/Delete/5
-        public ActionResult Delete(int teacherID,int classID)
+        public ActionResult Delete(int id)
         {
-            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID,classID);
+            var load = unitOfWork.PersonalLoads.GetByID(id);
             return View("DeletePersonalLoad",load);
         }
 
         // POST: GroupLoads/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int teacherID, int classID)
+        public ActionResult DeleteConfirmed(int id)
         {
-            var load = unitOfWork.PersonalLoads.GetByKeys(teacherID, classID);
+            var load = unitOfWork.PersonalLoads.GetByID(id);
             unitOfWork.PersonalLoads.Delete(load);
             unitOfWork.Save();
             return RedirectToAction("Index");

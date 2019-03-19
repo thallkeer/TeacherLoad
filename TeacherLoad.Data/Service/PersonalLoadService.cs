@@ -12,11 +12,6 @@ namespace TeacherLoad.Data.Service
         public override IEnumerable<PersonalLoad> GetAll()
         {
             return Get(includeProperties: "Teacher,IndividualStudies");
-        }
-
-        public PersonalLoad GetByKeys(int teacherID, int classID)
-        {
-            return dbSet.Find(teacherID,classID);
-        }
+        }        
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TeacherLoad.Core.Models.GroupLoad
+﻿@model TeacherLoadApp.Models.GroupLoadVM
 
 @{
     ViewData["Title"] = "Групповая нагрузка";
@@ -9,41 +9,42 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GroupLoad.GroupLoadID" />
             <div class="form-group">
-                <label asp-for="Semester" class="control-label"></label>
-                <select asp-for="StudyType" class="form-control"
-                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.SemesterType>()"></select>
+                <label asp-for="GroupLoad.Semester" class="control-label"></label>
+                <select asp-for="GroupLoad.Semester" class="form-control"
+                        asp-items="Model.Semesters"></select>
             </div>
             <div class="form-group">
-                <label asp-for="StudyType" class="control-label"></label>
-                <select asp-for="StudyType" class="form-control"
-                        asp-items="Html.GetEnumSelectList<TeacherLoad.Core.Models.GroupLoad.StudyTypes>()"></select>
+                <label asp-for="GroupLoad.StudyType" class="control-label"></label>
+                <select asp-for="GroupLoad.StudyType" class="form-control"
+                        asp-items="Model.StudyTypes"></select>
             </div>
             <div class="form-group">
-                <label asp-for="StudyYear" class="control-label"></label>
-                <input type="number" min="1" max="4" asp-for="StudyYear" class="form-control" />
-                <span asp-validation-for="StudyYear" class="text-danger"></span>
+                <label asp-for="GroupLoad.StudyYear" class="control-label"></label>
+                <select asp-for="GroupLoad.StudyYear" class="form-control"
+                        asp-items="Model.StudyYears"></select>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherID" class="control-label"></label>
-                <select asp-for="TeacherID" class="form-control" asp-items="ViewBag.TeacherID"></select>
+                <label asp-for="GroupLoad.TeacherID" class="control-label"></label>
+                <select asp-for="GroupLoad.TeacherID" class="form-control" asp-items="Model.Teachers"></select>
             </div>
             <div class="form-group">
-                <label asp-for="DisciplineID" class="control-label"></label>
-                <select asp-for="DisciplineID" class="form-control" asp-items="ViewBag.DisciplineID"></select>
+                <label asp-for="GroupLoad.DisciplineID" class="control-label"></label>
+                <select asp-for="GroupLoad.DisciplineID" class="form-control" asp-items="Model.Disciplines"></select>
             </div>
             <div class="form-group">
-                <label asp-for="GroupNumber" class="control-label"></label>
-                <select asp-for="GroupNumber" class="form-control" asp-items="ViewBag.GroupNumber"></select>
+                <label asp-for="GroupLoad.GroupNumber" class="control-label"></label>
+                <select asp-for="GroupLoad.GroupNumber" class="form-control" asp-items="Model.Groups"></select>
             </div>
             <div class="form-group">
-                <label asp-for="GroupStudiesID" class="control-label"></label>
-                <select asp-for="GroupStudiesID" class="form-control" asp-items="ViewBag.GroupStudiesID"></select>
+                <label asp-for="GroupLoad.GroupStudiesID" class="control-label"></label>
+                <select asp-for="GroupLoad.GroupStudiesID" class="form-control" asp-items="Model.GroupStudies"></select>
             </div>
             <div class="form-group">
-                <label asp-for="VolumeHours" class="control-label"></label>
-                <input type="number" min="1" max="32" asp-for="VolumeHours" class="form-control" />
-                <span asp-validation-for="VolumeHours" class="text-danger"></span>
+                <label asp-for="GroupLoad.VolumeHours" class="control-label"></label>
+                <input type="number" min="1" max="32" asp-for="GroupLoad.VolumeHours" class="form-control" />
+                <span asp-validation-for="GroupLoad.VolumeHours" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-success" />

@@ -21,7 +21,9 @@ namespace TeacherLoad.Core.Models
             [Display(Name = "Вечернее")]
             Evening=3
         }
-                
+             
+        [ScaffoldColumn(false)]
+        public int GroupLoadID { get; set; }
         [Required]
         [Display(Name = "Количество часов")]
         [Range(1,32)]

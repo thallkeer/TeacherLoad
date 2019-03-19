@@ -26,9 +26,9 @@ namespace TeacherLoadApp.Controllers
             var groups = unitOfWork.Groups.Get(g => g.StudyYear == year, includeProperties: "Speciality")
                                    .OrderBy(g => g.GroupNumber);
             var groupedGroups = groups.GroupBy(x => x.Speciality.SpecialityName)
-                  .Select(g => new GroupingViewModel<Group> { Key = g.Key, Values = g.ToList() }).ToList();
+                  .Select(g => new GroupingVM<Group> { Key = g.Key, Values = g.ToList() }).ToList();
 
-            var model = new GroupsIndexViewModel
+            var model = new GroupsIndexVM
             {
                 Instance = groups.FirstOrDefault(),
                 Years = new SelectList(unitOfWork.Groups.Get().Select(g => g.StudyYear).Distinct(), year),
@@ -43,7 +43,7 @@ namespace TeacherLoadApp.Controllers
             var groupselect = new SelectList(unitOfWork.Groups.Get(), "GroupNumber", "GroupNumber", id);
             ViewBag.Groups = groupselect;
             if (id == null)
-                return View(new List<GroupDisciplinesViewModel>());
+                return View(new List<GroupDisciplinesVM>());
             return PartialView("GroupDisciplinesPartial", GetModels(id));
         }
 
@@ -54,13 +54,13 @@ namespace TeacherLoadApp.Controllers
             return View("GroupDisciplines", GetModels(id));
         }
 
-        private List<GroupDisciplinesViewModel> GetModels(string id)
+        private List<GroupDisciplinesVM> GetModels(string id)
         {
             var items = unitOfWork.GroupLoads.GetDisciplinesByGroup(id);
-            List<GroupDisciplinesViewModel> models = new List<GroupDisciplinesViewModel>();
+            List<GroupDisciplinesVM> models = new List<GroupDisciplinesVM>();
             foreach (GroupLoad groupLoad in items)
             {
-                GroupDisciplinesViewModel model = new GroupDisciplinesViewModel
+                GroupDisciplinesVM model = new GroupDisciplinesVM
                 {
                     ClassType = groupLoad.GroupStudies.GroupClassName,
                     Discipline = groupLoad.Discipline.DisciplineName,

@@ -35,15 +35,14 @@ namespace TeacherLoad.Core.Models
             modelBuilder.Entity<IndividualStudies>()
                  .HasAlternateKey(ind => new { ind.IndividualClassName });
             modelBuilder.Entity<PersonalLoad>()
-                 .HasKey(pl => new { pl.TeacherID, pl.IndividualClassID });
+                 .HasAlternateKey(pl => new { pl.TeacherID, pl.IndividualClassID });
             modelBuilder.Entity<IndividualStudies>().Property(inds => inds.VolumeByPerson).HasDefaultValue(1);
             modelBuilder.Entity<PersonalLoad>().Property(pl => pl.StudentsCount).HasDefaultValue(1);
             modelBuilder.Entity<GroupLoad>().Property(gl => gl.VolumeHours).HasDefaultValue(1);
-            modelBuilder.Entity<GroupLoad>().Property(gl => gl.Semester)
-                .HasConversion<int>();             
+            modelBuilder.Entity<GroupLoad>().Property(gl => gl.Semester).HasConversion<int>();             
             modelBuilder.Entity<GroupLoad>().Property(gl => gl.StudyType).HasConversion<int>();
             modelBuilder.Entity<GroupLoad>()
-                 .HasKey(gl => new
+                 .HasAlternateKey(gl => new
                  {
                      gl.TeacherID,
                      gl.GroupStudiesID,
@@ -52,8 +51,7 @@ namespace TeacherLoad.Core.Models
                      gl.Semester,
                      gl.StudyType,
                      gl.StudyYear
-                 });
-            
+                 });            
                  
             modelBuilder.Entity<ApplicationUser>().ToTable("IdentityUser");
         }

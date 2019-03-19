@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.Migrations
@@ -200,7 +201,8 @@ namespace TeacherLoad.Core.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DisciplineName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.HasKey("DisciplineID");
 
@@ -228,13 +230,16 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("TeacherLoad.Core.Models.GroupLoad", b =>
                 {
-                    b.Property<int>("TeacherID");
-
-                    b.Property<int>("GroupStudiesID");
-
-                    b.Property<string>("GroupNumber");
+                    b.Property<int>("GroupLoadID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("DisciplineID");
+
+                    b.Property<string>("GroupNumber")
+                        .IsRequired();
+
+                    b.Property<int>("GroupStudiesID");
 
                     b.Property<int>("Semester");
 
@@ -242,11 +247,15 @@ namespace TeacherLoad.Core.Migrations
 
                     b.Property<int>("StudyYear");
 
+                    b.Property<int>("TeacherID");
+
                     b.Property<int>("VolumeHours")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(1);
 
-                    b.HasKey("TeacherID", "GroupStudiesID", "GroupNumber", "DisciplineID", "Semester", "StudyType", "StudyYear");
+                    b.HasKey("GroupLoadID");
+
+                    b.HasAlternateKey("TeacherID", "GroupStudiesID", "GroupNumber", "DisciplineID", "Semester", "StudyType", "StudyYear");
 
                     b.HasIndex("DisciplineID");
 
@@ -295,7 +304,9 @@ namespace TeacherLoad.Core.Migrations
 
             modelBuilder.Entity("TeacherLoad.Core.Models.PersonalLoad", b =>
                 {
-                    b.Property<int>("TeacherID");
+                    b.Property<int>("PersonalLoadID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("IndividualClassID");
 
@@ -303,7 +314,11 @@ namespace TeacherLoad.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(1);
 
-                    b.HasKey("TeacherID", "IndividualClassID");
+                    b.Property<int>("TeacherID");
+
+                    b.HasKey("PersonalLoadID");
+
+                    b.HasAlternateKey("TeacherID", "IndividualClassID");
 
                     b.HasIndex("IndividualClassID");
 

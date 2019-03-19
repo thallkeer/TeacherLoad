@@ -23,14 +23,14 @@ namespace TeacherLoadApp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            UserWithRoleViewModel model = new UserWithRoleViewModel
+            UserWithRoleVM model = new UserWithRoleVM
             {               
                 AllRoles = _roleManager.Roles.ToList()
             };
             return View("CreateUser",model);
         }
         [HttpPost]
-        public async Task<IActionResult> Register(UserWithRoleViewModel model)
+        public async Task<IActionResult> Register(UserWithRoleVM model)
         {
             if (ModelState.IsValid)
             {
@@ -55,12 +55,12 @@ namespace TeacherLoadApp.Controllers
         [HttpGet]        
         public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            return View(new LoginVM { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginVM model)
         {
             if (ModelState.IsValid)
             {
@@ -103,11 +103,11 @@ namespace TeacherLoadApp.Controllers
         
         public ActionResult UsersList()
         {       
-            var usersWithRole = new List<UserWithRoleViewModel>();
+            var usersWithRole = new List<UserWithRoleVM>();
             
             foreach(ApplicationUser user in _userManager.Users.ToList())
             {
-                usersWithRole.Add(new UserWithRoleViewModel
+                usersWithRole.Add(new UserWithRoleVM
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
@@ -124,7 +124,7 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-            UserWithRoleViewModel model = new UserWithRoleViewModel
+            UserWithRoleVM model = new UserWithRoleVM
             {
                 UserId = user.Id,
                 UserName = user.UserName,

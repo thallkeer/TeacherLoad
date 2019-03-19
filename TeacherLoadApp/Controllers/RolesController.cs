@@ -62,7 +62,7 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }           
-            var model = new UserWithRoleViewModel()
+            var model = new UserWithRoleVM()
             {
                 UserId = user.Id,
                 UserName = user.UserName,

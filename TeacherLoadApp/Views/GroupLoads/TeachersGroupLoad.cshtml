@@ -1,15 +1,15 @@
-﻿@model TeacherLoadApp.Models.TeacherLoadViewModel
+﻿@model TeacherLoadApp.Models.TeacherGroupLoadVM
 
 <div>
     <div class="row">
         <div style="width:20%; left: 10px; display:inline-block; position:absolute;">
             <div class="list-group" style="height: 400px; margin: 15px; overflow-y: scroll;">
-                @foreach (var item in Model.TeachersList)
+                @foreach (var item in Model.Teachers)
                 {                   
-                    <button type="button" onclick="selectTeacher(this,@item.TeacherID);" 
+                    <button type="button" onclick="selectTeacher(this,@item.Value);" 
                      class="list-group-item list-group-item-action 
-                            @(item.TeacherID == Model.SelectedTeacher ? "active" : "")">
-                        @item.TeacherName
+                            @(item.Selected ? "active" : "")">
+                        @item.Text
                     </button>                
                 }
             </div>                   
@@ -65,7 +65,7 @@
 
         function selectTeacher(btn, id) {
             $(".list-group-item-action.active").removeClass("active");
-            $(btn).addClass("active");
+            $(btn).addClass("active");            
             doFilter(id);    
         };
 
@@ -74,7 +74,7 @@
                     type: 'GET',
                     url: '@Url.Action("GetGroupLoads")',
                     data: {
-                        teacherID: teacher == null ? @Model.SelectedTeacher : teacher,
+                        teacherID: teacher == null ? @Model.Teachers.SelectedValue : teacher,
                         groupClassID: $(".selected-groupClass").val(),                       
                         semester: $(".selected-semester").val(),
                         studyType: $(".selected-studyType").val(),

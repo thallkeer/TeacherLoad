@@ -38,3 +38,15 @@
         });
     });
 });
+
+
+function getGroupsByCourse(route) {
+    $.ajax({
+        type: 'GET',
+        url: route,
+        data: { studyYear: $(".selected-year").val() },
+        success: function (data) {
+            $('.groups').replaceWith(data);
+        }
+    });
+};

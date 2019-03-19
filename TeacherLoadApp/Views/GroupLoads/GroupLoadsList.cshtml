@@ -33,8 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.StudyType)
             </th>
-            <th></th>
-            <th></th>
+            <th></th>           
         </tr>
     </thead>
     <tbody>
@@ -62,17 +61,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StudyType)
                 </td>
-                <td>                   
-                    <a style="margin-right:10px;" class="btn-sm btn-success" href="@Url.Action("Edit", "GroupLoads",item)">
-                        <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
-                        Редактировать
-                    </a>                                      
-                </td>
                 <td>
-                    <a style="margin-right:10px;" class="btn-sm btn-danger" href="@Url.Action("Delete", "GroupLoads",item)">
-                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
-                        Удалить
-                    </a>
+                    @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.GroupLoadID);}
                 </td>
             </tr>
         }
