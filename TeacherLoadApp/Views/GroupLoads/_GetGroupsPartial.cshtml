@@ -1,3 +1,3 @@
-﻿@model SelectList
+﻿@model TeacherLoadApp.Models.GroupLoadVM
 
-<select class="form-control groups" asp-items="Model"></select>
+<select class="form-control groups" asp-for="GroupLoad.GroupNumber" asp-items="Model.Groups"></select>

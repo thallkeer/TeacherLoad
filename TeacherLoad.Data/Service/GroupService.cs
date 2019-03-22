@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 
@@ -11,7 +12,7 @@ namespace TeacherLoad.Data.Service
 
         public override IEnumerable<Group> GetAll()
         {
-            return Get(includeProperties: "Speciality");
+            return dbSet.Include(group => group.Speciality).AsNoTracking();
         }
     }
 }

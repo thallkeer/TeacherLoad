@@ -13,7 +13,7 @@ namespace TeacherLoadApp
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateWebHostBuilder(args).Build();            
             //using (var scope = host.Services.CreateScope())
             //{
             //    var services = scope.ServiceProvider;

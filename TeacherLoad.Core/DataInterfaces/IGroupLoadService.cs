@@ -17,6 +17,8 @@ namespace TeacherLoad.Core.DataInterfaces
         /// </summary>
         /// <param name="teacherID"></param>
         /// <returns></returns>
-        IEnumerable<GroupLoad> GetByTeacher(int teacherID);       
+        IEnumerable<GroupLoad> GetByTeacher(int teacherID);
+
+        void Reload(GroupLoad groupLoad);
     }
 }

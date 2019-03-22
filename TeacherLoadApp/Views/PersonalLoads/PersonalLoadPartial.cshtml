@@ -20,14 +20,15 @@
             @Html.DisplayFor(modelItem => load.TotalVolume)
         </td>
         <td>
-            <a class="btn-sm btn-success" asp-rou href="@Url.Action("Edit", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
+            @{ await Html.RenderPartialAsync("ButtonPartial", ViewData["id"] = load.PersonalLoadID);}
+            @*<a class="btn-sm btn-success" href="@Url.Action("Edit", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
                 <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
                 Редактировать
             </a>
             <a class="btn-sm btn-danger" style="margin-left: 10px;" href="@Url.Action("Delete", "PersonalLoads", new { teacherID = load.TeacherID, classID = load.IndividualClassID })">
                 <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
                 Удалить
-            </a>
+            </a>*@
         </td>
     </tr>
     }

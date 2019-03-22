@@ -29,20 +29,20 @@ namespace TeacherLoad.Core.Models
             modelBuilder.Entity<Teacher>()
                  .HasIndex(t => new { t.FirstName, t.LastName, t.Patronym }).IsUnique();
             modelBuilder.Entity<Discipline>()
-                 .HasAlternateKey(d => new { d.DisciplineName });
+                 .HasIndex(d => new { d.DisciplineName }).IsUnique();
             modelBuilder.Entity<GroupStudies>()
-                 .HasAlternateKey(gs => new { gs.GroupClassName });
+                 .HasIndex(gs => new { gs.GroupClassName }).IsUnique();
             modelBuilder.Entity<IndividualStudies>()
-                 .HasAlternateKey(ind => new { ind.IndividualClassName });
+                 .HasIndex(ind => new { ind.IndividualClassName }).IsUnique();
             modelBuilder.Entity<PersonalLoad>()
-                 .HasAlternateKey(pl => new { pl.TeacherID, pl.IndividualClassID });
+                 .HasIndex(pl => new { pl.TeacherID, pl.IndividualClassID }).IsUnique();
             modelBuilder.Entity<IndividualStudies>().Property(inds => inds.VolumeByPerson).HasDefaultValue(1);
             modelBuilder.Entity<PersonalLoad>().Property(pl => pl.StudentsCount).HasDefaultValue(1);
             modelBuilder.Entity<GroupLoad>().Property(gl => gl.VolumeHours).HasDefaultValue(1);
             modelBuilder.Entity<GroupLoad>().Property(gl => gl.Semester).HasConversion<int>();             
             modelBuilder.Entity<GroupLoad>().Property(gl => gl.StudyType).HasConversion<int>();
             modelBuilder.Entity<GroupLoad>()
-                 .HasAlternateKey(gl => new
+                 .HasIndex(gl => new
                  {
                      gl.TeacherID,
                      gl.GroupStudiesID,
@@ -51,7 +51,7 @@ namespace TeacherLoad.Core.Models
                      gl.Semester,
                      gl.StudyType,
                      gl.StudyYear
-                 });            
+                 }).IsUnique();            
                  
             modelBuilder.Entity<ApplicationUser>().ToTable("IdentityUser");
         }

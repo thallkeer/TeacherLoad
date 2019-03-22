@@ -54,3 +54,20 @@ table > .thead-light {
     margin-bottom: 25px;
 }
 
+.teachers-listbox {
+    height: 80vh;
+    width: 20%;
+    margin: 15px;
+    overflow: auto;
+    left: 10px;
+    display: inline-block;
+    position: absolute;
+}
+
+.table-holder {
+    width: 75%;
+    margin: 15px;
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}

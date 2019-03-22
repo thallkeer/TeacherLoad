@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace TeacherLoad.Data.Service
 {
@@ -18,7 +19,10 @@ namespace TeacherLoad.Data.Service
 
         public override Teacher GetByID(object id)
         {
-            return Get(t => t.TeacherID == (int)id,includeProperties:"Department,Position").FirstOrDefault();
+            return dbSet.Include(t => t.Department)
+                        .Include(t => t.Position)
+                        .Include(t => t.GroupLoads)
+                        .Include(t => t.PersonalLoads).FirstOrDefault();
         }
     }
 }

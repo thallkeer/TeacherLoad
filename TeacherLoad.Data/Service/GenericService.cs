@@ -22,7 +22,7 @@ namespace TeacherLoad.Data.Service
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return Get();
+            return dbSet.AsNoTracking();
         }
 
         public virtual IEnumerable<TEntity> Get(
@@ -79,8 +79,8 @@ namespace TeacherLoad.Data.Service
         }
 
         public virtual void Update(TEntity entityToUpdate)
-        {
-            dbSet.Attach(entityToUpdate);
+        {           
+            dbSet.Attach(entityToUpdate);            
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }
