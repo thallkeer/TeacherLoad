@@ -8,7 +8,7 @@
     <h2>Учебные группы</h2>
 
     <div class="form-inline" style="margin: 20px auto;">
-        <a class="btn btn-primary" asp-action="Create">Создать группу</a>
+        <a class="btn btn-primary" asp-action="Create">Добавить группу</a>
         <label class="control-label">Курс</label>
         @Html.DropDownList("Year", Model.Years, new { @class = "form-control selected-year" })
     </div>
@@ -18,10 +18,7 @@
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Instance.GroupNumber)
-                </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.Instance.Speciality)
-                </th>*@
+                </th>               
                 <th>
                     @Html.DisplayNameFor(model => model.Instance.StudentsCount)
                 </th>
@@ -35,8 +32,8 @@
                     <th colspan="6" style="background-color: #ADD8E6;
                             border-color: #dee2e6;">@groupedGroup.Key</th>
                         </tr>
-                        foreach (var group in groupedGroup.Values)
-                        {
+                foreach (var group in groupedGroup.Values)
+                {
                 <tr>
                     <td>
                         <a asp-controller="Groups" asp-action="GroupDisciplinesPost" asp-route-id="@group.GroupNumber">
@@ -49,8 +46,8 @@
                         @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = group.GroupNumber);}
                     </td>
                 </tr>
-                    }
-                }
+                 }
+             }
         </tbody>
         </table>
 </div>

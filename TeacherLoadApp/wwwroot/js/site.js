@@ -40,13 +40,26 @@
 });
 
 
-function getGroupsByCourse(route) {
+function getGroupsByCourse(route, year) {
     $.ajax({
         type: 'GET',
         url: route,
-        data: { studyYear: $(".selected-year").val() },
+        data: { studyYear: year },
         success: function (data) {
             $('.groups').replaceWith(data);
         }
     });
 };
+
+function getDisciplinesByGroup(route,group) {
+    $(".selected-group").change(function () {
+        $.ajax({
+            type: 'GET',
+            url: route,
+            data: { id: group },
+            success: function (data) {
+                $('#content').html(data);
+            }
+        });
+    });
+}

@@ -26,7 +26,7 @@ foreach (var load in group.Values)
             @Html.DisplayFor(modelItem => load.VolumeHours)
         </td>
         <td>
-            <a style="outline: none;" asp-action="Edit" asp-route-id="@load.GroupLoadID">
+            <a asp-action="Edit" asp-route-id="@load.GroupLoadID">
                 <span><i class="glyphicon glyphicon-pencil"></i></span>
             </a>
             <a style="margin-left: 5px;" asp-action="Delete" asp-route-id="@load.GroupLoadID">

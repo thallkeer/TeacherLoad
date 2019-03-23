@@ -23,7 +23,8 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Index()
         {
             var loads = unitOfWork.PersonalLoads.GetAll();
-            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName");
+            var classTypes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName");
+
             List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
                 .Select(g => new GroupingVM<PersonalLoad> { Key = g.Key, Values = g.ToList() }).ToList();
 
@@ -44,7 +45,7 @@ namespace TeacherLoadApp.Controllers
             List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
                 .Select(g => new GroupingVM<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
             
-            var classTypes = new SelectList(unitOfWork.IndividualStudies.Get(), "IndividualClassID", "IndividualClassName", classID);
+            var classTypes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", classID);
             
             return PartialView("PersonalLoadPartial",grouped);
         }
@@ -58,8 +59,8 @@ namespace TeacherLoadApp.Controllers
         // GET: GroupLoads/Create
         public ActionResult Create()
         {
-            FillDataLists();
-            return View("CreatePersonalLoad");
+            var model = BuildModel();
+            return View("CreatePersonalLoad",model);
         }
 
         // POST: GroupLoads/Create
@@ -81,9 +82,21 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            FillDataLists(personalLoad);
-            return View("CreatePersonalLoad",personalLoad);
+            var model = BuildModel(personalLoad);
+            return View("CreatePersonalLoad",model);
         }
+
+        private PersonalLoadVM BuildModel(PersonalLoad personalLoad = null)
+        {
+            if (personalLoad == null)
+                personalLoad = new PersonalLoad();
+
+            return new PersonalLoadVM
+            {
+                Teachers = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName", personalLoad.TeacherID),
+                Classes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", personalLoad.IndividualClassID)
+            };            
+        }     
 
         // GET: GroupLoads/Edit/5
         public ActionResult Edit(int id)
@@ -93,8 +106,8 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-            FillDataLists(load);
-            return View("EditPersonalLoad",load);
+            var model = BuildModel(load);
+            return View("EditPersonalLoad",model);
         }
 
         // POST: GroupLoads/Edit/5
@@ -135,20 +148,6 @@ namespace TeacherLoadApp.Controllers
             unitOfWork.PersonalLoads.Delete(load);
             unitOfWork.Save();
             return RedirectToAction("Index");
-        }
-
-        private void FillDataLists(PersonalLoad load = null)
-        {
-            if (load == null)
-            {
-                ViewData["Teachers"] = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName");                
-                ViewData["Classes"] = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName");
-            }
-            else
-            {
-                ViewData["Teachers"] = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName",load.TeacherID);
-                ViewData["Classes"] = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", load.IndividualClassID);
-            }
-        }
+        }        
     }
 }

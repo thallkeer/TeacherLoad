@@ -13,8 +13,6 @@ using TeacherLoadApp.Helpers;
 using static TeacherLoad.Core.Models.GroupLoad;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -40,85 +38,37 @@ namespace TeacherLoadApp.Controllers
             {
                 teacherID = allTeachers.First().TeacherID;
             }
-            var teachers = new SelectList(allTeachers, "TeacherID", "FullName",teacherID);
+            var teachersList = new SelectList(allTeachers, "TeacherID", "FullName",teacherID);
 
-            var filter = BuildFilter(teacherID, groupClassID, semester, studyType, studyYear);
-
-            IEnumerable<GroupLoad> loads = unitOfWork.GroupLoads
-                .Get(filter, includeProperties: "Teacher,Discipline,GroupStudies")
-                .GroupBy(l => new { l.DisciplineID, l.GroupStudiesID })
-                .Select(g => g.First());
-
-            List<GroupingVM<GroupLoad>> groupedLoads = loads.GroupBy(x => x.Discipline.DisciplineName)
-               .Select(g => new GroupingVM<GroupLoad> { Key = g.Key, Values = g.ToList() }).ToList();           
+            var groupedLoads = GetGroupedLoads(teacherID, groupClassID, semester, studyType, studyYear);                      
                                              
             var groupStudiesList = new SelectList(unitOfWork.GroupStudies.Get(), "GroupClassID", "GroupClassName",groupClassID);
 
             var model = new TeacherGroupLoadVM
             {
-                Teachers = teachers,
+                Teachers = teachersList,
                 GroupStudies = groupStudiesList,
-                GroupedLoads = groupedLoads,
+                GroupedLoads = groupedLoads.ToList(),
                 Semesters = GetEnumSelectList(typeof(SemesterType), semester),
                 StudyTypes = GetEnumSelectList(typeof(StudyTypes), studyType),
                 StudyYears = new SelectList(Enumerable.Range(1,4), studyYear)
             };
 
             return View(model);
-        }
+        }           
 
-        private static SelectList GetEnumSelectList(Type type, int selected = 0)
-        {
-            Array values = Enum.GetValues(type);
-            List<SelectListItem> items = new List<SelectListItem>(values.Length);
-            foreach (var i in values)
-            {
-                items.Add(new SelectListItem
-                {
-                    Text = i.GetType()
-                            .GetMember(i.ToString())
-                            .First()
-                            .GetCustomAttribute<DisplayAttribute>()
-                            .GetName(),
-                    Value = ((int)i).ToString()                  
-                });
-            }           
-            return new SelectList(items,"Value","Text",selected);
-        }        
-
+        [HttpGet]
         public ActionResult GetGroupLoads(int teacherID, int groupClassID, int semester, int studyType, int studyYear)
         {
-            var filter = BuildFilter(teacherID,groupClassID,semester,studyType,studyYear);            
-
-            IEnumerable<GroupLoad> loads = unitOfWork.GroupLoads
-                .Get(filter,includeProperties:"Teacher,Discipline,GroupStudies")         
-                .GroupBy(l => new { l.DisciplineID, l.GroupStudiesID })
-                .Select(g => g.First());            
-            
-            List<GroupingVM<GroupLoad>> groupedLoads = loads.GroupBy(x => x.Discipline.DisciplineName)
-               .Select(g => new GroupingVM<GroupLoad> { Key = g.Key, Values = g.ToList() }).ToList();
-
+            var groupedLoads = GetGroupedLoads(teacherID,groupClassID,semester,studyType,studyYear);
             return PartialView("TeacherLoadsPartial",groupedLoads);
-        }
-
-        private static Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID,int groupStudyID,int semester,int studyType,int studyYear)
-        {           
-            Expression<Func<GroupLoad, bool>> filter = (x) => x.TeacherID == teacherID;            
-            if (groupStudyID != 0)
-                filter = filter.And((x) => x.GroupStudiesID == groupStudyID);
-            if (semester != 0)
-                filter = filter.And((x) => (int)x.Semester == semester);
-            if (studyType != 0)
-                filter = filter.And((x) => (int)x.StudyType == studyType);
-            if (studyYear != 0)
-                filter = filter.And((x) => x.StudyYear == studyYear);
-            return filter;
-        }
+        }      
 
         // GET: GroupLoads/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View("CreateGroupLoad",FillModelLists());
+            return View("CreateGroupLoad",BuildModel());
         }
 
         // POST: GroupLoads/Create
@@ -139,12 +89,12 @@ namespace TeacherLoadApp.Controllers
             {
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-            }
-            //FillDataLists(load);
-            return View("CreateGroupLoad",load);
+            }            
+            return View("CreateGroupLoad", BuildModel(load.GroupLoad));
         }
 
         // GET: GroupLoads/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var load = unitOfWork.GroupLoads.GetByID(id);
@@ -152,7 +102,7 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-            var model = FillModelLists(load);            
+            var model = BuildModel(load);            
             return View("EditGroupLoad",model);
         }       
 
@@ -175,13 +125,14 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return View("EditGroupLoad",load);
+            return View("EditGroupLoad",BuildModel(load.GroupLoad));
         }
 
         // GET: GroupLoads/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            var load = unitOfWork.GroupLoads.GetAll();
+            var load = unitOfWork.GroupLoads.GetByID(id);
             return View("DeleteGroupLoad");
         }
 
@@ -194,7 +145,17 @@ namespace TeacherLoadApp.Controllers
             unitOfWork.GroupLoads.Delete(id);
             unitOfWork.Save();
             return RedirectToAction("Index");
-        }      
+        }
+
+        private IEnumerable<GroupingVM<GroupLoad>> GetGroupedLoads(int teacherID, int groupClassID, int semester, int studyType, int studyYear)
+        {
+            var filter = BuildFilter(teacherID, groupClassID, semester, studyType, studyYear);
+
+            IEnumerable<GroupLoad> loads = unitOfWork.GroupLoads.GetGroupedLoadsByFilter(filter);
+
+            return loads.GroupBy(x => x.Discipline.DisciplineName)
+               .Select(g => new GroupingVM<GroupLoad> { Key = g.Key, Values = g.ToList() });
+        }
 
         public ActionResult GetGroupsByCourse(int studyYear)
         {
@@ -202,18 +163,50 @@ namespace TeacherLoadApp.Controllers
             return PartialView("_GetGroupsPartial",new GroupLoadVM { Groups = groups});
         }
 
-        private GroupLoadVM FillModelLists(GroupLoad groupLoad = null)
+        private static SelectList GetEnumSelectList(Type type, int selected = 0)
+        {
+            Array values = Enum.GetValues(type);
+            List<SelectListItem> items = new List<SelectListItem>(values.Length);
+            foreach (var i in values)
+            {
+                items.Add(new SelectListItem
+                {
+                    Text = i.GetType()
+                            .GetMember(i.ToString())
+                            .First()
+                            .GetCustomAttribute<DisplayAttribute>()
+                            .GetName(),
+                    Value = ((int)i).ToString()
+                });
+            }
+            return new SelectList(items, "Value", "Text", selected);
+        }
+
+        private static Expression<Func<GroupLoad, bool>> BuildFilter(int teacherID, int groupStudyID, int semester, int studyType, int studyYear)
+        {
+            Expression<Func<GroupLoad, bool>> filter = (x) => x.TeacherID == teacherID;
+            if (groupStudyID != 0)
+                filter = filter.And((x) => x.GroupStudiesID == groupStudyID);
+            if (semester != 0)
+                filter = filter.And((x) => (int)x.Semester == semester);
+            if (studyType != 0)
+                filter = filter.And((x) => (int)x.StudyType == studyType);
+            if (studyYear != 0)
+                filter = filter.And((x) => x.StudyYear == studyYear);
+            return filter;
+        }
+
+        private GroupLoadVM BuildModel(GroupLoad groupLoad = null)
         {
             if (groupLoad == null)
                 groupLoad = new GroupLoad();
             var model = new GroupLoadVM
             {
                 GroupLoad = groupLoad,
-                Teachers = new SelectList(unitOfWork.Teachers.Get(), "TeacherID", "FullName", groupLoad.TeacherID),
-                Disciplines = new SelectList(unitOfWork.Disciplines.Get(), "DisciplineID", "DisciplineName", groupLoad.DisciplineID),
+                Teachers = new SelectList(unitOfWork.Teachers.GetAllForSelectList(), "TeacherID", "FullName", groupLoad.TeacherID),
+                Disciplines = new SelectList(unitOfWork.Disciplines.GetAll(), "DisciplineID", "DisciplineName", groupLoad.DisciplineID),
                 Groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == groupLoad.StudyYear), "GroupNumber", "GroupNumber", groupLoad.GroupNumber),
-                GroupStudies = new SelectList(unitOfWork.GroupStudies.Get(), "GroupClassID", "GroupClassName", groupLoad.GroupStudiesID),
-                //Specialities = new SelectList(unitOfWork.Specialities.Get(), "Code", "SpecialityName"),
+                GroupStudies = new SelectList(unitOfWork.GroupStudies.GetAll(), "GroupClassID", "GroupClassName", groupLoad.GroupStudiesID),
                 Semesters = GetEnumSelectList(typeof(SemesterType), (int)groupLoad.Semester),
                 StudyTypes = GetEnumSelectList(typeof(StudyTypes), (int)groupLoad.StudyType),
                 StudyYears = new SelectList(Enumerable.Range(1,4), groupLoad.StudyYear)

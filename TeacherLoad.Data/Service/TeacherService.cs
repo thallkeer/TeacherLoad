@@ -14,7 +14,15 @@ namespace TeacherLoad.Data.Service
 
         public override IEnumerable<Teacher> GetAll()
         {
-            return Get(includeProperties: "Department,Position");
+            return dbSet.Include(t => t.Department)
+                        .Include(t => t.Position)
+                        .Include(t => t.GroupLoads)
+                        .Include(t => t.PersonalLoads).AsNoTracking();
+        }
+
+        public IEnumerable<Teacher> GetAllForSelectList()
+        {
+            return dbSet.AsNoTracking();
         }
 
         public override Teacher GetByID(object id)
@@ -22,7 +30,7 @@ namespace TeacherLoad.Data.Service
             return dbSet.Include(t => t.Department)
                         .Include(t => t.Position)
                         .Include(t => t.GroupLoads)
-                        .Include(t => t.PersonalLoads).FirstOrDefault();
+                        .Include(t => t.PersonalLoads).FirstOrDefault(t => t.TeacherID == (int)id);
         }
     }
 }

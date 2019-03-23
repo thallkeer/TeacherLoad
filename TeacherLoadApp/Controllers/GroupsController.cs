@@ -19,10 +19,8 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: Groups
-        public IActionResult Index(int year)
-        {
-            if (year == 0)
-                year = 1;
+        public IActionResult Index(int year=1)
+        {            
             var groups = unitOfWork.Groups.Get(g => g.StudyYear == year, includeProperties: "Speciality")
                                    .OrderBy(g => g.GroupNumber);
             var groupedGroups = groups.GroupBy(x => x.Speciality.SpecialityName)

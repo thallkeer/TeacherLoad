@@ -19,11 +19,10 @@
     <script type="text/javascript">
         $(document).ready(() => {
             const url = "@Url.Action("GetGroupsByCourse")";
-            getGroupsByCourse(url);
+            const year = $(".selected-year").val();
+            getGroupsByCourse(url,year);
 
-            $(".selected-year").change(function () {
-                getGroupsByCourse(url);
-            });
+            $(".selected-year").change( () => getGroupsByCourse(url,year));
         });
     </script>
 }

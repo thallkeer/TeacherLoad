@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.DataInterfaces
@@ -18,7 +20,11 @@ namespace TeacherLoad.Core.DataInterfaces
         /// <param name="teacherID"></param>
         /// <returns></returns>
         IEnumerable<GroupLoad> GetByTeacher(int teacherID);
-
-        void Reload(GroupLoad groupLoad);
+        /// <summary>
+        /// Получить нагрузки по переданному условию, сгруппированные по виду занятий и дисциплине  
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        IEnumerable<GroupLoad> GetGroupedLoadsByFilter(Expression<Func<GroupLoad, bool>> filter);
     }
 }

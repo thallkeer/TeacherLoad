@@ -21,7 +21,15 @@ namespace TeacherLoad.Core.Models
         [NotMapped]
         [Display(Name ="Объем нагрузки в часах")]
         [ReadOnly(true)]
-        public int TotalVolume { get { return IndividualStudies.VolumeByPerson * StudentsCount; } }
+        public int TotalVolume
+        {
+            get
+            {
+                if (IndividualStudies != null)
+                    return IndividualStudies.VolumeByPerson * StudentsCount;
+                return StudentsCount;
+            }
+        }
         [Display(Name = "Преподаватель")]
         public virtual Teacher Teacher { get; set; }
         [Display(Name = "Вид занятия")]

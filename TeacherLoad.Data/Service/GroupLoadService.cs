@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 
@@ -37,11 +39,13 @@ namespace TeacherLoad.Data.Service
         public IEnumerable<GroupLoad> GetByTeacher(int teacherID)
         {
             return Get(x => x.TeacherID == teacherID,includeProperties: "Teacher,Discipline,GroupStudies");
-        }     
-        
-        public void Reload(GroupLoad groupLoad)
+        }
+
+        public IEnumerable<GroupLoad> GetGroupedLoadsByFilter(Expression<Func<GroupLoad, bool>> filter)
         {
-            context.Entry(groupLoad).Reload();
+            return Get(filter, includeProperties: "Teacher,Discipline,GroupStudies")
+                  .GroupBy(l => new { l.DisciplineID, l.GroupStudiesID })
+                  .Select(g => g.First());
         }
     }
 }
