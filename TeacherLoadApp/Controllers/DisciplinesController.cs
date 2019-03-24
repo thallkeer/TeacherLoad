@@ -39,7 +39,7 @@ namespace TeacherLoadApp.Controllers
         [HttpPost]
         public ActionResult Create(Discipline discipline)
         {
-            if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() == null)
+            if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() != null)
             {
                 ModelState.AddModelError(discipline.DisciplineName, "В базе данных уже существует запись с таким названием");
             }

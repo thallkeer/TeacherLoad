@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeacherLoad.Core.Models;
 
 namespace TeacherLoad.Core.Migrations
 {
     [DbContext(typeof(TeacherLoadContext))]
-    partial class TeacherLoadContextModelSnapshot : ModelSnapshot
+    [Migration("20190324180111_AddRestrict")]
+    partial class AddRestrict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -479,7 +481,7 @@ namespace TeacherLoad.Core.Migrations
                     b.HasOne("TeacherLoad.Core.Models.Teacher", "Teacher")
                         .WithMany("PersonalLoads")
                         .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TeacherLoad.Core.Models.Teacher", b =>

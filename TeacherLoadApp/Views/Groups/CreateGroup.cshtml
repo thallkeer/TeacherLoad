@@ -16,7 +16,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="StudentsCount" class="control-label"></label>
-                <input type="number" min="1" max="40" value="1" asp-for="StudentsCount" class="form-control" />
+                <input type="number" min="1" max="40" value="@Model.StudentsCount" asp-for="StudentsCount" class="form-control" />
                 <span asp-validation-for="StudentsCount" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -6,6 +6,11 @@
             placeholderElement.html(data);
             placeholderElement.find('.modal').modal('show');
         });
+    });   
+
+    placeholderElement.on('click', '[data-dismiss="modal"]', function (event) {
+        event.preventDefault();
+        placeholderElement.find('.modal').modal('close');
     });
 
     placeholderElement.on('click', '[data-save="modal"]', function (event) {
@@ -63,3 +68,14 @@ function getDisciplinesByGroup(route,group) {
         });
     });
 }
+
+function calculate(route) {
+    $.ajax({
+        type: 'GET',
+        url: route,
+        data: { classID: $("#classType").val(), count: $("#studentCount").val() },
+        success: function (data) {
+            $('#totalVolume').val(data);
+        }
+    });
+};

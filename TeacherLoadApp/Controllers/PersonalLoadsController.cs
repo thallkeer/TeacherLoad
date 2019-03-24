@@ -22,7 +22,7 @@ namespace TeacherLoadApp.Controllers
         // GET: PersonalLoads
         public ActionResult Index()
         {
-            var loads = unitOfWork.PersonalLoads.GetAll();
+            var loads = unitOfWork.PersonalLoads.GetAll().OrderBy(pl => pl.Teacher.LastName);
             var classTypes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName");
 
             List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
@@ -40,7 +40,7 @@ namespace TeacherLoadApp.Controllers
         public IActionResult TeacherLoadByClassType(int classID)
         {
             var loads = classID != 0 ? unitOfWork.PersonalLoads.Get(pl => pl.IndividualClassID == classID
-                , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll();
+                , q => q.OrderBy(pl => pl.Teacher.LastName),"Teacher") : unitOfWork.PersonalLoads.GetAll().OrderBy(pl => pl.Teacher.LastName);
 
             List<GroupingVM<PersonalLoad>> grouped = loads.GroupBy(x => x.Teacher.FullName)
                 .Select(g => new GroupingVM<PersonalLoad>{ Key=g.Key, Values = g.ToList() }).ToList();
@@ -66,13 +66,13 @@ namespace TeacherLoadApp.Controllers
         // POST: GroupLoads/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PersonalLoad personalLoad)
+        public ActionResult Create(PersonalLoadVM loadModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.PersonalLoads.Insert(personalLoad);
+                    unitOfWork.PersonalLoads.Insert(loadModel.PersonalLoad);
                     unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
@@ -82,7 +82,7 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            var model = BuildModel(personalLoad);
+            var model = BuildModel(loadModel.PersonalLoad);
             return View("CreatePersonalLoad",model);
         }
 
@@ -93,6 +93,7 @@ namespace TeacherLoadApp.Controllers
 
             return new PersonalLoadVM
             {
+                PersonalLoad = personalLoad,
                 Teachers = new SelectList(unitOfWork.Teachers.GetAll(), "TeacherID", "FullName", personalLoad.TeacherID),
                 Classes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", personalLoad.IndividualClassID)
             };            
@@ -113,13 +114,13 @@ namespace TeacherLoadApp.Controllers
         // POST: GroupLoads/Edit/5
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditConfirmed(PersonalLoad load)
+        public ActionResult EditConfirmed(PersonalLoadVM load)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    unitOfWork.PersonalLoads.Update(load);
+                    unitOfWork.PersonalLoads.Update(load.PersonalLoad);
                     unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
@@ -129,7 +130,7 @@ namespace TeacherLoadApp.Controllers
                 //Log the error (uncomment dex variable name after DataException and add a line here to write a log.)
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return View("EditPersonalLoad",load);
+            return View("EditPersonalLoad",BuildModel(load.PersonalLoad));
         }
 
         // GET: GroupLoads/Delete/5

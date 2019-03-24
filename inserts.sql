@@ -19,6 +19,7 @@ insert into Disciplines values ('Параллельное программирование')
 insert into Disciplines values ('IP-телефония и телевидение')
 insert into Disciplines values ('Вычислительные системы')
 insert into Disciplines values ('Сетевая безопасность')
+insert into Disciplines values ('Системное программирование')
 insert into Disciplines values ('Моделирование информационно-вычислительных систем')
 
 insert into Teachers values ('Чигарина','Елена','Ивановна',1,2)
@@ -65,18 +66,87 @@ insert into PersonalStudies values ('Выпускная квалификационная работа магистра'
 insert into PersonalStudies values ('Выпускная квалификационная работа бакалавра',8)
 insert into PersonalStudies values ('Работа с аспирантом',8)
 
-insert into GroupLoads values (32,0,0,4,1,1,'6404',1)
-insert into GroupLoads values (16,0,0,4,1,1,'6404',3)
+insert into GroupLoads values (32,1,1,4,1,1,'6404',1)
+insert into GroupLoads values (16,1,1,4,1,1,'6404',3)
 
-insert into GroupLoads values (32,0,0,4,1,1,'6403',1)
-insert into GroupLoads values (16,0,0,4,1,1,'6403',3)
+insert into GroupLoads values (32,1,1,4,1,1,'6403',1)
+insert into GroupLoads values (16,1,1,4,1,1,'6403',3)
 								  
-insert into GroupLoads values (32,0,0,4,1,1,'6402',1)
-insert into GroupLoads values (16,0,0,4,1,1,'6402',3)
-								  
-insert into GroupLoads values (32,0,0,4,1,1,'6401',1)
-insert into GroupLoads values (16,0,0,4,1,1,'6401',3)
-insert into GroupLoads values (16,0,0,4,1,1,'6401',3)
+insert into GroupLoads values (32,1,1,4,1,1,'6402',1)
+insert into GroupLoads values (16,1,1,4,1,1,'6402',3)
+								 
+insert into GroupLoads values (32,1,1,4,1,1,'6401',1)
+insert into GroupLoads values (16,1,1,4,1,1,'6401',3)
+insert into GroupLoads values (16,1,1,4,1,1,'6401',3)
+
+insert into GroupLoads values (32,2,1,1,11,2,'6101',1)
+insert into GroupLoads values (32,2,1,1,11,2,'6102',1)
+insert into GroupLoads values (32,2,1,1,11,2,'6103',1)
+insert into GroupLoads values (32,2,1,1,11,2,'6104',1)
+
+insert into GroupLoads values (16,2,1,1,11,2,'6101',2)
+insert into GroupLoads values (16,2,1,1,11,2,'6102',2)
+insert into GroupLoads values (16,2,1,1,10,2,'6103',2)
+insert into GroupLoads values (16,2,1,1,10,2,'6104',2)
+
+insert into GroupLoads values (16,2,1,1,11,2,'6101',3)
+insert into GroupLoads values (16,2,1,1,11,2,'6102',3)
+insert into GroupLoads values (16,2,1,1,10,2,'6103',3)
+insert into GroupLoads values (16,2,1,1,10,2,'6104',3)
+
+insert into GroupLoads values (32,1,1,3,9,7,'6301',1)
+insert into GroupLoads values (32,1,1,3,9,7,'6302',1)
+insert into GroupLoads values (32,1,1,3,9,7,'6303',1)
+insert into GroupLoads values (32,1,1,3,9,7,'6304',1)
+									  
+insert into GroupLoads values (16,1,1,3,9,7,'6301',3)
+insert into GroupLoads values (16,1,1,3,9,7,'6302',3)
+insert into GroupLoads values (16,1,1,3,9,7,'6303',3)
+insert into GroupLoads values (16,1,1,3,9,7,'6304',3)
+
+insert into GroupLoads values (24,1,1,1,7,4,'6401',1)
+insert into GroupLoads values (24,1,1,1,7,4,'6402',1)
+insert into GroupLoads values (24,1,1,1,7,4,'6403',1)								  
+								  		  
+insert into GroupLoads values (16,1,1,1,7,4,'6401',3)
+insert into GroupLoads values (16,1,1,1,7,4,'6402',3)
+insert into GroupLoads values (16,1,1,1,7,4,'6403',3)
+
+insert into GroupLoads values (32,2,1,3,5,45,'6301',1)
+insert into GroupLoads values (32,2,1,3,5,45,'6302',1)
+insert into GroupLoads values (32,2,1,3,5,45,'6303',1)
+insert into GroupLoads values (32,2,1,3,5,45,'6304',1)
+								  		
+insert into GroupLoads values (16,2,1,3,5,45,'6301',2)
+insert into GroupLoads values (16,2,1,3,5,45,'6302',2)
+insert into GroupLoads values (16,2,1,3,5,45,'6303',2)
+insert into GroupLoads values (16,2,1,3,5,45,'6304',2)
+									  	
+insert into GroupLoads values (16,2,1,3,5,45,'6301',3)
+insert into GroupLoads values (16,2,1,3,5,45,'6302',3)
+insert into GroupLoads values (16,2,1,3,5,45,'6303',3)
+insert into GroupLoads values (16,2,1,3,5,45,'6304',3)
+
+insert into GroupLoads values (32,2,1,3,2,45,'6301',1)
+insert into GroupLoads values (32,2,1,3,2,45,'6302',1)
+insert into GroupLoads values (32,2,1,3,2,45,'6303',1)
+insert into GroupLoads values (32,2,1,3,2,45,'6304',1)
+								  		
+insert into GroupLoads values (16,2,1,3,2,45,'6301',2)
+insert into GroupLoads values (16,2,1,3,2,45,'6302',2)
+insert into GroupLoads values (16,2,1,3,2,45,'6303',2)
+insert into GroupLoads values (16,2,1,3,2,45,'6304',2)
+									  	
+insert into GroupLoads values (16,2,1,3,2,45,'6301',3)
+insert into GroupLoads values (16,2,1,3,2,45,'6302',3)
+insert into GroupLoads values (16,2,1,3,2,45,'6303',3)
+insert into GroupLoads values (16,2,1,3,2,45,'6304',3)
+
+insert into GroupLoads values (8,1,1,4,6,1,'6404',1)
+insert into GroupLoads values (8,1,1,4,6,1,'6404',2)
+insert into GroupLoads values (8,1,1,4,6,1,'6404',3)
+
+
 
 insert into PersonalLoads values (5,1,4)
 insert into PersonalLoads values (4,1,5)
@@ -90,4 +160,12 @@ insert into PersonalLoads values (6,3,5)
 insert into PersonalLoads values (2,4,4)
 insert into PersonalLoads values (3,4,5)
 
+insert into PersonalLoads values (3,5,5)
+insert into PersonalLoads values (20,5,2)
+insert into PersonalLoads values (1,5,6)
 
+insert into PersonalLoads values (3,4,4)
+insert into PersonalLoads values (1,4,5)
+insert into PersonalLoads values (40,4,2)
+insert into PersonalLoads values (40,4,3)
+insert into PersonalLoads values (2,4,6)

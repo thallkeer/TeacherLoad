@@ -25,7 +25,23 @@ namespace TeacherLoad.Core.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Position>()
-                 .HasIndex(p => new { p.PositionID, p.PositionName }).IsUnique();
+                 .HasIndex(p => new { p.PositionName }).IsUnique();
+            modelBuilder.Entity<Teacher>()
+                 .HasOne(t => t.Position)
+                 .WithMany(p => p.Teachers)
+                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<PersonalLoad>()
+                 .HasOne(pl => pl.Teacher)
+                 .WithMany(t => t.PersonalLoads)
+                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Speciality>()
+                 .HasMany(s => s.Groups)
+                 .WithOne(g => g.Speciality)
+                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Discipline>()
+                 .HasMany(d => d.GroupLoads)
+                 .WithOne(gl => gl.Discipline)
+                 .OnDelete(DeleteBehavior.Restrict);            
             modelBuilder.Entity<Teacher>()
                  .HasIndex(t => new { t.FirstName, t.LastName, t.Patronym }).IsUnique();
             modelBuilder.Entity<Discipline>()

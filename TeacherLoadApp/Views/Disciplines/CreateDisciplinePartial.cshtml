@@ -9,12 +9,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-action="Create" method="post">
+            <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="modal-body">
                     <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
                     <div class="form-group">
-                        <input type="text" asp-for="DisciplineName" class="form-control" name="DisciplineName" placeholder="Дисциплина" required autofocus />
+                        <input asp-for="DisciplineName" required class="form-control" name="DisciplineName"
+                             placeholder="Дисциплина" autofocus/>
                         <span asp-validation-for="DisciplineName" class="text-danger"></span>
                     </div>
                 </div>

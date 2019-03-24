@@ -1,0 +1,25 @@
+﻿@model TeacherLoadApp.Models.PersonalLoadVM
+
+<div class="form-group">
+    <label asp-for="PersonalLoad.TeacherID" class="control-label"></label>
+    <select asp-for="PersonalLoad.TeacherID" class="form-control" asp-items="Model.Teachers"></select>
+</div>
+<div class="form-group">
+    <label asp-for="PersonalLoad.IndividualClassID" class="control-label"></label>
+    <select onchange="calculate('@Url.Action("CalculateHours")')" id="classType" asp-for="PersonalLoad.IndividualClassID" class="form-control" asp-items="Model.Classes"></select>
+</div>
+<div class="form-group">
+    <label asp-for="PersonalLoad.StudentsCount" class="control-label"></label>
+    <input onclick="calculate('@Url.Action("CalculateHours")')" 
+           onchange="calculate('@Url.Action("CalculateHours")')" 
+           id="studentCount" type="number" min="1" max="40" asp-for="PersonalLoad.StudentsCount" class="form-control" />
+    <span asp-validation-for="PersonalLoad.StudentsCount" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="PersonalLoad.TotalVolume" class="control-label"></label>
+    <input readonly="readonly" id="totalVolume" asp-for="PersonalLoad.TotalVolume" class="form-control" />
+</div>
+<div class="form-group">
+    <input type="submit" value="Сохранить" class="btn btn-success" />
+    <a class="btn btn-primary" asp-action="Index">Отменить</a>
+</div>
