@@ -6,8 +6,10 @@
 
 <h2>Дисциплины</h2>
 
-
-<div id="modal-placeholder"></div>
+<div class="modal fade" id="add-discipline" tabindex="-1" role="dialog" 
+        aria-labelledby="addDisciplineLabel" aria-hidden="true">
+    <div id="dialog-content" class="modal-dialog" role="document"></div>
+</div>
 <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-discipline"
             data-url="@Url.Action("Create")">
@@ -16,7 +18,3 @@
 </p>
 
 @{await Html.RenderPartialAsync("_Disciplines", Model);}
-
-
-
-

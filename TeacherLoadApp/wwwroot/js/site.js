@@ -1,16 +1,12 @@
-﻿$(function () {
-    var placeholderElement = $('#modal-placeholder');
+﻿$(document).ready(function () {
+    var placeholderElement = $('#add-discipline');
     $('button[data-toggle="modal"]').click(function (event) {
-        var url = $(this).data('url');
-        $.get(url).done(function (data) {
-            placeholderElement.html(data);
-            placeholderElement.find('.modal').modal('show');
-        });
-    });   
-
-    placeholderElement.on('click', '[data-dismiss="modal"]', function (event) {
         event.preventDefault();
-        placeholderElement.find('.modal').modal('close');
+        var url = $(this).data('url');        
+        $.get(url).done(function (data) {
+            $('#dialog-content').html(data);
+            placeholderElement.modal('show');
+        });        
     });
 
     placeholderElement.on('click', '[data-save="modal"]', function (event) {
@@ -20,7 +16,7 @@
         var actionUrl = form.attr('action');
         var dataToSend = form.serialize();
 
-        $.post(actionUrl, dataToSend).done(function (data) {            
+        $.post(actionUrl, dataToSend).done(function (data) {
             var newBody = $('.modal-body', data);
             placeholderElement.find('.modal-body').replaceWith(newBody);
 
@@ -30,6 +26,8 @@
                 var notificationsUrl = notificationsPlaceholder.data('url');
                 $.get(notificationsUrl).done(function (notifications) {
                     notificationsPlaceholder.html(notifications);
+                    notificationsPlaceholder.show("slow");
+                    setTimeout(function () { notificationsPlaceholder.hide('slow'); }, 2000);
                 });
 
                 var tableElement = $('#disciplines');
@@ -37,13 +35,12 @@
                 $.get(tableUrl).done(function (table) {
                     tableElement.replaceWith(table);
                 });
-
-                placeholderElement.find('.modal').modal('hide');            
+                
+                placeholderElement.find('.modal').modal('hide');
             }
         });
     });
 });
-
 
 function getGroupsByCourse(route, year) {
     $.ajax({

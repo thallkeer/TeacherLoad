@@ -15,17 +15,17 @@
             <div class="form-row">
                 <div class="col-md-4 mb-3">
                     <label asp-for="LastName" class="control-label"></label>
-                    <input placeholder="Фамилия" asp-for="LastName" class="form-control" />
+                    <input placeholder="Фамилия" asp-for="LastName" class="form-control" required/>
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label asp-for="FirstName" class="control-label"></label>
-                    <input placeholder="Имя" asp-for="FirstName" autofocus class="form-control" />
+                    <input placeholder="Имя" asp-for="FirstName"  class="form-control" required autofocus/>
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label asp-for="Patronym" class="control-label"></label>
-                    <input placeholder="Отчество" asp-for="Patronym" class="form-control" />
+                    <input placeholder="Отчество" asp-for="Patronym" class="form-control" required />
                     <span asp-validation-for="Patronym" class="text-danger"></span>
                 </div>
             </div>
