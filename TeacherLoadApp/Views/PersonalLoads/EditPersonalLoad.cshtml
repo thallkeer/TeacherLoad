@@ -11,7 +11,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PersonalLoad.PersonalLoadID" />
-            @{ await Html.RenderPartialAsync("EditPersonalLoadPartial", Model);}
+            @{ await Html.RenderPartialAsync("_EditPersonalLoad", Model);}
         </form>
     </div>
 </div>

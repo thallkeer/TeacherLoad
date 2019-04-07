@@ -9,7 +9,7 @@ namespace TeacherLoadApp.Models
 {
     public class GroupsIndexVM
     {
-        public Group Instance { get; set; }
+        public Group StudyGroup { get; set; }
         public SelectList Years { get; set; }
         public List<GroupingVM<Group>> GroupedStudyGroups {get;set;}
     }

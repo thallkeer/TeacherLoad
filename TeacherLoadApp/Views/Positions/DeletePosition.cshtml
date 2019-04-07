@@ -13,8 +13,7 @@
         <dd>
             @Html.DisplayFor(model => model.PositionName)
         </dd>
-    </dl>
-    
+    </dl>    
     <form asp-action="Delete">
         <input type="hidden" asp-for="PositionID" />
         <input type="submit" value="Удалить" class="btn btn-danger" />

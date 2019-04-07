@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeacherLoadApp.Models.GroupDisciplinesVM>
+﻿@model TeacherLoadApp.Models.Groups.GroupDisciplinesVM
 @{
     ViewData["Title"] = "Дисциплины группы";
 }
@@ -7,11 +7,11 @@
 
 <div class="form-inline" style="margin: 20px auto;">
     <label class="control-label">Группа</label>
-    @Html.DropDownList("GroupNumber", ViewBag.Groups as SelectList, new { @class = "form-control selected-group"})
+    @Html.DropDownList("GroupNumber", Model.Groups, new { @class = "form-control selected-group"})
 </div>
 
 <div id="content">
-       @{ await Html.RenderPartialAsync("GroupDisciplinesPartial"); }
+       @{ await Html.RenderPartialAsync("_GroupDisciplines",Model.GroupDisciplines); }
 </div>
 
 @section scripts{

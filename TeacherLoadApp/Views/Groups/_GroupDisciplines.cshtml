@@ -1,16 +1,16 @@
-﻿@model IEnumerable<GroupDisciplinesVM>
+﻿@model List<GroupDisciplinesVMItem>
 
 <table class="table table-hover">
     <thead class="thead-light">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Discipline)
+                @Html.DisplayNameFor(model => model[0].Discipline)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherName)
+                @Html.DisplayNameFor(model => model[0].TeacherName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClassType)
+                @Html.DisplayNameFor(model => model[0].ClassType)
             </th>
             <th></th>
         </tr>

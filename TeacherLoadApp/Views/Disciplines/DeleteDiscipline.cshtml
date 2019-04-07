@@ -4,20 +4,18 @@
     ViewData["Title"] = "DeleteDiscipline";
 }
 
-<h3>Вы уверены, что хотите удалить запись?</h3>
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DisciplineName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DisciplineName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title" id="addDisciplineLabel">Вы уверены, что хотите удалить запись?</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>    
+    <form id="create-form" asp-action="Delete">
         <input type="hidden" asp-for="DisciplineID" />
-        <input type="submit" value="Удалить" class="btn btn-danger" />
-        <a class="btn btn-primary" asp-action="Index">Отменить</a>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+            <button type="submit" class="btn btn-danger" data-save="modal">Удалить</button>
+        </div>
     </form>
 </div>

@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
+
 
 namespace TeacherLoadApp
 {
@@ -37,6 +40,9 @@ namespace TeacherLoadApp
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<TeacherLoadContext>()
                 .AddDefaultTokenProviders();
+            services.AddHttpClient();
+            services.AddSession();
+            services.AddMemoryCache();
            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -56,9 +62,14 @@ namespace TeacherLoadApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "node_modules")),
+                RequestPath = "/node_modules"
+            });
             app.UseCookiePolicy();
             app.UseAuthentication();
-
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

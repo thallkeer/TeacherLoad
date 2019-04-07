@@ -1,0 +1,28 @@
+﻿@model TeacherLoad.Core.Models.Discipline
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title" id="addDisciplineLabel">Изменение дисциплины</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form id="create-form" asp-action="Edit">        
+        @Html.ValidationSummary()
+        <input type="hidden" asp-for="DisciplineID" />
+        <div class="modal-body">
+            <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+            <div class="form-group">
+                <input asp-for="DisciplineName" required class="form-control" name="DisciplineName"
+                       placeholder="Дисциплина" autofocus />
+                <span asp-validation-for="DisciplineName" class="text-danger"></span>
+            </div>
+        </div>
+        <div id="notification" data-url="@Url.Action("Notifications", "Disciplines")"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary" data-save="modal">Сохранить</button>
+        </div>
+    </form>
+</div>
+

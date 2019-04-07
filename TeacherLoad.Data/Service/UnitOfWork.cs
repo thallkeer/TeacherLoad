@@ -76,7 +76,7 @@ namespace TeacherLoad.Data.Service
 
         public void Save()
         {            
-           var a= context.SaveChanges();
+           context.SaveChanges();
         }
 
         private bool disposed;

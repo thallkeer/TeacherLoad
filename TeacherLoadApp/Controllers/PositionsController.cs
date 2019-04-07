@@ -104,7 +104,7 @@ namespace TeacherLoadApp.Controllers
         {
             var position = unitOfWork.Positions.GetByID(id);
             unitOfWork.Positions.Delete(position);
-            unitOfWork.Save();
+            unitOfWork.Save();            
             return RedirectToAction(nameof(Index));
         }
     }

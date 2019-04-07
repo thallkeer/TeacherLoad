@@ -50,7 +50,13 @@
                                 <li><hr /></li>
                                 <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
                                 <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
-                                <li><hr /></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Оперативные данные<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
                                 <li>@Html.ActionLink("Индивидуальная нагрузка", "Index", "PersonalLoads")</li>
                             </ul>
@@ -66,7 +72,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Отчеты", "Index", "Home")
+                            @*@Url.Action("Отчет", "Home");*@
+                           @Html.ActionLink("Сформировать отчет", "ShowReport", "Home")
                         </li>
                         <li class="nav-item">
                             <a asp-area="Identity" title="Manage">@UserManager.GetUserName(User)</a>
@@ -83,9 +90,8 @@
     }
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
-        <div id="notification" style="display: none;" data-url="@Url.Action("Notifications", "Disciplines")"></div>
-        @RenderBody()
+    <div class="container body-content">       
+        @RenderBody()        
     </div>
 
     <environment include="Development">

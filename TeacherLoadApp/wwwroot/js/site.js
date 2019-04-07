@@ -1,13 +1,13 @@
-﻿$(document).ready(function () {
+﻿$(document).on('click', 'button[data-toggle="modal"]',function (event) {
     var placeholderElement = $('#add-discipline');
-    $('button[data-toggle="modal"]').click(function (event) {
+    //$('button[data-toggle="modal"]').click(function (event) {
         event.preventDefault();
         var url = $(this).data('url');        
-        $.get(url).done(function (data) {
+        $.get(url).done(function (data) {           
             $('#dialog-content').html(data);
             placeholderElement.modal('show');
         });        
-    });
+    //});
 
     placeholderElement.on('click', '[data-save="modal"]', function (event) {
         event.preventDefault();
@@ -24,9 +24,9 @@
             if (isValid) {
                 var notificationsPlaceholder = $('#notification');
                 var notificationsUrl = notificationsPlaceholder.data('url');
-                $.get(notificationsUrl).done(function (notifications) {
+                $.get(notificationsUrl).done(function (notifications) {                    
                     notificationsPlaceholder.html(notifications);
-                    notificationsPlaceholder.show("slow");
+                    notificationsPlaceholder.show('slow');
                     setTimeout(function () { notificationsPlaceholder.hide('slow'); }, 2000);
                 });
 
@@ -35,8 +35,8 @@
                 $.get(tableUrl).done(function (table) {
                     tableElement.replaceWith(table);
                 });
-                
-                placeholderElement.find('.modal').modal('hide');
+
+                //placeholderElement./*find('.modal').*/modal('hide');
             }
         });
     });

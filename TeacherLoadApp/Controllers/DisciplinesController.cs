@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,8 @@ namespace TeacherLoadApp.Controllers
         }
 
         public ActionResult Create()
-        {
-            return PartialView("CreateDisciplinePartial");
+        {            
+            return PartialView("_CreateDiscipline");
         }
 
         //[ValidateAntiForgeryToken]
@@ -41,7 +42,7 @@ namespace TeacherLoadApp.Controllers
         {
             if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() != null)
             {
-                ModelState.AddModelError(discipline.DisciplineName, "В базе данных уже существует запись с таким названием");
+                ModelState.AddModelError("DisciplineName", "В базе данных уже существует запись с таким названием");
             }
             else if (ModelState.IsValid)
             {
@@ -49,8 +50,8 @@ namespace TeacherLoadApp.Controllers
                 unitOfWork.Save();
                 CreateNotification("Дисциплина добавлена!");
                 //return RedirectToAction(nameof(Index));
-            }            
-            return PartialView("CreateDisciplinePartial", discipline);
+            }
+            return PartialView("_CreateDiscipline", discipline);
         }
 
         [NonAction]
@@ -76,52 +77,40 @@ namespace TeacherLoadApp.Controllers
             if (discipline == null)
             {
                 return NotFound();
-            }           
-            return View("EditDiscipline",discipline);
+            }
+            //return View("EditDiscipline",discipline);            
+            return PartialView("_EditDiscipline",discipline);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Discipline discipline)
+        public ActionResult Edit(Discipline discipline)
         {
-            if (id != discipline.DisciplineID)
+            if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() != null)
             {
-                return NotFound();
+                ModelState.AddModelError("DisciplineName", "В базе данных уже существует запись с таким названием");
             }
-
-            if (ModelState.IsValid)
+            else if (ModelState.IsValid)
             {
-                try
-                {
-                    unitOfWork.Disciplines.Update(discipline);
-                    unitOfWork.Save();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (unitOfWork.Disciplines.GetByID(id) != null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View("EditDiscipline", discipline);
+                unitOfWork.Disciplines.Update(discipline);
+                unitOfWork.Save();
+                CreateNotification("Дисциплина успешно изменена!");
+            }            
+            return PartialView("_EditDiscipline", discipline);
         }
 
         // GET: Specialities/Delete/5
         public ActionResult Delete(int id)
         {
             var discipline = unitOfWork.Disciplines.GetByID(id);
-            if (discipline == null)
+            if (discipline != null)
             {
-                return NotFound();
+                //return NotFound();
+                unitOfWork.Disciplines.Delete(discipline);
+                unitOfWork.Save();
             }
-
-            return View("DeleteDiscipline", discipline);
+            return RedirectToAction("Index");
+            //return PartialView("DeleteDiscipline", discipline);
         }
 
         // POST: Specialities/Delete/5
@@ -130,9 +119,49 @@ namespace TeacherLoadApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var discipline = unitOfWork.Disciplines.GetByID(id);
-            unitOfWork.Disciplines.Delete(discipline);
-            unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+            if (discipline != null)
+            {
+                unitOfWork.Disciplines.Delete(discipline);
+                var saved = false;
+                while (!saved)
+                {
+                    try
+                    {
+                        // Attempt to save changes to the database
+                        unitOfWork.Save();
+                        saved = true;
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        foreach (var entry in ex.Entries)
+                        {
+                            if (entry.Entity is Discipline)
+                            {
+                                if (entry.GetDatabaseValues() == null)
+                                    return View("DisciplinesList", unitOfWork.Disciplines.Get(orderBy: x => x.OrderBy(d => d.DisciplineName)));
+                            }
+                        }
+                    }
+                }
+            }
+            //try
+            //{
+            //    unitOfWork.Disciplines.Delete(discipline);
+            //    unitOfWork.Save();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (unitOfWork.Disciplines.GetByID(id) == null)
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}           
+            return View("DisciplinesList", unitOfWork.Disciplines.Get(orderBy: x => x.OrderBy(d => d.DisciplineName)));
         }
+       
     }
 }

@@ -26,7 +26,7 @@ namespace TeacherLoadApp.Controllers
         }
 
         public IActionResult Index()
-        { 
+        {
             return RedirectToAction("TeachersGroupLoad");
         }        
 
@@ -61,7 +61,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult GetGroupLoads(int teacherID, int groupClassID, int semester, int studyType, int studyYear)
         {
             var groupedLoads = GetGroupedLoads(teacherID,groupClassID,semester,studyType,studyYear);
-            return PartialView("TeacherLoadsPartial",groupedLoads);
+            return PartialView("_TeacherLoads",groupedLoads);
         }      
 
         // GET: GroupLoads/Create
@@ -160,7 +160,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult GetGroupsByCourse(int studyYear)
         {
             var groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == studyYear), "GroupNumber", "GroupNumber");
-            return PartialView("_GetGroupsPartial",new GroupLoadVM { Groups = groups});
+            return PartialView("_GetGroups",new GroupLoadVM { Groups = groups});
         }
 
         private static SelectList GetEnumSelectList(Type type, int selected = 0)

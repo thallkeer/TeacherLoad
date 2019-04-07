@@ -47,7 +47,7 @@ namespace TeacherLoadApp.Controllers
             
             var classTypes = new SelectList(unitOfWork.IndividualStudies.GetAll(), "IndividualClassID", "IndividualClassName", classID);
             
-            return PartialView("PersonalLoadPartial",grouped);
+            return PartialView("_PersonalLoad",grouped);
         }
 
         public int CalculateHours(int classID,int count)

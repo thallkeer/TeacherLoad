@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<TeacherLoad.Core.Models.Discipline>
 
+    
     <table class="table table-hover" id="disciplines" data-url="@Url.Action("Index")">
         <thead class="thead-light">
             <tr>
@@ -17,7 +18,15 @@
                         @Html.DisplayFor(modelItem => item.DisciplineName)
                     </td>
                     <td>
-                        @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.DisciplineID);}
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-discipline"
+                                data-url="@Url.Action("Edit","Disciplines", new { id = item.DisciplineID })">
+                            <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                            Изменить
+                        </button>  
+                        <a class="btn btn-danger" href="@Url.Action("Delete","Disciplines", new { id = item.DisciplineID })">
+                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>
+                            Удалить
+                        </a>                        
                     </td>
                 </tr>
             }

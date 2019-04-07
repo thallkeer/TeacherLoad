@@ -71,16 +71,17 @@ namespace TeacherLoad.Data.Service
 
         public virtual void Delete(TEntity entityToDelete)
         {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            if (context.Entry(entityToDelete).State == EntityState.Detached
+                /*|| context.Entry(entityToDelete).State == EntityState.Unchanged*/)
             {
                 dbSet.Attach(entityToDelete);
-            }
+            }            
             dbSet.Remove(entityToDelete);
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {           
-            dbSet.Attach(entityToUpdate);            
+            //dbSet.Attach(entityToUpdate);            
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
     }

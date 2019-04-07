@@ -1,0 +1,29 @@
+﻿@model TeacherLoad.Core.Models.Position
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title" id="addDisciplineLabel">Вы уверены, что хотите удалить запись?</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form asp-action="Delete">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="PositionID" />
+        <div class="modal-body">
+            <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PositionName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PositionName)
+                </dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary" data-save="modal">Удалить</button>
+        </div>
+    </form>
+</div>

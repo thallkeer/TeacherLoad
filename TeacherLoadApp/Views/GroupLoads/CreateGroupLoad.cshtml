@@ -10,7 +10,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @{ await Html.RenderPartialAsync("_EditGroupLoadPartial",Model);}
+            @{ await Html.RenderPartialAsync("_EditGroupLoad",Model);}
         </form>
     </div>
 </div>

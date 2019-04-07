@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TeacherLoadApp.Models
+namespace TeacherLoadApp.Models.Groups
 {
     public class GroupDisciplinesVM
-    {        
-        [Display(Name = "Дисциплина")]
-        public string Discipline { get; set; }
-        [Display(Name = "Преподаватель")]
-        public string TeacherName { get; set; }
-        [Display(Name = "Вид занятий")]
-        public string ClassType { get; set; }
+    {
+        public SelectList Groups { get; set; }
+        public List<GroupDisciplinesVMItem> GroupDisciplines { get; set; }
     }
 }
