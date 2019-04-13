@@ -16,6 +16,11 @@
 
 @section scripts{
     <script type="text/javascript">
-        $(document).ready(() => getDisciplinesByGroup('@Url.Action("GroupDisciplines")',$(".selected-group").val()));
+        $(document).ready(function () {
+            var selectedGroup = $(".selected-group");
+
+            selectedGroup.change(() =>
+                getDisciplinesByGroup('@Url.Action("GroupDisciplines")', selectedGroup.val()));
+        });
     </script>
 }

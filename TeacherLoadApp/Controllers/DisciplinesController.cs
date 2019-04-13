@@ -40,9 +40,9 @@ namespace TeacherLoadApp.Controllers
         [HttpPost]
         public ActionResult Create(Discipline discipline)
         {
-            if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() != null)
+            if (IsExists(discipline))
             {
-                ModelState.AddModelError("DisciplineName", "В базе данных уже существует запись с таким названием");
+                ModelState.AddModelError("DisciplineName", "В базе данных уже существует дисциплина с таким названием");
             }
             else if (ModelState.IsValid)
             {
@@ -82,13 +82,18 @@ namespace TeacherLoadApp.Controllers
             return PartialView("_EditDiscipline",discipline);
         }
 
+        private bool IsExists(Discipline discipline)
+        {
+            return unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).Any();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Discipline discipline)
         {
-            if (unitOfWork.Disciplines.Get(d => d.DisciplineName == discipline.DisciplineName).FirstOrDefault() != null)
+            if (IsExists(discipline))
             {
-                ModelState.AddModelError("DisciplineName", "В базе данных уже существует запись с таким названием");
+                ModelState.AddModelError("DisciplineName", "В базе данных уже существует дисциплина с таким названием");
             }
             else if (ModelState.IsValid)
             {
@@ -104,7 +109,7 @@ namespace TeacherLoadApp.Controllers
         {
             var discipline = unitOfWork.Disciplines.GetByID(id);
             if (discipline != null)
-            {
+            {                
                 //return NotFound();
                 unitOfWork.Disciplines.Delete(discipline);
                 unitOfWork.Save();
@@ -121,6 +126,7 @@ namespace TeacherLoadApp.Controllers
             var discipline = unitOfWork.Disciplines.GetByID(id);
             if (discipline != null)
             {
+
                 unitOfWork.Disciplines.Delete(discipline);
                 var saved = false;
                 while (!saved)
@@ -161,7 +167,6 @@ namespace TeacherLoadApp.Controllers
             //    }
             //}           
             return View("DisciplinesList", unitOfWork.Disciplines.Get(orderBy: x => x.OrderBy(d => d.DisciplineName)));
-        }
-       
+        }       
     }
 }

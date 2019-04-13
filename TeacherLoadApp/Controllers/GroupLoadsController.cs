@@ -160,7 +160,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult GetGroupsByCourse(int studyYear)
         {
             var groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == studyYear), "GroupNumber", "GroupNumber");
-            return PartialView("_GetGroups",new GroupLoadVM { Groups = groups});
+            return PartialView("_GetGroups", new GroupLoadVM { Groups = groups });
         }
 
         private static SelectList GetEnumSelectList(Type type, int selected = 0)
@@ -199,7 +199,10 @@ namespace TeacherLoadApp.Controllers
         private GroupLoadVM BuildModel(GroupLoad groupLoad = null)
         {
             if (groupLoad == null)
+            {
                 groupLoad = new GroupLoad();
+                
+            }
             var model = new GroupLoadVM
             {
                 GroupLoad = groupLoad,

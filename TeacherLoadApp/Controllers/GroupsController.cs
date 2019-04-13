@@ -20,40 +20,48 @@ namespace TeacherLoadApp.Controllers
         }
 
         // GET: Groups
-        public IActionResult Index(int year=1)
-        {            
-            var groups = unitOfWork.Groups.Get(g => g.StudyYear == year, includeProperties: "Speciality")
+        public IActionResult Index(int studyYear = 1)
+        {
+            var groups = unitOfWork.Groups.Get(g => g.StudyYear == studyYear, includeProperties: "Speciality")
                                    .OrderBy(g => g.GroupNumber);
             var groupedGroups = groups.GroupBy(x => x.Speciality.SpecialityName)
                   .Select(g => new GroupingVM<Group> { Key = g.Key, Values = g.ToList() }).ToList();
 
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            if (isAjax)
+            {
+                return PartialView("GroupsListPartial", new GroupsIndexVM
+                {
+                    StudyGroup = groups.FirstOrDefault(),
+                    GroupedStudyGroups = groupedGroups
+                });
+            }
+
             var model = new GroupsIndexVM
             {
                 StudyGroup = groups.FirstOrDefault(),
-                Years = new SelectList(Enumerable.Range(1,4), year),
+                Years = new SelectList(Enumerable.Range(1, 4), studyYear),
                 GroupedStudyGroups = groupedGroups
             };
 
             return View("GroupsList", model);
         }
 
-        [HttpGet]
         public IActionResult GroupDisciplines(string id)
         {
-            if (id == null)
-                return View(new GroupDisciplinesVM()
-                {
-                    Groups = GetGroupsList(id),
-                    GroupDisciplines = new List<GroupDisciplinesVMItem>()
-                });
-            return PartialView("_GroupDisciplines", GetModels(id));
-        }
-
-        [HttpPost]
-        public IActionResult GroupDisciplinesPost(string id)
-        {            
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            if (isAjax)
+            {
+                if (id == null)
+                    return View(new GroupDisciplinesVM()
+                    {
+                        Groups = GetGroupsList(id),
+                        GroupDisciplines = new List<GroupDisciplinesVMItem>()
+                    });
+                return PartialView("_GroupDisciplines", GetModels(id).GroupDisciplines);
+            }
             return View("GroupDisciplines", GetModels(id));
-        }
+        }        
 
         private SelectList GetGroupsList(string selected = null)
         {
@@ -67,8 +75,15 @@ namespace TeacherLoadApp.Controllers
             var model = new GroupDisciplinesVM();
             var modelItems = new List<GroupDisciplinesVMItem>();
             model.GroupDisciplines = modelItems;
-            model.Groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == items.First().StudyYear),
-                "GroupNumber", "GroupNumber", id);
+            if (items.Any())
+            {
+                model.Groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == items.First().StudyYear),
+                    "GroupNumber", "GroupNumber", id);
+            }
+            else
+            {
+                model.Groups = GetGroupsList();
+            }
             foreach (GroupLoad groupLoad in items)
             {
                 GroupDisciplinesVMItem item = new GroupDisciplinesVMItem
@@ -86,9 +101,9 @@ namespace TeacherLoadApp.Controllers
         public IActionResult Create()
         {
             var model = new StudyGroupVM
-            {
-                Group = new Group(),
-                Specialities = GetSpecialitiesList()
+            {                
+                Specialities = GetSpecialitiesList(),
+                Group = new Group()
             };           
             return View("CreateGroup",model);
         }
@@ -106,7 +121,7 @@ namespace TeacherLoadApp.Controllers
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            
+            groupVM.Specialities = GetSpecialitiesList(groupVM.Group.SpecialityCode);
             return View("CreateGroup",groupVM);
         }
 
@@ -196,7 +211,7 @@ namespace TeacherLoadApp.Controllers
 
         private SelectList GetSpecialitiesList(string selected = null)
         {
-            return new SelectList(unitOfWork.Specialities.Get(), "Code", "GroupWithSpeciality", selected);
+            return new SelectList(unitOfWork.Specialities.Get(), "Code", "NameWithCode", selected);
         }
 
         private bool GroupExists(string id)

@@ -1,7 +1,7 @@
 ﻿@model TeacherLoad.Core.Models.Group
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Удаление группы";
 }
 
 <h2>Удаление</h2>
@@ -23,7 +23,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="GroupNumber" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <input type="submit" value="Удалить" class="btn btn-danger" /> 
         <a class="btn btn-primary" asp-action="Index">Отменить</a>
     </form>
 </div>

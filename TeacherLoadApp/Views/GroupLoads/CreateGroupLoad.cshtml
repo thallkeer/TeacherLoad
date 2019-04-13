@@ -16,13 +16,18 @@
 </div>
 
 @section scripts{
-    <script type="text/javascript">
-        $(document).ready(() => {
+    <script type="text/javascript">       
+         $(document).ready(function () {
             const url = "@Url.Action("GetGroupsByCourse")";
-            const year = $(".selected-year").val();
-            getGroupsByCourse(url,year);
+            const selectedYear = $(".selected-year");
+            var year = selectedYear.val();
+            console.log(year);
+            getGroupsByCourse(url, year, '.groups');
 
-            $(".selected-year").change( () => getGroupsByCourse(url,year));
+            selectedYear.change(function () {
+                console.log(year);
+                getGroupsByCourse(url, selectedYear.val(), '.groups');
+            });
         });
     </script>
 }

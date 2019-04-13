@@ -17,12 +17,16 @@
 
 @section scripts{
     <script type="text/javascript">
-        $(document).ready(() => {
+        $(document).ready(function () {
             const url = "@Url.Action("GetGroupsByCourse")";
-            getGroupsByCourse(url);
+            const selectedYear = $(".selected-year");
+            var year = selectedYear.val();
+            console.log(year);
+            getGroupsByCourse(url, year, '.groups');
 
-            $(".selected-year").change(function () {
-                getGroupsByCourse(url);
+            selectedYear.change(function () {
+                console.log(year);
+                getGroupsByCourse(url, selectedYear.val(), '.groups');
             });
         });
     </script>

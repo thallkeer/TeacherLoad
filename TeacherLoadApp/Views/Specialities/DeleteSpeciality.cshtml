@@ -3,20 +3,15 @@
 @{
     ViewData["Title"] = "Специальность";
 }
-<h3>Вы уверены, что хотите удалить запись?</h3>
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SpecialityName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SpecialityName)
-        </dd>
-    </dl>
-    
+<h3>Вы уверены, что хотите удалить специальность 
+    @Html.DisplayFor(model => model.SpecialityName)?</h3>
+<div>   
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Code" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <div style="margin-bottom: 20px;">
+            <input type="hidden" asp-for="Code" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>       
+        <input type="submit" value="Удалить" class="btn btn-danger" />
         <a class="btn btn-primary" asp-action="Index">Отменить</a>
     </form>
 </div>

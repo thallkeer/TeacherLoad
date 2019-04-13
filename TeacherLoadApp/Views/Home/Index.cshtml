@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<TeacherLoad.Core.Models.ApplicationUser> SignInManager
+@inject UserManager<TeacherLoad.Core.Models.ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Нагрузка кафедры";
 }
 
@@ -8,86 +11,88 @@
         font-family: 'Coda', cursive;
     }
 </style>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "Teachers")">
-                    <img src="@Url.Content("~/images/professor.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление преподавателями</p>
-                </a>
+@if (User.IsInRole("Администратор"))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "Teachers")">
+                        <img src="@Url.Content("~/images/professor.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление преподавателями</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "Positions")">
+                        <img src="@Url.Content("~/images/position.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление должностями<p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "Groups")">
+                        <img src="@Url.Content("~/images/student.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление учебными группами</p>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "Positions")">
-                    <img src="@Url.Content("~/images/position.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление должностями<p>
-                </a>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "Disciplines")">
+                        <img src="@Url.Content("~/images/books.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление дисциплинами<p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "GroupLoads")">
+                        <img src="@Url.Content("~/images/classroom.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление групповой нагрузкой</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "PersonalLoads")">
+                        <img src="@Url.Content("~/images/interview.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление индивидуальной нагрузкой</p>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "Groups")">
-                    <img src="@Url.Content("~/images/student.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление учебными группами</p>
-                </a>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "Specialities")">
+                        <img src="@Url.Content("~/images/worker.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление специальностями<p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "GroupStudies")">
+                        <img src="@Url.Content("~/images/group-class.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление групповыми занятиями<p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="@Url.Action("Index", "IndividualStudies")">
+                        <img src="@Url.Content("~/images/personal-class.svg")" class="card-img-top card-icon" />
+                        <p class="card-text">Просмотр и управление индивидуальными занятиями<p>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "Disciplines")">
-                    <img src="@Url.Content("~/images/books.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление дисциплинами<p>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "GroupLoads")">
-                    <img src="@Url.Content("~/images/classroom.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление групповой нагрузкой</p>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "PersonalLoads")">
-                    <img src="@Url.Content("~/images/interview.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление индивидуальной нагрузкой</p>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "Specialities")">
-                    <img src="@Url.Content("~/images/worker.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление специальностями<p>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "GroupStudies")">
-                    <img src="@Url.Content("~/images/group-class.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление групповыми занятиями<p>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <a href="@Url.Action("Index", "IndividualStudies")">
-                    <img src="@Url.Content("~/images/personal-class.svg")" class="card-img-top card-icon" />
-                    <p class="card-text">Просмотр и управление индивидуальными занятиями<p>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+}
 
 

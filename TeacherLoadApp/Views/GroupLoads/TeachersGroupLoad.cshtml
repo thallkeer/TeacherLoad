@@ -81,6 +81,7 @@
         };
 
         function doFilter(teacher) {
+            console.log(teacher);
                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("GetGroupLoads")',

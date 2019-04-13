@@ -58,5 +58,7 @@ namespace TeacherLoad.Core.Models
         public virtual Group Group { get; set; }
         [Display(Name = "Вид занятия")]
         public virtual GroupStudies GroupStudies { get; set; }
+
+       
     }
 }

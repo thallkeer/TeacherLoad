@@ -35,10 +35,17 @@ namespace TeacherLoadApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.Specialities.Insert(speciality);
-                unitOfWork.Save();
-                return RedirectToAction(nameof(Index));
-            }           
+                if (unitOfWork.Specialities.GetByID(speciality.Code) != null)
+                {
+                    ModelState.AddModelError("Code", "Такая специальность уже существует!");
+                }
+                else
+                {
+                    unitOfWork.Specialities.Insert(speciality);
+                    unitOfWork.Save();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
             return View("CreateSpeciality", speciality);
         }
 
@@ -113,7 +120,12 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            var speciality = unitOfWork.Specialities.GetByID(id);
+            var speciality = unitOfWork.Specialities.GetByID(id);           
+            if (unitOfWork.Groups.Get(g => g.Speciality == speciality).Any())
+            {
+                ModelState.AddModelError("Code", "Нельзя удалять специальность, так как существуют группы, обучающиеся на ней!");
+                return View("DeleteSpeciality", speciality);
+            }        
             unitOfWork.Specialities.Delete(speciality);
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));

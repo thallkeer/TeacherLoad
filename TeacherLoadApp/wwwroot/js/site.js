@@ -42,27 +42,36 @@
     });
 });
 
-function getGroupsByCourse(route, year) {
+function getGroupsByCourse(route, year, placeholder) {   
     $.ajax({
         type: 'GET',
         url: route,
         data: { studyYear: year },
         success: function (data) {
-            $('.groups').replaceWith(data);
+            $(placeholder).html(data);
         }
     });
 };
 
-function getDisciplinesByGroup(route,group) {
-    $(".selected-group").change(function () {
-        $.ajax({
-            type: 'GET',
-            url: route,
-            data: { id: group },
-            success: function (data) {
-                $('#content').html(data);
-            }
-        });
+function getGroupsSelectListByCourse(route, year, placeholder) {
+    $.ajax({
+        type: 'GET',
+        url: route,
+        data: { studyYear: year },
+        success: function (data) {
+            $(placeholder).replaceWith(data);
+        }
+    });
+};
+
+function getDisciplinesByGroup(route, group) {
+    $.ajax({
+        type: 'GET',
+        url: route,
+        data: { id: group },
+        success: function (data) {
+            $('#content').html(data);
+        }        
     });
 }
 

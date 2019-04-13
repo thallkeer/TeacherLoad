@@ -8,8 +8,8 @@ namespace TeacherLoad.Core.Models
         public int GroupClassID { get; set; }
         [Required]
         [Display(Name = "Вид занятия")]
-        [RegularExpression(@"[А-Яа-я]{1,40}$",
-        ErrorMessage = "Вид занятия может содержать только буквы")]
+        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Вид группового занятия может содержать только буквы русского алфавита!")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Вид группового занятия должен содержать от 3 до 50 символов!")]
         public string GroupClassName { get; set; }
     }
 }

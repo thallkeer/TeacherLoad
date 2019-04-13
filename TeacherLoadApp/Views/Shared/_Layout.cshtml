@@ -33,57 +33,67 @@
                         <li class="nav-item">
                             @Html.ActionLink("Домой", "Index", "Home")
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Справочники<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Виды групповых занятий", "Index", "GroupStudies")</li>
-                                <li>@Html.ActionLink("Виды индивидуальных занятий", "Index", "IndividualStudies")</li>
-                                <li>@Html.ActionLink("Специальности", "Index", "Specialities")</li>
-                                <li>@Html.ActionLink("Дисциплины", "Index", "Disciplines")</li>
-                                <li>@Html.ActionLink("Должности", "Index", "Positions")</li>
-                                @if (User.IsInRole("Администратор") || User.IsInRole("Оператор"))
-                                {
-                                    <li>@Html.ActionLink("Пользователи", "UsersList", "Users")</li>
-                                }
-                                <li><hr /></li>
-                                <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
-                                <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Оперативные данные<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
-                                <li>@Html.ActionLink("Индивидуальная нагрузка", "Index", "PersonalLoads")</li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                Запросы<b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Все дисциплины для указанной группы", "GroupDisciplines", "Groups")</li>
-                                <li>@Html.ActionLink("Преподаватели с выбранным видом занятий", "Index", "PersonalLoads")</li>
-                                <li>@Html.ActionLink("Групповая нагрузка преподавателя", "TeachersGroupLoad", "GroupLoads")</li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            @*@Url.Action("Отчет", "Home");*@
-                           @Html.ActionLink("Сформировать отчет", "ShowReport", "Home")
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="Identity" title="Manage">@UserManager.GetUserName(User)</a>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" asp-controller="Users" asp-action="Logoff">
-                                <button class="btn-logoff" type="submit">Выйти</button>
-                            </form>
-                        </li>
-                    </ul>
+                        @if (User.IsInRole("Администратор") || User.IsInRole("Оператор"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Справочники<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li>@Html.ActionLink("Виды групповых занятий", "Index", "GroupStudies")</li>
+                                    <li>@Html.ActionLink("Виды индивидуальных занятий", "Index", "IndividualStudies")</li>
+                                    <li>@Html.ActionLink("Специальности", "Index", "Specialities")</li>
+                                    <li>@Html.ActionLink("Дисциплины", "Index", "Disciplines")</li>
+                                    <li>@Html.ActionLink("Должности", "Index", "Positions")</li>
+                                    @if (User.IsInRole("Администратор"))
+                                    {
+                                        <li>@Html.ActionLink("Пользователи", "UsersList", "Users")</li>
+                                    }
+                                    <li><hr /></li>
+                                    <li>@Html.ActionLink("Преподаватели", "Index", "Teachers")</li>
+                                    <li>@Html.ActionLink("Учебные группы", "Index", "Groups")</li>
+
+                                </ul>
+                            </li>
+                        }
+                        @if (User.IsInRole("Администратор") || User.IsInRole("Оператор"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Оперативные данные<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>
+                                    <li>@Html.ActionLink("Индивидуальная нагрузка", "Index", "PersonalLoads")</li>
+                                </ul>
+                            </li>
+                        }
+                        @if (!User.IsInRole("Оператор"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Запросы<b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Все дисциплины для указанной группы", "GroupDisciplines", "Groups")</li>
+                                    <li>@Html.ActionLink("Преподаватели с выбранным видом занятий", "Index", "PersonalLoads")</li>
+                                    <li>@Html.ActionLink("Групповая нагрузка преподавателя", "TeachersGroupLoad", "GroupLoads")</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Сформировать отчет", "ShowReport", "Home")
+                            </li>
+                        }
+                            <li class="nav-item">
+                                <a asp-area="Identity" title="Manage">@UserManager.GetUserName(User)</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-controller="Users" asp-action="Logoff">
+                                    <button class="btn-logoff" type="submit">Выйти</button>
+                                </form>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </nav>
