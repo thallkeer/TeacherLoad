@@ -6,7 +6,7 @@ namespace TeacherLoad.Core.Models
     public class TeacherLoadContext : IdentityDbContext<ApplicationUser>
     {
         public TeacherLoadContext(DbContextOptions<TeacherLoadContext> options) : base(options)
-        {
+        {            
             Database.EnsureCreated();
         }       
 
@@ -19,10 +19,10 @@ namespace TeacherLoad.Core.Models
         public DbSet<PersonalLoad> PersonalLoads { get; set; }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }       
-                
+        public DbSet<Teacher> Teachers { get; set; }    
+                                
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {            
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Position>()
                  .HasIndex(p => new { p.PositionName }).IsUnique();

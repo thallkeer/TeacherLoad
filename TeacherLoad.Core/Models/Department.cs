@@ -12,7 +12,7 @@ namespace TeacherLoad.Core.Models
         [Display(Name = "Название кафедры")]
         public string DepartmentName { get; set; }
 
-        public List<Teacher> Teachers { get; set; }
+        public virtual List<Teacher> Teachers { get; set; }
 
         public override string ToString()
         {

@@ -27,7 +27,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: #265C94; font-family: 'Coda', cursive;">
-            <div class="container">
+            <div style="margin-right: 8%">
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav menu-nav" role="menu">
                         <li class="nav-item">
@@ -61,7 +61,7 @@
                         {
                             <li class="nav-item dropdown">
                                 <a class="navbar-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    Оперативные данные<b class="caret"></b>
+                                   Учет преподавательской нагрузки<b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Групповая нагрузка", "Index", "GroupLoads")</li>

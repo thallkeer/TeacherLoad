@@ -121,7 +121,7 @@ namespace TeacherLoadApp.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             var speciality = unitOfWork.Specialities.GetByID(id);           
-            if (unitOfWork.Groups.Get(g => g.Speciality == speciality).Any())
+            if (speciality.Groups.Any())
             {
                 ModelState.AddModelError("Code", "Нельзя удалять специальность, так как существуют группы, обучающиеся на ней!");
                 return View("DeleteSpeciality", speciality);

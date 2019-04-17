@@ -108,14 +108,11 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Delete(int id)
         {
             var discipline = unitOfWork.Disciplines.GetByID(id);
-            if (discipline != null)
-            {                
-                //return NotFound();
-                unitOfWork.Disciplines.Delete(discipline);
-                unitOfWork.Save();
-            }
-            return RedirectToAction("Index");
-            //return PartialView("DeleteDiscipline", discipline);
+            if (discipline == null)
+            {
+                return NotFound();           
+            }            
+            return View("DeleteDiscipline", discipline);
         }
 
         // POST: Specialities/Delete/5
@@ -126,7 +123,11 @@ namespace TeacherLoadApp.Controllers
             var discipline = unitOfWork.Disciplines.GetByID(id);
             if (discipline != null)
             {
-
+                if (discipline.GroupLoads.Any())
+                {
+                    ModelState.AddModelError("DisciplineID", "Нельзя удалять дисциплину, пока она есть в нагрузке у преподавателей!");
+                    return View("DeleteDiscipline", discipline);
+                }
                 unitOfWork.Disciplines.Delete(discipline);
                 var saved = false;
                 while (!saved)
@@ -150,23 +151,7 @@ namespace TeacherLoadApp.Controllers
                     }
                 }
             }
-            //try
-            //{
-            //    unitOfWork.Disciplines.Delete(discipline);
-            //    unitOfWork.Save();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (unitOfWork.Disciplines.GetByID(id) == null)
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}           
             return View("DisciplinesList", unitOfWork.Disciplines.Get(orderBy: x => x.OrderBy(d => d.DisciplineName)));
-        }       
+        }     
     }
 }

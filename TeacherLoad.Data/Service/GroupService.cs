@@ -9,10 +9,6 @@ namespace TeacherLoad.Data.Service
     {
         public GroupService(TeacherLoadContext context) : base(context)
         { }
-
-        public override IEnumerable<Group> GetAll()
-        {
-            return dbSet.Include(group => group.Speciality).AsNoTracking();
-        }
+        
     }
 }

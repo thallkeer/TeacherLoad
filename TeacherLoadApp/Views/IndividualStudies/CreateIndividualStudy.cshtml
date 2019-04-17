@@ -1,9 +1,5 @@
 ﻿@model TeacherLoad.Core.Models.IndividualStudies
 
-@{
-    ViewData["Title"] = "CreateIndividualStudy";
-}
-
 <h4>Добавление нового вида индивидуальных занятий</h4>
 <hr />
 <div class="row">
@@ -14,6 +10,11 @@
                 <label asp-for="IndividualClassName" class="control-label"></label>
                 <input asp-for="IndividualClassName" class="form-control" />
                 <span asp-validation-for="IndividualClassName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VolumeByPerson" class="control-label"></label>
+                <input type="number" min="1" max="32" value="@Model?.VolumeByPerson" asp-for="VolumeByPerson" class="form-control" />
+                <span asp-validation-for="VolumeByPerson" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-success" />

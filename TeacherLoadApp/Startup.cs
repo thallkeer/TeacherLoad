@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using TeacherLoad.Core.DataInterfaces;
@@ -35,7 +36,7 @@ namespace TeacherLoadApp
             });
            
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TeacherLoadContext>(options => options.UseSqlServer(connection));            
+            services.AddDbContext<TeacherLoadContext>(options => options.UseSqlServer(connection).UseLazyLoadingProxies());            
             services.AddSingleton<IUnitOfWork, UnitOfWork>();           
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<TeacherLoadContext>()

@@ -10,27 +10,10 @@ namespace TeacherLoad.Data.Service
     {
         public TeacherService(TeacherLoadContext context) : base(context)
         {}
-
-
-        public override IEnumerable<Teacher> GetAll()
-        {
-            return dbSet.Include(t => t.Department)
-                        .Include(t => t.Position)
-                        .Include(t => t.GroupLoads)
-                        .Include(t => t.PersonalLoads).AsNoTracking();
-        }
-
+        
         public IEnumerable<Teacher> GetAllForSelectList()
         {
             return dbSet.AsNoTracking();
-        }
-
-        public override Teacher GetByID(object id)
-        {
-            return dbSet.Include(t => t.Department)
-                        .Include(t => t.Position)
-                        .Include(t => t.GroupLoads)
-                        .Include(t => t.PersonalLoads).FirstOrDefault(t => t.TeacherID == (int)id);
-        }
+        }        
     }
 }

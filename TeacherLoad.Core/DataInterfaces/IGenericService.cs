@@ -49,6 +49,6 @@ namespace TeacherLoad.Core.DataInterfaces
         /// Обновить объект
         /// </summary>
         /// <param name="entityToUpdate"></param>
-        void Update(TEntity entityToUpdate);       
+        void Update(TEntity entityToUpdate);        
     }
 }

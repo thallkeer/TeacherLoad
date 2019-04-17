@@ -1,8 +1,5 @@
 ﻿@model TeacherLoad.Core.Models.Position
 
-@{
-    ViewData["Title"] = "DeletePosition";
-}
 
 <h3>Вы уверены, что хотите удалить запись?</h3>
 <div>
@@ -14,9 +11,12 @@
             @Html.DisplayFor(model => model.PositionName)
         </dd>
     </dl>    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="PositionID" />
-        <input type="submit" value="Удалить" class="btn btn-danger" />
-        <a class="btn btn-primary" asp-action="Index">Отменить</a>
+    <form asp-action="Delete">        
+        <div style="margin-bottom: 20px;">
+            <input type="hidden" asp-for="PositionID" />
+            <span asp-validation-for="PositionID" class="text-danger"></span>
+        </div>        
+            <input type="submit" value="Удалить" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-action="Index">Отменить</a>        
     </form>
 </div>

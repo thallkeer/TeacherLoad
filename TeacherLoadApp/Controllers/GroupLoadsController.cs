@@ -158,7 +158,7 @@ namespace TeacherLoadApp.Controllers
         }
 
         public ActionResult GetGroupsByCourse(int studyYear)
-        {
+        {            
             var groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == studyYear), "GroupNumber", "GroupNumber");
             return PartialView("_GetGroups", new GroupLoadVM { Groups = groups });
         }

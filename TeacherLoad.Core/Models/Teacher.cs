@@ -8,20 +8,20 @@ namespace TeacherLoad.Core.Models
     {
         [ScaffoldColumn(false)]
         public int TeacherID { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "Имя")]
-        [RegularExpression(@"[А-Яа-я]{1,40}$",
-        ErrorMessage = "Имя может содержать только буквы")]
+        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Имя может содержать только буквы русского алфавита!")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Имя должно содержать от 2 до 50 символов!")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name = "Фамилия")]
-        [RegularExpression(@"[А-Яа-я]{1,40}$",
-        ErrorMessage = "Фамилия может содержать только буквы")]
+        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Фамилия может содержать только буквы русского алфавита!")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Фамилия должно содержать от 2 до 50 символов!")]
         public string LastName { get; set; }
-        [Required]
-        [Display(Name = "Отчество")]        
-        [RegularExpression(@"[А-Яа-я]{1,40}$",
-        ErrorMessage = "Отчество может содержать только буквы")]
+        [Required(AllowEmptyStrings = false)]
+        [Display(Name = "Отчество")]
+        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Отчество может содержать только буквы русского алфавита!")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Отчество должно содержать от 2 до 50 символов!")]
         public string Patronym { get; set; }
         [Required]
         [Display(Name = "Кафедра")]
@@ -34,8 +34,8 @@ namespace TeacherLoad.Core.Models
         [Display(Name = "Должность")]
         public virtual Position Position { get; set; }
        
-        public List<GroupLoad> GroupLoads { get; set; }
-        public List<PersonalLoad> PersonalLoads { get; set; }
+        public virtual List<GroupLoad> GroupLoads { get; set; }
+        public virtual List<PersonalLoad> PersonalLoads { get; set; }
 
         [NotMapped]
         public string FullName

@@ -7,19 +7,14 @@ namespace TeacherLoad.Core.Models
     {
         [ScaffoldColumn(false)]
         public int PositionID { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         [Display(Name ="Должность")]
         [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Название должности может содержать только буквы русского алфавита!")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Название должности должно содержать от 3 до 30 символов!")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Название должности должно содержать от 3 до 50 символов!")]
         public string PositionName { get; set; }
 
-        public List<Teacher> Teachers { get; set; }
-
-        public Position()
-        {
-            Teachers = new List<Teacher>();
-        }
-
+        public virtual List<Teacher> Teachers { get; set; }
+                
         public override string ToString()
         {
             return PositionName;

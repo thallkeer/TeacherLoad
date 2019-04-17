@@ -20,14 +20,14 @@ namespace TeacherLoad.Core.Models
         public string Code { get; set; }
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Название специальности")]
-        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Название специальности может содержать только буквы!")]
-        [StringLength(30, MinimumLength = 3, ErrorMessage = "Название должно содержать от 3 до 30 символов!")]
+        [RegularExpression(@"^([А-Яа-яЁё\s])+$", ErrorMessage = "Название специальности может содержать только буквы русского алфавита!")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Название специальности должно содержать от 3 до 50 символов!")]
         public string SpecialityName { get; set; }
         [Required]
         [Display(Name = "Уровень образования")]
         public EducationLevels EducationLevel { get; set; }
 
-        public List<Group> Groups { get; set; }
+        public virtual List<Group> Groups { get; set; }
 
         public Speciality()
         {

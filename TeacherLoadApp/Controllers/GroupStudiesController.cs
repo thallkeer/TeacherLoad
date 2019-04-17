@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
@@ -21,11 +22,22 @@ namespace TeacherLoadApp.Controllers
             return View("GroupStudiesList",items);
         }
 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
+        public IActionResult Create()
+        {
+            return View("CreateGroupStudy");
+        }
+       
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(GroupStudies groupStudy)
         {
-            if (ModelState.IsValid)
+            if (unitOfWork.GroupStudies.Get(g => g.GroupClassName == groupStudy.GroupClassName).Any())
+            {
+                ModelState.AddModelError("GroupClassName", "Такой вид групповой нагрузки уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 unitOfWork.GroupStudies.Insert(groupStudy);
                 unitOfWork.Save();
@@ -53,8 +65,11 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (unitOfWork.GroupStudies.Get(g => g.GroupClassName == groupStudy.GroupClassName).Any())
+            {
+                ModelState.AddModelError("GroupClassName", "Такой вид групповой нагрузки уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -95,6 +110,11 @@ namespace TeacherLoadApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var groupStudy = unitOfWork.GroupStudies.GetByID(id);
+            if (groupStudy.GroupLoads.Any())
+            {                
+                ModelState.AddModelError("GroupClassID","Нельзя удалять вид групповой нагрузки, пока он используется!");
+                return View("DeleteGroupStudy", groupStudy);
+            }
             unitOfWork.GroupStudies.Delete(groupStudy);
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));

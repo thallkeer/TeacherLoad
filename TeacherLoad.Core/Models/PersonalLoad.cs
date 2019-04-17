@@ -10,7 +10,7 @@ namespace TeacherLoad.Core.Models
         public int PersonalLoadID { get; set; }
         [Required]
         [Display(Name = "Число студентов")]
-        [Range(1,40)]
+        [Range(1,32)]
         public int StudentsCount { get; set; }        
         [Required]
         [Display(Name = "Преподаватель")]

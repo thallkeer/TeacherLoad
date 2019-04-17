@@ -12,6 +12,10 @@
     </dl>
     
     <form asp-action="Delete">
+        <div style="margin-bottom: 20px;">
+            <input type="hidden" asp-for="GroupClassID" />
+            <span asp-validation-for="GroupClassID" class="text-danger"></span>
+        </div>
         <input type="hidden" asp-for="GroupClassID" />
         <input type="submit" value="Удалить" class="btn btn-danger" />
         <a class="btn btn-primary" asp-action="Index">Отменить</a>

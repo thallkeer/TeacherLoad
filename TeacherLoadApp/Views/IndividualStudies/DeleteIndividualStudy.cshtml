@@ -1,29 +1,28 @@
 ﻿@model TeacherLoad.Core.Models.IndividualStudies
 
-@{
-    ViewData["Title"] = "DeleteIndividualStudy";
-}
-
 <h3>Вы уверены, что хотите удалить запись?</h3>
 <div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IndividualClassName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IndividualClassName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.VolumeByPerson)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.VolumeByPerson)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IndividualClassID" />
-        <input type="submit" value="Удалить" class="btn btn-danger" />
-        <a class="btn btn-primary" asp-action="Index">Отменить</a>
-    </form>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.IndividualClassName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.IndividualClassName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.VolumeByPerson)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.VolumeByPerson)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <div style="margin-bottom: 20px;">
+                <input type="hidden" asp-for="IndividualClassID" />
+                <span asp-validation-for="IndividualClassID" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Удалить" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-action="Index">Отменить</a>
+        </form>    
 </div>

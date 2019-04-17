@@ -7,11 +7,6 @@ namespace TeacherLoad.Data.Service
     public class PersonalLoadService : GenericService<PersonalLoad>,IPersonalLoadService
     {
         public PersonalLoadService(TeacherLoadContext context): base(context)
-        {}
-
-        public override IEnumerable<PersonalLoad> GetAll()
-        {
-            return Get(includeProperties: "Teacher,IndividualStudies");
-        }        
+        {}             
     }
 }

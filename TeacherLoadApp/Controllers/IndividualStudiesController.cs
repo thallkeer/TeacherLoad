@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TeacherLoad.Core.DataInterfaces;
 using TeacherLoad.Core.Models;
 using TeacherLoad.Data.Service;
+using System.Linq;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -22,13 +23,22 @@ namespace TeacherLoadApp.Controllers
             return View("IndividualStudiesList",items);
         }
 
+        public IActionResult Create()
+        {
+            return View("CreateIndividualStudy");
+        }
+
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(IndividualStudies individualStudy)
-        {
-            if (ModelState.IsValid)
+        {        
+            if (Exists(individualStudy))
+            {
+                ModelState.AddModelError("IndividualClassName", "Такой вид индивидуальных занятий уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 unitOfWork.IndividualStudies.Insert(individualStudy);
                 unitOfWork.Save();
@@ -56,8 +66,11 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (Exists(individualStudy))
+            {
+                ModelState.AddModelError("IndividualClassName", "Такой вид индивидуальных занятий уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -98,9 +111,19 @@ namespace TeacherLoadApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var individualStudy = unitOfWork.IndividualStudies.GetByID(id);
+            if (individualStudy.PersonalLoads.Any())
+            {
+                ModelState.AddModelError("IndividualClassID", "Нельзя удалять вид индивидуальных занятий, пока он задействован в нагрузке преподавателя!");
+                return View("DeleteIndividualStudy", individualStudy);
+            }
             unitOfWork.IndividualStudies.Delete(individualStudy);
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool Exists(IndividualStudies individualStudy)
+        {
+            return unitOfWork.IndividualStudies.Get(indStudy => indStudy.IndividualClassName == individualStudy.IndividualClassName).Any();
         }
     }
 }

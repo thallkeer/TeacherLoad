@@ -37,7 +37,7 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <form asp-action="Create" method="post">
                 <div class="modal-body">
-                    <input type="text" pattern="^([А-Яа-яЁё\s]{3,20})+$" class="form-control" name="name" placeholder="Имя роли" required autofocus />
+                    <input type="text" pattern="^([А-Яа-яЁё\s]){3,20}+$" class="form-control" name="name" placeholder="Имя роли" required autofocus />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

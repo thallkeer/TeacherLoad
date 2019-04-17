@@ -22,7 +22,7 @@ namespace TeacherLoad.Data.Service
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return dbSet.AsNoTracking();
+            return dbSet;
         }
 
         public virtual IEnumerable<TEntity> Get(

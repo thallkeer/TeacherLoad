@@ -19,9 +19,9 @@ namespace TeacherLoadApp.Controllers
         public ActionResult Index()
         {
             var positions = unitOfWork.Positions.Get(orderBy: q => q.OrderBy(p => p.PositionName));
-            return View("PositionsList",positions);
+            return View("PositionsList", positions);
         }
-             
+
         public IActionResult Create()
         {
             return View("CreatePosition");
@@ -33,13 +33,17 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Position position)
         {
-            if (ModelState.IsValid)
+            if (unitOfWork.Positions.Get(p => p.PositionName == position.PositionName).Any())
+            {
+                ModelState.AddModelError("PositionName", "Такая должность уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 unitOfWork.Positions.Insert(position);
                 unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
-            return View("CreatePosition",position);
+            return View("CreatePosition", position);
         }
 
         // GET: Groups/Edit/5
@@ -50,7 +54,7 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-            return View("EditPosition",position);
+            return View("EditPosition", position);
         }
 
         [HttpPost]
@@ -61,8 +65,11 @@ namespace TeacherLoadApp.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if (unitOfWork.Positions.Get(p => p.PositionName == position.PositionName).Any())
+            {
+                ModelState.AddModelError("PositionName", "Такая должность уже существует!");
+            }
+            else if (ModelState.IsValid)
             {
                 try
                 {
@@ -103,8 +110,13 @@ namespace TeacherLoadApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var position = unitOfWork.Positions.GetByID(id);
+            if (position.Teachers.Any())
+            {
+                ModelState.AddModelError("PositionID", "Нельзя удалять должность, пока на ней работают сотрудники!");
+                return View("DeletePosition", position);
+            }
             unitOfWork.Positions.Delete(position);
-            unitOfWork.Save();            
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
     }

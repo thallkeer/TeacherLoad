@@ -203,8 +203,8 @@ namespace TeacherLoadApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(string id)
         {
-            var @group = unitOfWork.Groups.GetByID(id);
-            unitOfWork.Groups.Delete(@group);
+            var group = unitOfWork.Groups.GetByID(id);           
+            unitOfWork.Groups.Delete(group);
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }        
