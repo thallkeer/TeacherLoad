@@ -34,29 +34,29 @@ namespace TeacherLoadApp.Controllers
 
         public IActionResult ShowReport()
         {
-            return View("Report");
+            return View("ReportView");           
         }     
 
-        public async Task<FileResult> DoGet()
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get,
-           "http://localhost:52574/Home/CreateReport");
-            //request.Headers.Add("Accept", System.Net.Mime.MediaTypeNames.Application.Pdf);
-            ////request.Headers.Add("Accept", "application/vnd.github.v3+json");
-            //request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
+        //public async Task<FileResult> DoGet()
+        //{
+            //var request = new HttpRequestMessage(HttpMethod.Get,
+           //"http://localhost:52574/Home/CreateReport");
+            ////request.Headers.Add("Accept", System.Net.Mime.MediaTypeNames.Application.Pdf);
+            //////request.Headers.Add("Accept", "application/vnd.github.v3+json");
+            ////request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
 
-            var client = clientFactory.CreateClient();
+            //var client = clientFactory.CreateClient();
 
-            var response = await client.SendAsync(request);
+            //var response = await client.SendAsync(request);
 
-            //if (response.IsSuccessStatusCode)
-            //{                
-                var fileResult = response.Content
-                    .ReadAsByteArrayAsync().Result;
-            //System.IO.File.WriteAllBytes("test.pdf", fileResult);
-            return File(fileResult, "application/pdf");
-            //ViewData["File"] = file;
-            //return View("Report");
-        }
+            ////if (response.IsSuccessStatusCode)
+            ////{                
+                //var fileResult = response.Content
+                    //.ReadAsByteArrayAsync().Result;
+            ////System.IO.File.WriteAllBytes("test.pdf", fileResult);
+            //return File(fileResult, "application/pdf");
+            ////ViewData["File"] = file;
+            ////return View("Report");
+        //}
     }
 }

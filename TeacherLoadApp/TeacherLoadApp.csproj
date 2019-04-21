@@ -6,6 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Home\DepartmentSummaryReport.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Home\DepartmentSummaryReport.repx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="18.2.7" />
+    <PackageReference Include="DevExpress.Reporting.Core" Version="18.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -14,6 +24,21 @@
   <ItemGroup>
     <ProjectReference Include="..\TeacherLoad.Core\TeacherLoad.Core.csproj" />
     <ProjectReference Include="..\TeacherLoad.Data\TeacherLoad.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Home\DepartmentSummaryReport.cs">
+      <DependentUpon>DepartmentSummaryReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Home\DepartmentSummaryReport.Designer.cs">
+      <DependentUpon>DepartmentSummaryReport.repx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

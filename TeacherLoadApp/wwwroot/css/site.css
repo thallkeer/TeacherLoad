@@ -45,8 +45,7 @@ table > .thead-light {
 .editUser-block {
     display: flex; 
     flex-direction: column; 
-    justify-content: center; 
-    border: 1px solid red;
+    justify-content: center;     
 }
 
 .editUser-checkboxes {

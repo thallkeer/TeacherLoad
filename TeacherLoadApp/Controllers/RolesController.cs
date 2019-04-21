@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TeacherLoad.Core.Models;
 using TeacherLoadApp.Models;
-
+using TeacherLoadApp.Models.User;
 
 namespace TeacherLoadApp.Controllers
 {
@@ -20,12 +20,14 @@ namespace TeacherLoadApp.Controllers
         }
         public IActionResult Index() => View("Roles",_roleManager.Roles.ToList());
 
+        public IActionResult Create() => View("CreateRole");
+
         [HttpPost]
-        public async Task<IActionResult> Create(string name)
+        public async Task<IActionResult> Create(RoleVM role)
         {
-            if (!string.IsNullOrEmpty(name))
+            if (ModelState.IsValid)
             {
-                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
+                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(role.RoleName));
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -37,8 +39,8 @@ namespace TeacherLoadApp.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-            }
-            return View(name);
+            }            
+            return View("CreateRole", model: role);
         }
 
         [HttpPost]

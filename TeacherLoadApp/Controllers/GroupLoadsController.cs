@@ -66,9 +66,9 @@ namespace TeacherLoadApp.Controllers
 
         // GET: GroupLoads/Create
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View("CreateGroupLoad",BuildModel());
+            return View("CreateGroupLoad",BuildModel(new GroupLoad { TeacherID = id }));
         }
 
         // POST: GroupLoads/Create

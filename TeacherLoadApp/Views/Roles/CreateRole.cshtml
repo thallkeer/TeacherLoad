@@ -1,0 +1,22 @@
+﻿@model TeacherLoadApp.Models.User.RoleVM
+
+<h3 >Создание новой роли</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" required autofocus/>
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Отменить</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
