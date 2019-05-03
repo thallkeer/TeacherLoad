@@ -1,6 +1,6 @@
 ﻿@model TeacherLoadApp.Models.Groups.GroupDisciplinesVM
 @{
-    ViewData["Title"] = "Дисциплины группы";
+    ViewData["Title"] = "Дисциплины группы";    
 }
 
 <h2>Список учебных дисциплин группы</h2>
@@ -18,9 +18,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var selectedGroup = $(".selected-group");
-
-            selectedGroup.change(() =>
-                getDisciplinesByGroup('@Url.Action("GroupDisciplines")', selectedGroup.val()));
+            
+            selectedGroup.change(() => {
+                getDisciplinesByGroup('', selectedGroup.val());
+            });                    
         });
     </script>
 }

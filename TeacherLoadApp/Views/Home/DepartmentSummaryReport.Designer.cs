@@ -76,6 +76,9 @@ namespace TeacherLoadApp.Views.Home {
             this.panel4 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPanel>("panel4");
             this.label11 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label11");
             this.label12 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label12");
+            this.ReportFooter1 = reportInitializer.GetControl<DevExpress.XtraReports.UI.ReportFooterBand>("ReportFooter1");
+            this.panel7 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRPanel>("panel7");
+            this.label18 = reportInitializer.GetControl<DevExpress.XtraReports.UI.XRLabel>("label18");
 
             // Data Sources
             this.sqlDataSource1 = reportInitializer.GetDataSource<DevExpress.DataAccess.Sql.SqlDataSource>("sqlDataSource1");
@@ -178,5 +181,8 @@ namespace TeacherLoadApp.Views.Home {
         private DevExpress.XtraReports.UI.XRControlStyle GrandTotalBackground3;
         private DevExpress.XtraReports.UI.XRControlStyle PageInfo;
         private DevExpress.XtraReports.UI.CalculatedField calculatedField1;
+        private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter1;
+        private DevExpress.XtraReports.UI.XRPanel panel7;
+        private DevExpress.XtraReports.UI.XRLabel label18;
     }
 }

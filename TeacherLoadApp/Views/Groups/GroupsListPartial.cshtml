@@ -23,9 +23,10 @@
                         {
                             <tr>
                                 <td>
-                                    <a asp-controller="Groups" asp-action="GroupDisciplines" asp-route-id="@group.GroupNumber">
-                                        @Html.DisplayFor(modelItem => group.GroupNumber)
-                                    </a>
+                                    @*<a asp-controller="Groups" asp-action="GroupDisciplines" asp-route-id="@group.GroupNumber">
+
+                                    </a>*@
+                                    @Html.DisplayFor(modelItem => group.GroupNumber)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => group.StudentsCount)

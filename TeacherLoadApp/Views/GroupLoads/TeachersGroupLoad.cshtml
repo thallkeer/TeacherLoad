@@ -51,12 +51,13 @@
                 </thead>
                 <tbody id="table-body">
                     @{ await Html.RenderPartialAsync("_TeacherLoads", Model.GroupedLoads);}
-                    <tr>
+                    @*<tr>
                         <th colspan="6" style="background-color: white;
-    border-color: #dee2e6;"><a class="btn btn-primary" asp-route-id="@Model.Teachers.SelectedValue" asp-action="Create">Добавить нагрузку</a></th>
-                    </tr>
+    border-color: #dee2e6;"></th>
+                    </tr>*@
                 </tbody>
             </table>
+            <div><a class="btn btn-primary" asp-route-id="@Model.Teachers.SelectedValue" asp-action="Create">Добавить нагрузку</a></div>
         </div>
     </div>
 </div>

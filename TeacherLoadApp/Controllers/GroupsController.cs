@@ -77,7 +77,7 @@ namespace TeacherLoadApp.Controllers
             model.GroupDisciplines = modelItems;
             if (items.Any())
             {
-                model.Groups = new SelectList(unitOfWork.Groups.Get(g => g.StudyYear == items.First().StudyYear),
+                model.Groups = new SelectList(unitOfWork.Groups.Get(/*g => g.StudyYear == items.First().StudyYear*/),
                     "GroupNumber", "GroupNumber", id);
             }
             else

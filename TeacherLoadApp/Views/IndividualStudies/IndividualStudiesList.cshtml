@@ -13,6 +13,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IndividualClassName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolumeByPerson)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -22,6 +25,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.IndividualClassName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VolumeByPerson)
                 </td>
                 <td>
                     @{ await Html.RenderPartialAsync("ButtonPartial", Html.ViewData["id"] = item.IndividualClassID );}                   
